@@ -1,10 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { ArrowDownwardIcon } from "@material-ui/icons";
+// import { ArrowDownwardIcon } from "@material-ui/icons";
+import { Container } from "@material-ui/core";
+
 import Button from "../components/Button";
 import Typography from "../components/Typography";
-import { Container } from "@material-ui/core";
+
 import image from "../../assets/December9_2-1280x879.jpg";
 
 const backgroundImage = image;
@@ -91,7 +93,7 @@ const LandingBody = (props) => {
           Group Buy
         </Button>
 
-        {/* this gives a dark backdrop on the image*/}
+        {/* this gives a dark backdrop on the image */}
         <div className={classes.backdrop} />
         <div className={classes.background} />
       </Container>

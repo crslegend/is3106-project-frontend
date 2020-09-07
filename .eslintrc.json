@@ -1,0 +1,20 @@
+{
+  "extends": ["prettier", "airbnb"],
+
+  "plugins": ["prettier"],
+
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "quotes": "off",
+    "react/jsx-fragments": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/forbid-prop-types": "off",
+    "linebreak-style": "off",
+    "object-curly-newline": "off"
+  }
+}

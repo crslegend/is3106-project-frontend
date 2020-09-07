@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 import AppBar from "../components/AppBar";
@@ -35,23 +34,22 @@ const styles = (theme) => ({
   },
 });
 
-const NavbarView = ({ classes }) => {
-  return (
-    <div>
-      <AppBar position="fixed">
-        <Toolbar className={classes.toolbar}>
-          <div className={classes.left} />
-          <Link
-            variant="h6"
-            underline="none"
-            color="inherit"
-            className={classes.title}
-            href="/"
-          >
-            {"Sashimi"}
-          </Link>
-          <div className={classes.right}>
-            {/* <Link
+const NavbarView = ({ classes }) => (
+  <div>
+    <AppBar position="fixed">
+      <Toolbar className={classes.toolbar}>
+        <div className={classes.left} />
+        <Link
+          variant="h6"
+          underline="none"
+          color="inherit"
+          className={classes.title}
+          href="/"
+        >
+          Sashimi
+        </Link>
+        <div className={classes.right}>
+          {/* <Link
               color="inherit"
               variant="h6"
               underline="none"
@@ -60,7 +58,7 @@ const NavbarView = ({ classes }) => {
             >
               {"Sign In"}
             </Link> */}
-            {/* <Link
+          {/* <Link
               variant="h6"
               underline="none"
               className={clsx(classes.rightLink, classes.linkSecondary)}
@@ -68,13 +66,12 @@ const NavbarView = ({ classes }) => {
             >
               {"Sign Up"}
             </Link> */}
-          </div>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.placeholder} />
-    </div>
-  );
-};
+        </div>
+      </Toolbar>
+    </AppBar>
+    <div className={classes.placeholder} />
+  </div>
+);
 
 NavbarView.propTypes = {
   classes: PropTypes.object.isRequired,
