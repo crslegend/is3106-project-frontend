@@ -3,10 +3,10 @@ import Button from "@material-ui/core/Button";
 
 export default withStyles((theme) => ({
   root: {
-    borderRadius: 15,
+    borderRadius: 0,
     fontWeight: theme.typography.fontWeightMedium,
     fontFamily: theme.typography.fontFamilySecondary,
-    padding: theme.spacing(2, 4),
+    padding: theme.spacing(2, 2),
     fontSize: theme.typography.pxToRem(14),
     boxShadow: "none",
     "&:active, &:focus": {

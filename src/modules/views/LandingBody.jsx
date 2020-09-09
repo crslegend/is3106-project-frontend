@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 // import { ArrowDownwardIcon } from "@material-ui/icons";
 import { Container } from "@material-ui/core";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
 import Button from "../components/Button";
 import Typography from "../components/Typography";
@@ -23,10 +24,15 @@ const styles = (theme) => ({
       maxHeight: 1300,
     },
   },
-  container: {
-    display: "inline",
+  outerContainer: {
+    display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  innerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   backdrop: {
     position: "absolute",
@@ -54,11 +60,12 @@ const styles = (theme) => ({
     position: "absolute",
     bottom: theme.spacing(4),
   },
-  button1: {
-    marginRight: 50,
-  },
-  button2: {
-    marginLeft: 50,
+  button: {
+    outline: "white solid 0.5px",
+    fontWeight: "normal",
+    backgroundColor: fade(theme.palette.common.white, 0.1),
+    color: "white",
+    width: 150,
   },
 });
 
@@ -67,31 +74,33 @@ const LandingBody = (props) => {
 
   return (
     <section className={classes.root}>
-      <Container className={classes.container}>
+      <Container className={classes.outerContainer}>
         <Typography color="inherit" align="center" variant="h2" marked="center">
           Welcome
         </Typography>
         <br />
-        <Button
-          color="secondary"
-          variant="contained"
-          size="medium"
-          className={classes.button1}
-          component="a"
-          href="/newrecipe"
-        >
-          Gather
-        </Button>
-        <Button
-          color="secondary"
-          variant="contained"
-          size="medium"
-          className={classes.button2}
-          component="a"
-          href="/groupbuy"
-        >
-          Group Buy
-        </Button>
+        <Container className={classes.innerContainer}>
+          <Button
+            variant="outlined"
+            size="medium"
+            className={classes.button}
+            component="a"
+            href="/newrecipe"
+          >
+            Create Recipe
+          </Button>
+          <div style={{ marginLeft: 40, marginRight: 40 }} />
+          <Button
+            color="secondary"
+            variant="outlined"
+            size="medium"
+            className={classes.button}
+            component="a"
+            href="/groupbuy"
+          >
+            Group Buy
+          </Button>
+        </Container>
 
         {/* this gives a dark backdrop on the image */}
         <div className={classes.backdrop} />

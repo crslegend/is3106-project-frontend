@@ -4,15 +4,12 @@ import { orange, green, grey, red } from "@material-ui/core/colors";
 const rawTheme = createMuiTheme({
   palette: {
     primary: {
-      light: "#69696a",
-      main: "#28282a",
-      dark: "#1e1e1f",
+      main: "#edd0c5",
     },
     secondary: {
-      main: red[500],
-      light: "#fff5f8",
-      white: "#ff3366",
-      dark: "#e62958",
+      main: "#B2967D",
+      light: "#E6BEAE",
+      dark: "#8f7054",
     },
     warning: {
       main: orange[500],
@@ -35,8 +32,8 @@ const rawTheme = createMuiTheme({
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
-    fontWeightMedium: 700, // Roboto Condensed
-    fontFamilySecondary: "'Roboto Condensed', sans-serif",
+    fontWeightMedium: 300, // SeoulHangang CL
+    fontFamilySecondary: "SeoulHangang CL",
   },
 });
 

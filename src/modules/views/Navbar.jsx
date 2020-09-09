@@ -34,7 +34,7 @@ const styles = (theme) => ({
   },
 });
 
-const NavbarView = ({ classes }) => (
+const Navbar = ({ classes }) => (
   <div>
     <AppBar position="fixed">
       <Toolbar className={classes.toolbar}>
@@ -42,7 +42,7 @@ const NavbarView = ({ classes }) => (
         <Link
           variant="h6"
           underline="none"
-          color="inherit"
+          color="black"
           className={classes.title}
           href="/"
         >
@@ -73,8 +73,8 @@ const NavbarView = ({ classes }) => (
   </div>
 );
 
-NavbarView.propTypes = {
+Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NavbarView);
+export default withStyles(styles)(Navbar);
