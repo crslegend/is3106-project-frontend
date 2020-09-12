@@ -15,16 +15,18 @@ const backgroundImage = image;
 const styles = (theme) => ({
   root: {
     color: theme.palette.common.white,
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    [theme.breakpoints.up("sm")]: {
-      height: "90vh",
-      minHeight: 500,
-      maxHeight: 1300,
-    },
+    // position: "relative",
+    // display: "flex",
+    // alignItems: "center",
+
+    // [theme.breakpoints.up("sm")]: {
+    //   height: "100vh",
+    //   minHeight: 500,
+    //   maxHeight: 1300,
+    // },
   },
   outerContainer: {
+    marginTop: 200,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -39,7 +41,7 @@ const styles = (theme) => ({
     left: 0,
     right: 0,
     top: 0,
-    bottom: -0.5,
+    bottom: 0,
     backgroundColor: theme.palette.common.black,
     opacity: 0.5,
     zIndex: -1,
@@ -49,8 +51,8 @@ const styles = (theme) => ({
     left: 0,
     right: 0,
     top: 0,
-    bottom: -0.5,
-    backgroundSize: "100%",
+    bottom: 0,
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     zIndex: -2,
