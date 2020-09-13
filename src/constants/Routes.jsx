@@ -7,7 +7,8 @@ const Routes = () => (
   <Router>
     <Switch>
       <Route exact path="/" component={LandingPage} />
-      <Route exact path="/groupbuy" component={GroupBuyPage} />
+      <Route path="/groupbuy" component={GroupBuyPage} />
+
     </Switch>
   </Router>
 );
