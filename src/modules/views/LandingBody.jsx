@@ -72,7 +72,9 @@ const styles = (theme) => ({
 });
 
 const LandingBody = (props) => {
-  const { classes } = props;
+  const { classes, getAxiosInstance } = props;
+
+  getAxiosInstance();
 
   return (
     <section className={classes.root}>
@@ -114,6 +116,7 @@ const LandingBody = (props) => {
 
 LandingBody.propTypes = {
   classes: PropTypes.object.isRequired,
+  getAxiosInstance: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(LandingBody);
