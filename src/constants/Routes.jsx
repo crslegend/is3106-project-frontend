@@ -8,6 +8,7 @@ const Routes = () => (
     <Switch>
       <Route exact path="/" component={LandingPage} />
       <Route path="/groupbuy" component={GroupBuyPage} />
+
     </Switch>
   </Router>
 );

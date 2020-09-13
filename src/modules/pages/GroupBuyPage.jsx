@@ -1,10 +1,12 @@
 import React, { Fragment } from "react";
 import withRoot from "../withRoot";
-import GroupBuyCard from "../components/GroupBuyCard";
+import Navbar from "../views/Navbar";
+import GroupBuyBody from "../views/GroupBuyBody";
 
 const GroupBuyPage = () => (
   <Fragment>
-    <GroupBuyCard />
+    <Navbar />
+    <GroupBuyBody />
   </Fragment>
 );
 
