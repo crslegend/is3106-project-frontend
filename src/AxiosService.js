@@ -12,9 +12,15 @@ const ntucClient = axios.create({
   baseURL: "https://website-api.omni.fairprice.com.sg/api/layout/category/v2",
 });
 
+// set JWT, add refresh token to cookie
 const storeCredentials = ({ access, refresh }) => {
-  client.defaults.headers.common["Authorization"] = `Bearer `;
-  Cookies.set("token", refresh);
+  client.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+  Cookies.set("token", refresh, { expires: 1, path: "" });
+};
+
+// remove refresh token cookie
+const removeCredentials = () => {
+  Cookies.remove("token");
 };
 
 // set interceptor to refresh token when 401 is encountered
@@ -23,9 +29,28 @@ client.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.response.status === 401) {
-      console.log(err.config);
-    }
+    return new Promise((resolve, reject) => {
+      const originReq = err.config;
+      console.log(originReq);
+      console.log(Cookies.get());
+      if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
+        originReq.__isRetryRequest = true;
+
+        let res = axios
+          .post(`${BACKEND_URL}/api/token/refresh/`, {
+            refresh: Cookies.get("token"),
+          })
+          .then((res) => {
+            client.defaults.headers.common["Authorization"] = `Bearer ${res.data.access}`;
+            originReq.headers.Authorization = `Bearer ${res.data.access}`;
+            return client(originReq);
+          });
+
+        resolve(res);
+      }
+
+      return Promise.reject(err);
+    });
   }
 );
 
@@ -33,4 +58,5 @@ export default {
   client,
   ntucClient,
   storeCredentials,
+  removeCredentials,
 };

@@ -75,10 +75,9 @@ const styles = (theme) => ({
 const LandingBody = (props) => {
   const { classes } = props;
 
-  console.log(Service.client);
-  console.log(Service.storeCredentials);
-
+  // example usage of Axios Service
   useEffect(() => {
+    // login to get JWT
     Service.client
       .post("/api/token/", {
         email: "a@a.com",
@@ -86,9 +85,10 @@ const LandingBody = (props) => {
       })
       .then((res) => {
         console.log(res);
-        Service.storeCredentials(res.data);
+        Service.storeCredentials(res.data); // store access and refresh tokens
 
-        Service.client.get("/recipes/get_recipes").then((res) => console.log(res));
+        Service.client.get("/recipes/get_recipes").then((res) => console.log(res)); // get protected view
+        Service.removeCredentials(); // delete cookie storage when logged out
       })
       .catch((error) => {
         console.log(error);
