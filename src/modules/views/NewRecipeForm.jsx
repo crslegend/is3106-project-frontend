@@ -31,27 +31,35 @@ const styles = (theme) => ({
 });
 
 const NewRecipeForm = (props) => {
-  const { classes } = props;
+  const { classes, setRecipeInfo } = props;
   const [open, setOpen] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [recipeName, setName] = useState("");
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleDateChange = (e) => {
+    setSelectedDate(e);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleNameChange = (e) => {
+    setName(e);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleSubmit = () => {
+    setOpen(false);
+    const updatedInfo = {
+      name: recipeName,
+      date: selectedDate,
+    };
+
+    setRecipeInfo(updatedInfo);
+  };
+
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
@@ -61,37 +69,42 @@ const NewRecipeForm = (props) => {
         <DialogTitle className={classes.root}>
           Give your recipe a name!
         </DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Recipe Name"
-            type="text"
-            placeholder="Grilled Lamb Chop"
-          />
-        </DialogContent>
-        <DialogContent>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="normal"
-              format="dd/MM/yyyy"
-              margin="normal"
-              minDate={new Date()}
-              label="Choose a Fulfillment Date"
-              value={selectedDate}
-              onChange={handleDateChange}
+        <form>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Recipe Name"
+              type="text"
+              placeholder="Grilled Lamb Chop"
+              required
+              value={recipeName}
+              onChange={(e) => handleNameChange(e.target.value)}
             />
-          </MuiPickersUtilsProvider>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Create
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogContent>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="normal"
+                format="dd/MM/yyyy"
+                margin="normal"
+                minDate={new Date()}
+                label="Choose a Fulfillment Date"
+                value={selectedDate}
+                onChange={(e) => handleDateChange(e)}
+              />
+            </MuiPickersUtilsProvider>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit} color="primary">
+              Create
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );
@@ -99,6 +112,7 @@ const NewRecipeForm = (props) => {
 
 NewRecipeForm.propTypes = {
   classes: PropTypes.object.isRequired,
+  setRecipeInfo: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(NewRecipeForm);
