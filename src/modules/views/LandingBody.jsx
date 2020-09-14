@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 // import { ArrowDownwardIcon } from "@material-ui/icons";
 import { Container } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
+import Service from "../../AxiosService";
 import Button from "../components/Button";
 import Typography from "../components/Typography";
 
@@ -72,9 +73,27 @@ const styles = (theme) => ({
 });
 
 const LandingBody = (props) => {
-  const { classes, getAxiosInstance } = props;
+  const { classes } = props;
 
-  getAxiosInstance();
+  console.log(Service.client);
+  console.log(Service.storeCredentials);
+
+  useEffect(() => {
+    Service.client
+      .post("/api/token/", {
+        email: "a@a.com",
+        password: "password",
+      })
+      .then((res) => {
+        console.log(res);
+        Service.storeCredentials(res.data);
+
+        Service.client.get("/recipes/get_recipes").then((res) => console.log(res));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   return (
     <section className={classes.root}>
@@ -84,24 +103,11 @@ const LandingBody = (props) => {
         </Typography>
         <br />
         <Container className={classes.innerContainer}>
-          <Button
-            variant="outlined"
-            size="medium"
-            className={classes.button}
-            component="a"
-            href="/newrecipe"
-          >
+          <Button variant="outlined" size="medium" className={classes.button} component="a" href="/newrecipe">
             Create Recipe
           </Button>
           <div style={{ marginLeft: 40, marginRight: 40 }} />
-          <Button
-            color="secondary"
-            variant="outlined"
-            size="medium"
-            className={classes.button}
-            component="a"
-            href="/groupbuy"
-          >
+          <Button color="secondary" variant="outlined" size="medium" className={classes.button} component="a" href="/groupbuy">
             Group Buy
           </Button>
         </Container>
@@ -116,7 +122,6 @@ const LandingBody = (props) => {
 
 LandingBody.propTypes = {
   classes: PropTypes.object.isRequired,
-  getAxiosInstance: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(LandingBody);
