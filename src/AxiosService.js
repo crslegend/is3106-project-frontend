@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { BACKEND_URL } from "./config";
+import { BACKEND_URL } from "./config.js";
 
 axios.defaults.timeout = 2500;
 
@@ -48,7 +48,7 @@ client.interceptors.response.use(
       if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
         originReq.__isRetryRequest = true;
 
-        let res = axios
+        let q = axios
           .post(`${BACKEND_URL}/api/token/refresh/`, {
             refresh: Cookies.get("t2"),
           })
@@ -58,7 +58,7 @@ client.interceptors.response.use(
             return client(originReq);
           });
 
-        resolve(res);
+        resolve(q);
       }
 
       return reject(err);

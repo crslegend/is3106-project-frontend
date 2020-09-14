@@ -7,4 +7,9 @@ const PrivateRoute = ({ render, path, ...rest }) => {
   return <Route render={newRender} path {...rest} />;
 };
 
+GroupBuyBody.propTypes = {
+  render: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
+};
+
 export default PrivateRoute;
