@@ -31,8 +31,7 @@ client.interceptors.response.use(
   (err) => {
     return new Promise((resolve, reject) => {
       const originReq = err.config;
-      console.log(originReq);
-      console.log(Cookies.get());
+      // console.log(originReq);
       if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
         originReq.__isRetryRequest = true;
 
