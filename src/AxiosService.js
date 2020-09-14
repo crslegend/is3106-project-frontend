@@ -55,6 +55,8 @@ client.interceptors.response.use(
           .then((res) => {
             client.defaults.headers.common["Authorization"] = `Bearer ${res.data.access}`;
             originReq.headers.Authorization = `Bearer ${res.data.access}`;
+            Cookies.remove("t1");
+            Cookies.set("t1", res.data.access, { expires: 1, path: "" });
             return client(originReq);
           });
 
