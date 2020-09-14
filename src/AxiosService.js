@@ -15,15 +15,28 @@ const ntucClient = axios.create({
 // set JWT, add refresh token to cookie
 const storeCredentials = ({ access, refresh }) => {
   client.defaults.headers.common["Authorization"] = `Bearer ${access}`;
-  Cookies.set("token", refresh, { expires: 1, path: "" });
+  Cookies.set("t1", access, { expires: 1, path: "" });
+  Cookies.set("t2", refresh, { expires: 1, path: "" });
 };
 
 // remove refresh token cookie
 const removeCredentials = () => {
-  Cookies.remove("token");
+  Cookies.remove("t1");
+  Cookies.remove("t2");
 };
 
-// set interceptor to refresh token when 401 is encountered
+// set request interceptor to use access token if exists
+client.interceptors.request.use(
+  (config) => {
+    config.headers.Authorization = `Bearer ${Cookies.get("t1")}`;
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
+
+// set response interceptor to refresh token when 401 is encountered
 client.interceptors.response.use(
   (res) => {
     return res;
@@ -37,7 +50,7 @@ client.interceptors.response.use(
 
         let res = axios
           .post(`${BACKEND_URL}/api/token/refresh/`, {
-            refresh: Cookies.get("token"),
+            refresh: Cookies.get("t2"),
           })
           .then((res) => {
             client.defaults.headers.common["Authorization"] = `Bearer ${res.data.access}`;
@@ -48,7 +61,7 @@ client.interceptors.response.use(
         resolve(res);
       }
 
-      return Promise.reject(err);
+      return reject(err);
     });
   }
 );
