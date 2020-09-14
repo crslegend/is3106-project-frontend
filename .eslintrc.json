@@ -5,7 +5,7 @@
 
   "rules": {
     "prettier/prettier": [
-      "error",
+      "warning",
       {
         "endOfLine": "auto"
       }
@@ -16,6 +16,9 @@
     "react/forbid-prop-types": "off",
     "linebreak-style": "off",
     "object-curly-newline": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "arrow-body-style": "off",
+    "no-useless-return": "off",
+    "no-console": "off"
   }
 }
