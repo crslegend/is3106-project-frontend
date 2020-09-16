@@ -1,58 +1,93 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
 import { Grid } from "@material-ui/core";
+import { fade } from "@material-ui/core/styles/colorManipulator";
+import CardMedia from "@material-ui/core/CardMedia";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
-const styles = (theme) => ({
+import image from "../../assets/lamb.jpg";
+
+const styles = makeStyles((theme) => ({
   root: {
+    marginTop: "40px",
     flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
+    height: "60vh",
+    variant: "outlined",
     textAlign: "center",
-    color: theme.palette.text.secondary,
+    background: "#E6BEAE",
+    [theme.breakpoints.down("sm")]: {
+      height: "70vh",
+    },
   },
-  header: {
-    fontFamily: "Raleway",
-    fontSize: 35,
-    fontWeight: 550,
-    letterSpacing: 3,
-    color: "#2A2B2A",
-    padding: theme.spacing(2),
-    textAlign: "left",
+  icon: {
+    background: fade(theme.palette.primary.main, 0.5),
+    borderRadius: "50px",
+    padding: "2px",
+    fontSize: "4vw",
+    marginLeft: "100px",
+    color: fade("#48494B", 0.8),
+    "&:hover": {
+      background: fade(theme.palette.primary.main, 0.8),
+      color: "#48494B",
+    },
     [theme.breakpoints.down("md")]: {
-      fontSize: 28,
-      letterSpacing: 2,
+      fontSize: "5vw",
+      marginLeft: "50px",
     },
     [theme.breakpoints.down("sm")]: {
-      fontSize: 20,
-      padding: theme.spacing(3),
-    },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 14,
-      padding: theme.spacing(3),
+      fontSize: "6vw",
+      marginLeft: "20px",
     },
   },
-});
+  media: {
+    height: 350,
+    width: "100%",
+    margin: " 0px 30px",
+    objectFit: "cover",
+    [theme.breakpoints.down("sm")]: {
+      height: 200,
+      margin: " 0px 10px",
+      width: "95%",
+    },
+  },
+}));
 
-const CardDetailBody = (props) => {
-  const { classes } = props;
+const CardDetailBody = () => {
+  const classes = styles();
 
   return (
     <Fragment>
       <Grid container className={classes.root}>
-        <Grid item xs={1} />
-        <Grid item xs={6}>
-          <div className={classes.header}>Available Group Buys</div>
+        <Grid item xs={2}>
+          <ArrowBackIcon
+            onClick={(event) => (window.location.href = "groupbuy")}
+            className={classes.icon}
+          />
         </Grid>
-        <Grid item xs={5} />
+        <Grid xs={9}>
+          <Paper elevation={3} className={classes.paper}>
+            <Grid container className={classes.root}>
+              <Grid xs={12} md={5}>
+                <CardMedia
+                  className={classes.media}
+                  image={image}
+                  title="Grilled Lamb Chop"
+                />
+              </Grid>
+              <Grid xs={12} md={7}>
+                word
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+        <Grid item xs={1} />
       </Grid>
     </Fragment>
   );
-};
-
-CardDetailBody.propTypes = {
-  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(CardDetailBody);
