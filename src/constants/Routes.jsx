@@ -10,10 +10,7 @@ const Routes = (props) => (
   <Router>
     <Switch>
       <Route exact path="/" render={() => <LandingPage {...props} />} />
-      <PrivateRoute
-        path="/groupbuy"
-        render={() => <GroupBuyPage {...props} />}
-      />
+      <Route path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
       <Route path="/viewdetails" component={CardDetailPage} />
     </Switch>
   </Router>
