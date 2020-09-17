@@ -10,11 +10,22 @@ const NewRecipePage = () => {
     date: null,
   });
 
+  const [open, setOpen] = useState(true);
+
   return (
     <Fragment>
       <Navbar />
-      <NewRecipeForm setRecipeInfo={setRecipeInfo} />
-      <IngredientListing recipeInfo={recipeInfo} />
+      <NewRecipeForm
+        setRecipeInfo={setRecipeInfo}
+        open={open}
+        setOpen={setOpen}
+      />
+      <IngredientListing
+        recipeInfo={recipeInfo}
+        setRecipeInfo={setRecipeInfo}
+        open={open}
+        setOpen={setOpen}
+      />
     </Fragment>
   );
 };

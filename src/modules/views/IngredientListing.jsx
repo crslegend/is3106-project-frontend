@@ -15,7 +15,8 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import { Image, Delete } from "@material-ui/icons";
+import { Image, Delete, Edit } from "@material-ui/icons";
+import NewRecipeForm from "./NewRecipeForm";
 
 const styles = (theme) => ({
   title: {
@@ -32,13 +33,18 @@ const styles = (theme) => ({
     height: "100%",
     borderRadius: 12,
   },
+  recipeListHeader: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   price: {
     lineHeight: 3,
   },
 });
 
 const IngredientListing = (props) => {
-  const { classes, recipeInfo } = props;
+  const { classes, recipeInfo, setRecipeInfo, setOpen } = props;
   const [chosenIngredients, updateIngredients] = useState([0, 1]);
 
   const deleteIngredient = (value) => {
@@ -57,6 +63,14 @@ const IngredientListing = (props) => {
     updateIngredients([...chosenIngredients]);
   };
 
+  const editRecipeNameAndDate = () => (
+    <NewRecipeForm
+      recipeInfo={recipeInfo}
+      setRecipeInfo={setRecipeInfo}
+      open={setOpen(true)}
+    />
+  );
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={8}>
@@ -68,11 +82,17 @@ const IngredientListing = (props) => {
 
       <Grid item xs={12} sm={4}>
         <Paper className={classes.recipeList}>
-          <Typography variant="h4" className={classes.title}>
-            {recipeInfo.name && recipeInfo.name
-              ? recipeInfo.name
-              : "Name of Recipe"}
-          </Typography>
+          <div className={classes.recipeListHeader}>
+            <Typography variant="h4" className={classes.title}>
+              {recipeInfo.name && recipeInfo.name
+                ? recipeInfo.name
+                : "Name of Recipe"}
+            </Typography>
+            <IconButton edge="end" onClick={() => editRecipeNameAndDate()}>
+              <Edit />
+            </IconButton>
+          </div>
+
           <Typography variant="h5" className={classes.title}>
             {recipeInfo.date && recipeInfo.date
               ? recipeInfo.date.toDateString()
@@ -97,8 +117,12 @@ const IngredientListing = (props) => {
                         primary={`Line item ${value + 1}`}
                       />
                       <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
-                          <Delete onClick={() => deleteIngredient(value)} />
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() => deleteIngredient(value)}
+                        >
+                          <Delete />
                         </IconButton>
                       </ListItemSecondaryAction>
                     </ListItem>
@@ -123,7 +147,6 @@ const IngredientListing = (props) => {
 
 IngredientListing.propTypes = {
   classes: PropTypes.object.isRequired,
-  recipeInfo: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(IngredientListing);

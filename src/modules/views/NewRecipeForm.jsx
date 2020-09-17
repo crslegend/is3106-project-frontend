@@ -31,8 +31,7 @@ const styles = (theme) => ({
 });
 
 const NewRecipeForm = (props) => {
-  const { classes, setRecipeInfo } = props;
-  const [open, setOpen] = useState(true);
+  const { classes, setRecipeInfo, open, setOpen } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [recipeName, setName] = useState("");
 
@@ -112,7 +111,6 @@ const NewRecipeForm = (props) => {
 
 NewRecipeForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  setRecipeInfo: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(NewRecipeForm);
