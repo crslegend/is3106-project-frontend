@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import { Image, Delete, Edit } from "@material-ui/icons";
 import NewRecipeForm from "./NewRecipeForm";
+import IngredientsTabs from "./IngredientsTabs";
 
 const styles = (theme) => ({
   title: {
@@ -40,6 +41,10 @@ const styles = (theme) => ({
   },
   price: {
     lineHeight: 3,
+  },
+  ingredientsList: {
+    width: "90%",
+    margin: "auto",
   },
 });
 
@@ -72,11 +77,11 @@ const IngredientListing = (props) => {
   );
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       <Grid item xs={12} sm={8}>
-        <Paper>
+        <Paper className={classes.ingredientsList}>
           <h1>Searchbar here</h1>
-          <h2>tabs here </h2>
+          <IngredientsTabs />
         </Paper>
       </Grid>
 
