@@ -8,6 +8,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Container,
   Tab,
   Tabs,
   TextField,
@@ -26,9 +27,9 @@ const TabPanel = (props) => {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
+        <Container>
+          <Box>{children}</Box>
+        </Container>
       )}
     </div>
   );
@@ -96,11 +97,13 @@ const IngredientsTabs = (props) => {
       <TabPanel value={value} index={0}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography gutterBottom variant="h5">
+            <Typography gutterBottom variant="h5" component="span">
               Lizard
             </Typography>
             <div className={classes.quantitySelector}>
-              <Typography variant="h6">Quantity</Typography>
+              <Typography variant="h6" component="span">
+                Quantity
+              </Typography>
               <TextField
                 variant="outlined"
                 margin="dense"
