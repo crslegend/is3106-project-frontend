@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -6,15 +6,15 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   Tab,
   Tabs,
+  TextField,
   Typography,
 } from "@material-ui/core";
 
-function TabPanel(props) {
+const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -32,7 +32,7 @@ function TabPanel(props) {
       )}
     </div>
   );
-}
+};
 
 TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
@@ -49,14 +49,28 @@ const styles = (theme) => ({
   card: {
     maxWidth: 345,
   },
+  quantitySelector: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
 
 const IngredientsTabs = (props) => {
-  const { classes } = props;
-  const [value, setValue] = React.useState(0);
+  const { classes, updateIngredients, chosenIngredients } = props;
+  const [value, setValue] = useState(0);
+  const [amount, setAmount] = useState();
+  // console.log(amount);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleSubmit = () => {
+    chosenIngredients.push(parseInt(amount, 10));
+    // console.log(chosenIngredients);
+    console.log(amount);
+    updateIngredients([...chosenIngredients]);
   };
 
   return (
@@ -81,15 +95,25 @@ const IngredientsTabs = (props) => {
       </AppBar>
       <TabPanel value={value} index={0}>
         <Card className={classes.card}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                Lizard
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5">
+              Lizard
+            </Typography>
+            <div className={classes.quantitySelector}>
+              <Typography variant="h6">Quantity</Typography>
+              <TextField
+                variant="outlined"
+                margin="dense"
+                type="number"
+                defaultValue="10"
+                InputProps={{ inputProps: { min: 10 } }}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+          </CardContent>
+
           <CardActions>
-            <Button size="small" color="secondary">
+            <Button size="small" color="secondary" onClick={handleSubmit}>
               Add To Recipe List
             </Button>
           </CardActions>

@@ -62,10 +62,9 @@ const IngredientListing = (props) => {
     );
   };
 
-  const addNumber = (number) => {
-    chosenIngredients.push(number);
-    // console.log(chosenIngredients);
-    updateIngredients([...chosenIngredients]);
+  const handleSubmit = () => {
+    setRecipeInfo((recipeInfo.numbers = chosenIngredients));
+    console.log(recipeInfo);
   };
 
   const editRecipeNameAndDate = () => (
@@ -81,7 +80,10 @@ const IngredientListing = (props) => {
       <Grid item xs={12} sm={8}>
         <Paper className={classes.ingredientsList}>
           <h1>Searchbar here</h1>
-          <IngredientsTabs />
+          <IngredientsTabs
+            updateIngredients={updateIngredients}
+            chosenIngredients={chosenIngredients}
+          />
         </Paper>
       </Grid>
 
@@ -143,7 +145,7 @@ const IngredientListing = (props) => {
           <Typography variant="h5" className={classes.price}>
             Total Price:{" "}
           </Typography>
-          <Button onClick={() => addNumber(6)}>Enter Group Buy</Button>
+          <Button onClick={handleSubmit}>Enter Group Buy</Button>
         </Paper>
       </Grid>
     </Grid>
