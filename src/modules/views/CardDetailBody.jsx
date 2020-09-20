@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Grid, ListItemText } from "@material-ui/core";
+import { Grid, ListItemText, Card } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import { Card } from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -195,7 +194,9 @@ const CardDetailBody = () => {
       <Grid container className={classes.root}>
         <Grid item xs={2}>
           <ArrowBackIcon
-            onClick={(event) => (window.location.href = "groupbuy")}
+            onClick={() => {
+              window.location.href = "groupbuy";
+            }}
             className={classes.icon}
           />
         </Grid>
