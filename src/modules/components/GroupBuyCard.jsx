@@ -1,33 +1,94 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { Card } from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import Button from "./Button";
+import Button from "@material-ui/core/Button";
 
 import image from "../../assets/lamb.jpg";
 
 const styles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    flexGrow: 0,
+    flexShrink: 1,
+    margin: 15,
+    width: "19vw",
     [theme.breakpoints.down("md")]: {
-      maxWidth: 240,
+      width: "25vw",
+    },
+    [theme.breakpoints.down("sm")]: {
+      margin: 10,
+      width: "33vw",
     },
   },
   media: {
     height: 0,
-    paddingTop: "56.25%", // 16:9
+    paddingTop: "56.25%",
   },
-  button: {
-    fontWeight: "normal",
+  cardHeader: {
+    fontFamily: theme.typography.fontFamilySecondary,
+    textTransform: "uppercase",
+    fontWeight: 550,
+    fontSize: 22,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+  },
+  cardBody: {
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    fontSize: 20,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+  },
+  cardWarning: {
+    display: "flex",
+    paddingLeft: "15px",
+    color: "#ED2939",
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    fontSize: 16,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 14,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12,
+    },
+  },
+  cardButton: {
     backgroundColor: fade(theme.palette.primary.main, 0.5),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.primary.main, 0.8),
+    },
+    padding: 10,
+    margin: 7,
+    textTransform: "none",
+    fontFamily: "Raleway",
     color: "#5E4955",
-    marginTop: "10px",
+    fontSize: 20,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
+      padding: 7,
+      margin: 5,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+      padding: 3,
+      margin: 2,
+    },
   },
 }));
 
@@ -42,24 +103,16 @@ const GroupBuyCard = () => {
           image={image}
           title="Grilled Lamb Chop"
         />
-        <Box borderColor="secondary.main" border={1}>
-          <CardContent>
-            <Typography gutterbottom variant="h6">
-              Grilled Lamb Chop
-            </Typography>
-            <Typography variant="body1" component="p">
-              $12.99
-            </Typography>
-            <Button className={classes.button} size="small" href="/viewdetails">
-              View Details
-            </Button>
-          </CardContent>
-          <Box mr={2} mb={1}>
-            <Typography variant="body2" color="error" align="right">
-              Selling Fast!
-            </Typography>
-          </Box>
-        </Box>
+        <CardContent height="150" width="150">
+          <Typography className={classes.cardHeader}>
+            Grilled Lamb Chop
+          </Typography>
+          <Typography className={classes.cardBody}>$12.99</Typography>
+          <Button className={classes.cardButton} href="/viewdetails">
+            View Details
+          </Button>
+        </CardContent>
+        <Typography className={classes.cardWarning}>Selling Fast!</Typography>
       </CardActionArea>
     </Card>
   );
