@@ -11,9 +11,18 @@ const Routes = (props) => (
   <Router>
     <Switch>
       <Route exact path="/" render={() => <LandingPage {...props} />} />
-      <PrivateRoute path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
-      <PrivateRoute path="/newrecipe" render={() => <NewRecipePage {...props} />} />
-      <PrivateRoute path="/viewdetails" render={() => <CardDetailPage {...props} />
+      <PrivateRoute
+        path="/groupbuy"
+        render={() => <GroupBuyPage {...props} />}
+      />
+      <PrivateRoute
+        path="/newrecipe"
+        render={() => <NewRecipePage {...props} />}
+      />
+      <PrivateRoute
+        path="/viewdetails"
+        render={() => <CardDetailPage {...props} />}
+      />
     </Switch>
   </Router>
 );
