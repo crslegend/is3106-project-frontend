@@ -7,6 +7,7 @@ import Toolbar, { styles as toolbarStyles } from "../components/Toolbar";
 
 const styles = (theme) => ({
   title: {
+    color: "#000000",
     fontSize: 24,
   },
   placeholder: toolbarStyles(theme).root,
@@ -39,13 +40,7 @@ const Navbar = ({ classes }) => (
     <AppBar position="fixed">
       <Toolbar className={classes.toolbar}>
         <div className={classes.left} />
-        <Link
-          variant="h6"
-          underline="none"
-          color="black"
-          className={classes.title}
-          href="/"
-        >
+        <Link variant="h6" underline="none" className={classes.title} href="/">
           Sashimi
         </Link>
         <div className={classes.right}>
