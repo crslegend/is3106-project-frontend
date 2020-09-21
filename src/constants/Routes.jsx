@@ -5,6 +5,7 @@ import PrivateRoute from "../modules/components/PrivateRoute";
 import LandingPage from "../modules/pages/LandingPage";
 import GroupBuyPage from "../modules/pages/GroupBuyPage";
 import NewRecipePage from "../modules/pages/NewRecipePage";
+import CardDetailPage from "../modules/pages/CardDetailPage";
 
 const Routes = (props) => (
   <Router>
@@ -12,6 +13,7 @@ const Routes = (props) => (
       <Route exact path="/" render={() => <LandingPage {...props} />} />
       <PrivateRoute path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
       <PrivateRoute path="/newrecipe" render={() => <NewRecipePage {...props} />} />
+      <PrivateRoute path="/viewdetails" render={() => <CardDetailPage {...props} />
     </Switch>
   </Router>
 );

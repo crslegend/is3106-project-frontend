@@ -87,7 +87,9 @@ const LandingBody = (props) => {
         console.log(res);
         Service.storeCredentials(res.data); // store access and refresh tokens
 
-        Service.client.get("/recipes/get_recipes").then((res) => console.log(res)); // get protected view
+        Service.client
+          .get("/recipes/get_recipes")
+          .then((res) => console.log(res)); // get protected view
         Service.removeCredentials(); // delete cookie storage when logged out
       })
       .catch((error) => {
@@ -103,11 +105,24 @@ const LandingBody = (props) => {
         </Typography>
         <br />
         <Container className={classes.innerContainer}>
-          <Button variant="outlined" size="medium" className={classes.button} component="a" href="/newrecipe">
+          <Button
+            variant="outlined"
+            size="medium"
+            className={classes.button}
+            component="a"
+            href="/newrecipe"
+          >
             Create Recipe
           </Button>
           <div style={{ marginLeft: 40, marginRight: 40 }} />
-          <Button color="secondary" variant="outlined" size="medium" className={classes.button} component="a" href="/groupbuy">
+          <Button
+            color="secondary"
+            variant="outlined"
+            size="medium"
+            className={classes.button}
+            component="a"
+            href="/groupbuy"
+          >
             Group Buy
           </Button>
         </Container>

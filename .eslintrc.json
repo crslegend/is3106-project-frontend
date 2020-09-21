@@ -5,7 +5,7 @@
 
   "rules": {
     "prettier/prettier": [
-      "warning",
+      "error",
       {
         "endOfLine": "auto"
       }
@@ -20,7 +20,7 @@
     "object-curly-newline": "off",
     "import/no-extraneous-dependencies": "off",
     "comma-dangle": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
     "arrow-body-style": "off",
     "no-useless-return": "off",
     "no-console": "off"
