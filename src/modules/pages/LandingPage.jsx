@@ -3,10 +3,10 @@ import withRoot from "../withRoot";
 import Navbar from "../views/Navbar";
 import LandingBody from "../views/LandingBody";
 
-const LandingPage = () => (
+const LandingPage = (props) => (
   <Fragment>
     <Navbar />
-    <LandingBody />
+    <LandingBody {...props} />
   </Fragment>
 );
 
