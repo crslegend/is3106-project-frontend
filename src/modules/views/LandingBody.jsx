@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-// import { ArrowDownwardIcon } from "@material-ui/icons";
 import { Container } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
@@ -50,7 +49,7 @@ const styles = (theme) => ({
     right: 0,
     top: 0,
     bottom: -0.5,
-    backgroundSize: "100%",
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     zIndex: -2,
