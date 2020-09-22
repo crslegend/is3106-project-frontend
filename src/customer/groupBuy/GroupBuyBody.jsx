@@ -4,7 +4,7 @@ import { withStyles, fade } from "@material-ui/core/styles";
 import { Grid, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
-import GroupBuyCard from "../components/GroupBuyCard";
+import GroupBuyCard from "../../components/GroupBuyCard";
 
 const styles = (theme) => ({
   root: {

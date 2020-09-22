@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import withRoot from "../withRoot";
-import Navbar from "../views/Navbar";
-import LandingBody from "../views/LandingBody";
+import withRoot from "../../constants/withRoot";
+import Navbar from "../Navbar";
+import LandingBody from "./LandingBody";
 
 const LandingPage = (props) => (
   <Fragment>

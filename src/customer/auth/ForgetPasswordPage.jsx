@@ -6,9 +6,9 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
-import withRoot from "../withRoot";
-import Button from "../components/Button";
-import Typography from "../components/Typography";
+import withRoot from "../../constants/withRoot";
+import Button from "../../components/Button";
+import Typography from "../../components/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {

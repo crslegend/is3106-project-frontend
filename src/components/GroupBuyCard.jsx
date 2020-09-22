@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import Button from "@material-ui/core/Button";
 
-import image from "../../assets/lamb.jpg";
+import image from "../assets/lamb.jpg";
 
 const styles = makeStyles((theme) => ({
   root: {

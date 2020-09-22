@@ -1,15 +1,15 @@
 import React from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
-import PrivateRoute from "../modules/components/PrivateRoute";
-import LandingPage from "../modules/pages/LandingPage";
-import LoginRegisterPage from "../modules/pages/LoginRegisterPage";
-import ForgetPasswordPage from "../modules/pages/ForgetPasswordPage";
-import ProfilePage from "../modules/pages/ProfilePage";
-import EditProfilePage from "../modules/pages/EditProfilePage";
-import GroupBuyPage from "../modules/pages/GroupBuyPage";
-import NewRecipePage from "../modules/pages/NewRecipePage";
-import CardDetailPage from "../modules/pages/CardDetailPage";
+// import PrivateRoute from "../modules/components/PrivateRoute";
+import LandingPage from "../customer/landing/LandingPage";
+import LoginRegisterPage from "../customer/auth/LoginRegisterPage";
+import ForgetPasswordPage from "../customer/auth/ForgetPasswordPage";
+import ProfilePage from "../customer/userProfile/ProfilePage";
+import EditProfilePage from "../customer/userProfile/EditProfilePage";
+import GroupBuyPage from "../customer/groupBuy/GroupBuyPage";
+import NewRecipePage from "../customer/newRecipe/NewRecipePage";
+import CardDetailPage from "../customer/groupBuy/CardDetailPage";
 
 const Routes = (props) => (
   <Router>

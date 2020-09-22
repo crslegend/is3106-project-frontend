@@ -5,8 +5,8 @@ import { Container } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
 import Service from "../../AxiosService";
-import Button from "../components/Button";
-import Typography from "../components/Typography";
+import Button from "../../components/Button";
+import Typography from "../../components/Typography";
 
 import image from "../../assets/December9_2-1280x879.jpg";
 

@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
-import withRoot from "../withRoot";
-import Navbar from "../views/Navbar";
-import NewRecipeForm from "../views/NewRecipeForm";
-import IngredientListing from "../views/IngredientListing";
+import withRoot from "../../constants/withRoot";
+import Navbar from "../Navbar";
+import NewRecipeForm from "./NewRecipeForm";
+import IngredientListing from "./IngredientListing";
 
 const NewRecipePage = () => {
   const [recipeInfo, setRecipeInfo] = useState({
