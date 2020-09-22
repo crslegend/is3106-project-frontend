@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-// import { ArrowDownwardIcon } from "@material-ui/icons";
 import { Container } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
