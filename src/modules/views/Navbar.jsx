@@ -17,6 +17,7 @@ import Toolbar, { styles as toolbarStyles } from "../components/Toolbar";
 
 const styles = (theme) => ({
   title: {
+    color: "#000000",
     fontSize: 24,
   },
   placeholder: toolbarStyles(theme).root,

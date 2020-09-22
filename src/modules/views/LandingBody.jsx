@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
+import Service from "../../AxiosService";
 import Button from "../components/Button";
 import Typography from "../components/Typography";
 
@@ -14,16 +15,18 @@ const backgroundImage = image;
 const styles = (theme) => ({
   root: {
     color: theme.palette.common.white,
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    [theme.breakpoints.up("sm")]: {
-      height: "90vh",
-      minHeight: 500,
-      maxHeight: 1300,
-    },
+    // position: "relative",
+    // display: "flex",
+    // alignItems: "center",
+
+    // [theme.breakpoints.up("sm")]: {
+    //   height: "100vh",
+    //   minHeight: 500,
+    //   maxHeight: 1300,
+    // },
   },
   outerContainer: {
+    marginTop: 200,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -38,7 +41,7 @@ const styles = (theme) => ({
     left: 0,
     right: 0,
     top: 0,
-    bottom: -0.5,
+    bottom: 0,
     backgroundColor: theme.palette.common.black,
     opacity: 0.5,
     zIndex: -1,
@@ -48,7 +51,7 @@ const styles = (theme) => ({
     left: 0,
     right: 0,
     top: 0,
-    bottom: -0.5,
+    bottom: 0,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -70,6 +73,28 @@ const styles = (theme) => ({
 
 const LandingBody = (props) => {
   const { classes } = props;
+
+  // example usage of Axios Service
+  useEffect(() => {
+    // login to get JWT
+    Service.client
+      .post("/api/token/", {
+        email: "a@a.com",
+        password: "password",
+      })
+      .then((res) => {
+        console.log(res);
+        Service.storeCredentials(res.data); // store access and refresh tokens
+
+        Service.client
+          .get("/recipes/get_recipes")
+          .then((res) => console.log(res)); // get protected view
+        Service.removeCredentials(); // delete cookie storage when logged out
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   return (
     <section className={classes.root}>

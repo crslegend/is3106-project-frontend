@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+/* eslint-disable */
 let render = () => {
   ReactDOM.render(
     <React.StrictMode>

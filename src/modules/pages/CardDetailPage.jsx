@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
 import withRoot from "../withRoot";
 import Navbar from "../views/Navbar";
-import LandingBody from "../views/LandingBody";
+import CardDetailBody from "../views/CardDetailBody";
 
-const LandingPage = (props) => (
+const CardDetailPage = () => (
   <Fragment>
     <Navbar />
-    <LandingBody {...props} />
+    <CardDetailBody />
   </Fragment>
 );
 
-export default withRoot(LandingPage);
+export default withRoot(CardDetailPage);

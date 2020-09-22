@@ -14,8 +14,15 @@
     "react/jsx-fragments": "off",
     "react/jsx-props-no-spreading": "off",
     "react/forbid-prop-types": "off",
+    "react/prop-types": "off",
+    "react/jsx-one-expression-per-line": "off",
     "linebreak-style": "off",
     "object-curly-newline": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "comma-dangle": "off",
+    "operator-linebreak": "off",
+    "arrow-body-style": "off",
+    "no-useless-return": "off",
+    "no-console": "off"
   }
 }
