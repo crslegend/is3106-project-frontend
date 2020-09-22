@@ -28,16 +28,24 @@ const rawTheme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "'Work Sans', sans-serif",
+    fontFamily: "Alegreya",
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
     fontWeightMedium: 300, // SeoulHangang CL
-    fontFamilySecondary: "SeoulHangang CL",
+    fontFamilySecondary: '-apple-system,system-ui,BlinkMacSystemFont,' +
+    '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
   },
 });
 
 const fontHeader = {
+  color: rawTheme.palette.text.primary,
+  fontWeight: rawTheme.typography.fontWeightMedium,
+  fontFamily: rawTheme.typography.fontFamily,
+  textTransform: "uppercase",
+};
+
+const fontBody = {
   color: rawTheme.palette.text.primary,
   fontWeight: rawTheme.typography.fontWeightMedium,
   fontFamily: rawTheme.typography.fontFamilySecondary,
@@ -57,6 +65,7 @@ const theme = {
   typography: {
     ...rawTheme.typography,
     fontHeader,
+    fontBody,
     h1: {
       ...rawTheme.typography.h1,
       ...fontHeader,
@@ -80,6 +89,7 @@ const theme = {
     },
     h5: {
       ...rawTheme.typography.h5,
+      ...fontHeader,
       fontSize: 20,
       fontWeight: rawTheme.typography.fontWeightLight,
     },
@@ -90,15 +100,18 @@ const theme = {
     },
     subtitle1: {
       ...rawTheme.typography.subtitle1,
+      ...fontBody,
       fontSize: 18,
     },
     body1: {
       ...rawTheme.typography.body2,
+      ...fontBody,
       fontWeight: rawTheme.typography.fontWeightRegular,
       fontSize: 16,
     },
     body2: {
       ...rawTheme.typography.body1,
+      ...fontBody,
       fontSize: 14,
     },
   },
