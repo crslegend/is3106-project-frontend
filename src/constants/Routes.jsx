@@ -15,25 +15,21 @@ const Routes = (props) => (
   <Router>
     <Switch>
       <Route exact path="/" render={() => <LandingPage {...props} />} />
-      <Route exact path="/login" render={() => <LoginRegisterPage {...props} />} />
-      <Route exact path="/forgetpassword" render={() => <ForgetPasswordPage {...props} />} />
-      <PrivateRoute
-        path="/groupbuy"
-        render={() => <GroupBuyPage {...props} />}
+      <Route
+        exact
+        path="/login"
+        render={() => <LoginRegisterPage {...props} />}
       />
-      <PrivateRoute
-        path="/newrecipe"
-        render={() => <NewRecipePage {...props} />}
+      <Route
+        exact
+        path="/forgetpassword"
+        render={() => <ForgetPasswordPage {...props} />}
       />
-      <PrivateRoute
-        path="/viewdetails"
-        render={() => <CardDetailPage {...props} />}
-      />
-      <PrivateRoute
-        path="/profile"
-        render={() => <ProfilePage {...props} />}
-      />
-      <PrivateRoute
+      <Route path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
+      <Route path="/newrecipe" render={() => <NewRecipePage {...props} />} />
+      <Route path="/viewdetails" render={() => <CardDetailPage {...props} />} />
+      <Route path="/profile" render={() => <ProfilePage {...props} />} />
+      <Route
         path="/editprofile"
         render={() => <EditProfilePage {...props} />}
       />

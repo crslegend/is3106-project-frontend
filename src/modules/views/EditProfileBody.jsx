@@ -60,7 +60,7 @@ function TabPanel(props) {
 }
 
 TabPanel.propTypes = {
-  children: PropTypes.node,
+  //children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 };
@@ -72,7 +72,7 @@ function a11yProps(index) {
   };
 }
 
-const ProfileBody = (props) => {
+const ProfileBody = () => {
   const classes = styles();
   const [value, setValue] = React.useState(0);
 
@@ -150,7 +150,7 @@ const ProfileBody = (props) => {
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <div className={classes.paper}>
+        <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
@@ -161,7 +161,7 @@ const ProfileBody = (props) => {
             <TextField
               variant="outlined"
               margin="normal"
-              //required
+              // required
               fullWidth
               id="currentpassword"
               label="Current Password"
@@ -171,7 +171,7 @@ const ProfileBody = (props) => {
             <TextField
               variant="outlined"
               margin="normal"
-              //required
+              // required
               fullWidth
               name="password"
               label="New Password"

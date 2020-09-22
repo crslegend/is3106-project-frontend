@@ -48,13 +48,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FlippyOnClick = ({ flipDirection = "vertical" }) => (
-  <Flippy flipOnClick flipDirection={flipDirection} />
-);
-
-function AltLogin(props) {
+function AltLogin() {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
   let flippyHorizontal;
 
   return (
@@ -91,7 +86,7 @@ function AltLogin(props) {
                 <TextField
                   variant="outlined"
                   margin="normal"
-                  //required
+                  // required
                   fullWidth
                   id="email"
                   label="Email Address"
@@ -102,7 +97,7 @@ function AltLogin(props) {
                 <TextField
                   variant="outlined"
                   margin="normal"
-                  //required
+                  // required
                   fullWidth
                   name="password"
                   label="Password"
@@ -137,7 +132,6 @@ function AltLogin(props) {
                   </Grid>
                   <Grid item>
                     <Link
-                      //href="register"
                       variant="body2"
                       onClick={() => flippyHorizontal.toggle()}
                     >
