@@ -23,6 +23,8 @@
     "operator-linebreak": "off",
     "arrow-body-style": "off",
     "no-useless-return": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off"
   }
 }
