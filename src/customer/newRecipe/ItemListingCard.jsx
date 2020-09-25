@@ -84,7 +84,12 @@ const styles = makeStyles((theme) => ({
 
 const ItemListingCard = (props) => {
   const classes = styles();
-  const { product, updateIngredients, chosenIngredients } = props;
+  const {
+    product,
+    updateIngredients,
+    chosenIngredients,
+    calculateTotalPrice,
+  } = props;
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
   // const [amount, setAmount] = useState();
@@ -101,15 +106,16 @@ const ItemListingCard = (props) => {
   };
 
   const setAmount = (amount) => {
-    const price =
+    const price = parseFloat(
       (parseFloat(selectedItem.price) /
         parseFloat(selectedItem.amount.replace(/\D/g, ""))) *
-      amount;
+        parseFloat(amount)
+    );
 
     setSelectedItem({
       ...selectedItem,
       selectedAmount: amount,
-      estimatedPrice: price,
+      estimatedPrice: price.toFixed(2),
     });
   };
 
@@ -123,9 +129,10 @@ const ItemListingCard = (props) => {
     chosenIngredients.push(selectedItem);
     updateIngredients([...chosenIngredients]);
     setSelectedItem();
+    calculateTotalPrice();
   };
 
-  console.log(selectedItem);
+  // console.log(selectedItem);
 
   return (
     <Fragment>

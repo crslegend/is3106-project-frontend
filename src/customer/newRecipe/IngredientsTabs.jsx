@@ -1,19 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  AppBar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { AppBar, Box, Container, Grid, Tab, Tabs } from "@material-ui/core";
 import ItemListingCard from "./ItemListingCard";
 
 const TabPanel = (props) => {
@@ -59,20 +47,26 @@ const styles = (theme) => ({
 });
 
 const IngredientsTabs = (props) => {
-  const { classes, updateIngredients, chosenIngredients, product } = props;
+  const {
+    classes,
+    updateIngredients,
+    chosenIngredients,
+    products,
+    calculateTotalPrice,
+  } = props;
   const [value, setValue] = useState(0);
-  const [amount, setAmount] = useState();
+  // const [amount, setAmount] = useState();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleSubmit = () => {
-    chosenIngredients.push(parseInt(amount, 10));
-    // console.log(chosenIngredients);
-    console.log(amount);
-    updateIngredients([...chosenIngredients]);
-  };
+  // const handleSubmit = () => {
+  //   chosenIngredients.push(parseInt(amount, 10));
+  //   // console.log(chosenIngredients);
+  //   console.log(amount);
+  //   updateIngredients([...chosenIngredients]);
+  // };
 
   return (
     <div className={classes.root}>
@@ -95,37 +89,18 @@ const IngredientsTabs = (props) => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Card className={classes.card}>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="span">
-              Lizard
-            </Typography>
-            <div className={classes.quantitySelector}>
-              <Typography variant="h6" component="span">
-                Quantity
-              </Typography>
-              <TextField
-                variant="outlined"
-                margin="dense"
-                type="number"
-                defaultValue="10"
-                InputProps={{ inputProps: { min: 10 } }}
-                onChange={(e) => setAmount(e.target.value)}
+        <Grid container spacing={2}>
+          {products &&
+            products.map((product) => (
+              <ItemListingCard
+                key={product.id}
+                product={product}
+                updateIngredients={updateIngredients}
+                chosenIngredients={chosenIngredients}
+                calculateTotalPrice={calculateTotalPrice}
               />
-            </div>
-          </CardContent>
-
-          <CardActions>
-            <Button size="small" color="secondary" onClick={handleSubmit}>
-              Add To Recipe List
-            </Button>
-          </CardActions>
-        </Card>
-        <ItemListingCard
-          product={product && product}
-          updateIngredients={updateIngredients}
-          chosenIngredients={chosenIngredients}
-        />
+            ))}
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two

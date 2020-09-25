@@ -53,6 +53,7 @@ const IngredientListing = (props) => {
   const { classes, recipeInfo, setRecipeInfo, setOpen } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
   const [listing, setListing] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     Service.ntucClient
@@ -70,10 +71,23 @@ const IngredientListing = (props) => {
       });
   }, []);
 
-  console.log(listing.product && listing.product[0]);
+  // console.log(listing.product && listing.product);
+
+  const calculateTotalPrice = () => {
+    let total = 0;
+    let i = 0;
+    for (i = 0; i < chosenIngredients.length; i += 1) {
+      total += parseFloat(chosenIngredients[i].estimatedPrice);
+    }
+    setTotalPrice(total);
+  };
+
+  useEffect(() => {
+    calculateTotalPrice();
+    console.log(chosenIngredients);
+  }, [chosenIngredients]);
 
   const deleteIngredient = (value) => {
-    console.log(chosenIngredients);
     updateIngredients(
       chosenIngredients.filter((item) => item.productId !== value)
     );
@@ -100,7 +114,8 @@ const IngredientListing = (props) => {
           <IngredientsTabs
             updateIngredients={updateIngredients}
             chosenIngredients={chosenIngredients}
-            product={listing.product && listing.product[0]}
+            products={listing.product}
+            calculateTotalPrice={calculateTotalPrice}
           />
         </Paper>
       </Grid>
@@ -135,10 +150,8 @@ const IngredientListing = (props) => {
                       </ListItemAvatar>
 
                       <ListItemText
-                        id={value.id}
-                        primary={`${value.name} ${
-                          value.selectedAmount
-                        }g $${value.estimatedPrice.toFixed(2)}`}
+                        id={value.productId}
+                        primary={`${value.name} ${value.selectedAmount}g $${value.estimatedPrice}`}
                       />
                       <ListItemSecondaryAction>
                         <IconButton
@@ -160,7 +173,7 @@ const IngredientListing = (props) => {
           </List>
           <div className={classes.separator} />
           <Typography variant="h5" className={classes.price}>
-            Total Price:{" "}
+            Total Price: ${totalPrice}
           </Typography>
           <Button onClick={handleSubmit}>Enter Group Buy</Button>
         </Paper>
