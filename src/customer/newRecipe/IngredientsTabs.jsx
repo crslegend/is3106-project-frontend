@@ -14,6 +14,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import ItemListingCard from "./ItemListingCard";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -58,10 +59,9 @@ const styles = (theme) => ({
 });
 
 const IngredientsTabs = (props) => {
-  const { classes, updateIngredients, chosenIngredients } = props;
+  const { classes, updateIngredients, chosenIngredients, product } = props;
   const [value, setValue] = useState(0);
   const [amount, setAmount] = useState();
-  // console.log(amount);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -121,6 +121,11 @@ const IngredientsTabs = (props) => {
             </Button>
           </CardActions>
         </Card>
+        <ItemListingCard
+          product={product && product}
+          updateIngredients={updateIngredients}
+          chosenIngredients={chosenIngredients}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two

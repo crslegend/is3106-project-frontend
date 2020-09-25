@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -15,9 +15,10 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import { Image, Delete, Edit } from "@material-ui/icons";
+import { Delete, Edit } from "@material-ui/icons";
 import NewRecipeForm from "./NewRecipeForm";
 import IngredientsTabs from "./IngredientsTabs";
+import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   title: {
@@ -50,15 +51,31 @@ const styles = (theme) => ({
 
 const IngredientListing = (props) => {
   const { classes, recipeInfo, setRecipeInfo, setOpen } = props;
-  const [chosenIngredients, updateIngredients] = useState([0, 1]);
+  const [chosenIngredients, updateIngredients] = useState([]);
+  const [listing, setListing] = useState([]);
+
+  useEffect(() => {
+    Service.ntucClient
+      .get("", {
+        params: {
+          category: "meat-seafood",
+          includeTagDetails: "true",
+          page: 1,
+          url: "meat-seafood",
+        },
+      })
+      .then((res) => {
+        // console.log(res.data.data.page.layouts[1].value.collection);
+        setListing(res.data.data.page.layouts[1].value.collection);
+      });
+  }, []);
+
+  console.log(listing.product && listing.product[0]);
 
   const deleteIngredient = (value) => {
-    // console.log(value);
-    const index = chosenIngredients.indexOf(value);
+    console.log(chosenIngredients);
     updateIngredients(
-      chosenIngredients.filter(
-        (item) => chosenIngredients.indexOf(item) !== index
-      )
+      chosenIngredients.filter((item) => item.productId !== value)
     );
   };
 
@@ -83,6 +100,7 @@ const IngredientListing = (props) => {
           <IngredientsTabs
             updateIngredients={updateIngredients}
             chosenIngredients={chosenIngredients}
+            product={listing.product && listing.product[0]}
           />
         </Paper>
       </Grid>
@@ -109,25 +127,24 @@ const IngredientListing = (props) => {
           <List>
             {chosenIngredients && chosenIngredients.length > 0 ? (
               chosenIngredients.map((value) => {
-                const labelId = `checkbox-list-label-${value}`;
                 return (
                   <Fragment>
-                    <ListItem key={value}>
+                    <ListItem key={value.productId}>
                       <ListItemAvatar>
-                        <Avatar>
-                          <Image />
-                        </Avatar>
+                        <Avatar src={value.imageURL} />
                       </ListItemAvatar>
 
                       <ListItemText
-                        id={labelId}
-                        primary={`Line item ${value + 1}`}
+                        id={value.id}
+                        primary={`${value.name} ${
+                          value.selectedAmount
+                        }g $${value.estimatedPrice.toFixed(2)}`}
                       />
                       <ListItemSecondaryAction>
                         <IconButton
                           edge="end"
                           aria-label="delete"
-                          onClick={() => deleteIngredient(value)}
+                          onClick={() => deleteIngredient(value.productId)}
                         >
                           <Delete />
                         </IconButton>
