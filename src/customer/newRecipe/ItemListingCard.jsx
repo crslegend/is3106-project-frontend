@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   TextField,
 } from "@material-ui/core";
@@ -32,6 +33,8 @@ const styles = makeStyles((theme) => ({
   media: {
     height: 0,
     paddingTop: "56.25%",
+    // maxHeight: "50%",
+    // maxWidth: "50%",
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
@@ -77,7 +80,6 @@ const styles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     "& h2": {
       textTransform: "capitalize",
-      fontSize: 25,
     },
   },
 }));
@@ -92,7 +94,7 @@ const ItemListingCard = (props) => {
   } = props;
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
-  // const [amount, setAmount] = useState();
+  const [cost, setCost] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -112,6 +114,12 @@ const ItemListingCard = (props) => {
         parseFloat(amount)
     );
 
+    if (isNaN(price)) {
+      setCost(0);
+    } else {
+      setCost(price);
+    }
+
     setSelectedItem({
       ...selectedItem,
       selectedAmount: amount,
@@ -121,6 +129,7 @@ const ItemListingCard = (props) => {
 
   const handleClose = () => {
     setOpen(false);
+    setCost(0);
     setSelectedItem();
   };
 
@@ -128,6 +137,7 @@ const ItemListingCard = (props) => {
     setOpen(false);
     chosenIngredients.push(selectedItem);
     updateIngredients([...chosenIngredients]);
+    setCost(0);
     setSelectedItem();
     calculateTotalPrice();
   };
@@ -162,9 +172,19 @@ const ItemListingCard = (props) => {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle className={classes.dialog}>Ingredient name</DialogTitle>
+        <DialogTitle className={classes.dialog}>
+          <CardMedia
+            className={classes.media}
+            image={product && product.images[0]}
+          />
+          {product.name} <br />${product.storeSpecificData[0].mrp}{" "}
+          {product.metaData.DisplayUnit}
+        </DialogTitle>
         <form>
           <DialogContent>
+            <DialogContentText>
+              Estimated Cost: ${cost.toFixed(3)}
+            </DialogContentText>
             <TextField
               autoFocus
               margin="dense"

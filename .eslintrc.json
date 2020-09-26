@@ -25,6 +25,7 @@
     "no-useless-return": "off",
     "no-console": "off",
     "implicit-arrow-linebreak": "off",
-    "function-paren-newline": "off"
+    "function-paren-newline": "off",
+    "no-restricted-globals": ["error", "event"]
   }
 }
