@@ -62,20 +62,6 @@ const styles = makeStyles((theme) => ({
       fontSize: 10,
     },
   },
-  cardWarning: {
-    display: "flex",
-    paddingLeft: "15px",
-    color: "#ED2939",
-    fontFamily: "Raleway",
-    fontWeight: 500,
-    fontSize: 16,
-    [theme.breakpoints.down("md")]: {
-      fontSize: 14,
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 12,
-    },
-  },
   dialog: {
     backgroundColor: theme.palette.primary.main,
     "& h2": {
