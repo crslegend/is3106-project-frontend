@@ -139,7 +139,7 @@ const ItemListingCard = (props) => {
     calculateTotalPrice();
   };
 
-  console.log(selectedItem);
+  // console.log(selectedItem);
 
   return (
     <Fragment>

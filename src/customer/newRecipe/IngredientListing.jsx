@@ -94,7 +94,10 @@ const IngredientListing = (props) => {
   };
 
   const handleSubmit = () => {
-    setRecipeInfo((recipeInfo.numbers = chosenIngredients));
+    if (recipeInfo.name === "" && recipeInfo.date === null) {
+      setOpen(true);
+    }
+    setRecipeInfo((recipeInfo.chosenIngredients = chosenIngredients));
     console.log(recipeInfo);
   };
 
