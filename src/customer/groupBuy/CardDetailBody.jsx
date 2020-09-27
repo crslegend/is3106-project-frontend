@@ -19,13 +19,9 @@ const styles = makeStyles((theme) => ({
   },
   card: {
     padding: theme.spacing(0, 2),
-    height: "60vh",
     variant: "outlined",
     textAlign: "center",
     background: fade("#E6BEAE", 0.5),
-    [theme.breakpoints.down("sm")]: {
-      height: "80vh",
-    },
   },
   icon: {
     background: fade(theme.palette.primary.main, 0.5),
@@ -48,12 +44,12 @@ const styles = makeStyles((theme) => ({
     },
   },
   media: {
-    height: "50vh",
+    height: "365px",
     width: "100%",
     margin: " 0px 30px",
     objectFit: "cover",
     [theme.breakpoints.down("sm")]: {
-      height: "30vh",
+      height: "250px",
       margin: " 0px 10px",
       width: "95%",
     },
@@ -144,7 +140,7 @@ const styles = makeStyles((theme) => ({
       fontSize: 16,
     },
     [theme.breakpoints.down("sm")]: {
-      fontSize: 10,
+      fontSize: 13,
       padding: 8,
       marginTop: 10,
     },
@@ -267,7 +263,7 @@ const CardDetailBody = () => {
               </Grid>
             </Grid>
           </Card>
-          <Button className={classes.buyButton}>
+          <Button className={classes.buyButton} href="/payment">
             <ShoppingCartIcon className={classes.iconGroupBuy} />
             Enter Group Buy
           </Button>
