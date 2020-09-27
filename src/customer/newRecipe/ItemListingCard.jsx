@@ -154,7 +154,9 @@ const ItemListingCard = (props) => {
               {product && product.name}
             </Typography>
             <Typography className={classes.cardBody}>
-              ${product && product.storeSpecificData[0].mrp}
+              $
+              {product &&
+                parseFloat(product.storeSpecificData[0].mrp).toFixed(2)}
             </Typography>
             <Typography className={classes.cardBody}>
               {product && product.metaData.DisplayUnit}
