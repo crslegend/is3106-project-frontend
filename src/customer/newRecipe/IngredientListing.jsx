@@ -18,7 +18,6 @@ import {
 import { Delete, Edit } from "@material-ui/icons";
 import NewRecipeForm from "./NewRecipeForm";
 import IngredientsTabs from "./IngredientsTabs";
-import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   title: {
@@ -52,25 +51,25 @@ const styles = (theme) => ({
 const IngredientListing = (props) => {
   const { classes, recipeInfo, setRecipeInfo, setOpen } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
-  const [listing, setListing] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    Service.ntucClient
-      .get("", {
-        params: {
-          category: "meat-seafood",
-          includeTagDetails: "true",
-          page: 1,
-          url: "meat-seafood",
-        },
-      })
-      .then((res) => {
-        // console.log(res.data.data.page.layouts[1].value.collection);
-        setListing(res.data.data.page.layouts[1].value.collection);
-      });
-  }, []);
+  // useEffect(() => {
+  //   Service.ntucClient
+  //     .get("", {
+  //       params: {
+  //         category: "meat-seafood",
+  //         includeTagDetails: "true",
+  //         page: 1,
+  //         url: "meat-seafood",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       // console.log(res.data.data.page.layouts[1].value.collection);
+  //       setListing(res.data.data.page.layouts[1].value.collection);
+  //     });
+  // }, []);
 
+  // console.log(listing);
   // console.log(listing.product && listing.product);
 
   const calculateTotalPrice = () => {
@@ -117,7 +116,6 @@ const IngredientListing = (props) => {
           <IngredientsTabs
             updateIngredients={updateIngredients}
             chosenIngredients={chosenIngredients}
-            products={listing.product}
             calculateTotalPrice={calculateTotalPrice}
           />
         </Paper>

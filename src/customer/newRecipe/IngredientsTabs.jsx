@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { AppBar, Box, Container, Grid, Tab, Tabs } from "@material-ui/core";
+import InfiniteScroll from "react-infinite-scroll-component";
 import ItemListingCard from "./ItemListingCard";
+import getListing from "./getListing";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -51,14 +53,45 @@ const IngredientsTabs = (props) => {
     classes,
     updateIngredients,
     chosenIngredients,
-    products,
     calculateTotalPrice,
   } = props;
   const [value, setValue] = useState(0);
-  // const [amount, setAmount] = useState();
+  const [page, setPage] = useState(1);
+  const [paginationInfo, setPaginationInfo] = useState();
+  const [hasMore, setHasMore] = useState(true);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    let listing = null;
+    const getItems = async () => {
+      listing = await getListing(page);
+      console.log(listing);
+      setPage(page + 1);
+      setPaginationInfo(listing.pagination);
+      setProducts(listing.product);
+    };
+    getItems();
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const fetchMoreData = () => {
+    setPage(page + 1);
+    if (page > paginationInfo.total_pages) {
+      setHasMore(false);
+      return;
+    }
+
+    let listing = null;
+    const getItems = async () => {
+      listing = await getListing(page);
+      // console.log(listing);
+      setProducts(products.concat(listing.product));
+    };
+    getItems();
+    // console.log(page);
   };
 
   // const handleSubmit = () => {
@@ -88,18 +121,30 @@ const IngredientsTabs = (props) => {
           <Tab label="Item Seven" />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel
+        value={value}
+        index={0}
+        id="scrollableDiv"
+        style={{ height: 500, overflow: "auto" }}
+      >
         <Grid container spacing={2}>
-          {products &&
-            products.map((product) => (
-              <ItemListingCard
-                key={product.id}
-                product={product}
-                updateIngredients={updateIngredients}
-                chosenIngredients={chosenIngredients}
-                calculateTotalPrice={calculateTotalPrice}
-              />
-            ))}
+          <InfiniteScroll
+            dataLength={page}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            scrollableTarget="scrollableDiv"
+          >
+            {products &&
+              products.map((product) => (
+                <ItemListingCard
+                  key={product.id}
+                  product={product && product}
+                  updateIngredients={updateIngredients}
+                  chosenIngredients={chosenIngredients}
+                  calculateTotalPrice={calculateTotalPrice}
+                />
+              ))}
+          </InfiniteScroll>
         </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
