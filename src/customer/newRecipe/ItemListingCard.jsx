@@ -88,17 +88,28 @@ const ItemListingCard = (props) => {
       name: product.name,
       productId: product.id,
       imageURL: product.images[0],
-      amount: product.metaData.DisplayUnit,
+      amount: product.metaData["Unit Of Weight"]
+        ? product.metaData["Unit Of Weight"].replace(/ +/g, "")
+        : product.metaData.DisplayUnit.replace(/ +/g, ""),
       price: product.storeSpecificData[0].mrp,
     });
   };
 
   const setAmount = (amount) => {
-    const price = parseFloat(
-      (parseFloat(selectedItem.price) /
-        parseFloat(selectedItem.amount.replace(/\D/g, ""))) *
-        parseFloat(amount)
-    );
+    let price = 0;
+    if (selectedItem.amount.endsWith("g")) {
+      price = parseFloat(
+        (parseFloat(selectedItem.price) /
+          parseFloat(selectedItem.amount.replace(/\D/g, ""))) *
+          parseFloat(amount)
+      );
+    } else {
+      price = parseFloat(
+        (parseFloat(selectedItem.price) /
+          (parseFloat(selectedItem.amount.replace(/\D/g, "")) * 1000)) *
+          parseFloat(amount)
+      );
+    }
 
     if (isNaN(price)) {
       setCost(0);
