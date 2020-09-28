@@ -23,7 +23,7 @@ const Routes = (props) => (
       <Route path="/viewdetails" render={() => <CardDetailPage {...props} />} />
       <Route path="/profile" render={() => <ProfilePage {...props} />} />
       <Route path="/editprofile" render={() => <EditProfilePage {...props} />} />
-      <Route exact path="/admin" render={() => <AdminLandingPage />} />
+      <Route path="/admin" render={() => <AdminLandingPage {...props} />} />
     </Switch>
   </Router>
 );

@@ -18,7 +18,7 @@ const AdminLandingPage = (props) => {
       vertical: "top",
       horizontal: "center",
     },
-    autoHideDuration: 5000,
+    autoHideDuration: 3000,
   });
 
   return (
@@ -26,7 +26,7 @@ const AdminLandingPage = (props) => {
       <Switch>
         <Route
           exact
-          path={`${path}/`}
+          path={`${path}`}
           render={() => <VendorLogin {...props} setSbOpen={setOpen} snackbar={snackbar} setSnackbar={setSnackbar} />}
         />
         <PrivateRoute path={`${path}/dashboard`} render={() => <VendorDashboard {...props} />} />

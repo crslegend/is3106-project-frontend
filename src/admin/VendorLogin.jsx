@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -50,6 +52,9 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
   const [passwordError, setPasswordError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // react router dom history
+  const history = useHistory();
+
   // handle form submit
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent html form refresh
@@ -71,21 +76,40 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
     }
     if (error) return;
 
-    console.info(loginDetails);
     setLoading(true);
 
     // calling backend login api
     Service.client
       .post("/api/token/", loginDetails)
       .then((res) => {
-        setSnackbar({
-          ...snackbar,
-          message: "Login Successful",
-          severity: "success"
-        });
-        setSbOpen(true);
-        setLoading(false);
+        // store JWT
         Service.storeCredentials(res.data);
+
+        // check if is vendor
+        Service.client.get("/auth/get_current_user").then((res) => {
+          if (!res.data.is_vendor) {
+            setSnackbar({
+              ...snackbar,
+              message: "Invalid login",
+              severity: "error",
+            });
+            setSbOpen(true);
+            setLoading(false);
+
+            Service.removeCredentials();
+          } else {
+            setSnackbar({
+              ...snackbar,
+              message: "Login Successful",
+              severity: "success",
+            });
+            setSbOpen(true);
+            setLoading(false);
+
+            // redirect to dashboard
+            history.push("/admin/dashboard");
+          }
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -98,6 +122,13 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
         setLoading(false);
       });
   };
+
+  // // redirect to dashboard if user is logged in
+  // useEffect(() => {
+  //   if (Cookies.get("t1") && Cookies.get("t2")) {
+  //     history.push("/admin/dashboard");
+  //   }
+  // });
 
   return (
     <Fragment>
