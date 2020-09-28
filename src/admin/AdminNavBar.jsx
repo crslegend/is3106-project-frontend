@@ -3,9 +3,11 @@ import clsx from "clsx";
 import AppBar from "../components/AppBar";
 import Link from "@material-ui/core/Link";
 import Toolbar from "@material-ui/core/Toolbar";
+import MenuIcon from "@material-ui/icons/Menu";
+import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -13,27 +15,35 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 24,
     textAlign: "center",
   },
-  toolbar: {
-    justifyContent: "center",
+  appBar: {
+    [theme.breakpoints.up("md")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
   },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: window.innerWidth * 0.3,
-    zIndex: theme.zIndex.drawer + 1,
+  menuButton: {
+    marginRight: "5px",
+    justifySelf: "flex-start",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
 }));
 
-const AdminNavBar = ({ menuOpen }) => {
+const AdminNavBar = ({ handleDrawerToggle }) => {
   const classes = useStyles();
-
   return (
-    <AppBar
-      position="fixed"
-      className={clsx({
-        [classes.appBarShift]: menuOpen,
-      })}
-    >
+    <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
         <Link variant="h6" underline="none" className={classes.title} href="/admin">
           Sashimi - Vendor Portal
         </Link>
