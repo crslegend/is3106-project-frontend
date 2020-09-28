@@ -81,35 +81,46 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
     // calling backend login api
     Service.client
       .post("/api/token/", loginDetails)
-      .then((res) => {
-        // store JWT
-        Service.storeCredentials(res.data);
-
+      .then((res1) => {
         // check if is vendor
-        Service.client.get("/auth/get_current_user").then((res) => {
-          if (!res.data.is_vendor) {
-            setSnackbar({
-              ...snackbar,
-              message: "Invalid login",
-              severity: "error",
-            });
-            setSbOpen(true);
-            setLoading(false);
+        Service.baseClient
+          .get("/auth/get_current_user", {
+            headers: {
+              Authorization: `Bearer ${res1.data.access}`,
+            },
+          })
+          .then((res2) => {
+            if (!res2.data.is_vendor) {
+              setSnackbar({
+                ...snackbar,
+                message: "Invalid login",
+                severity: "error",
+              });
+              setSbOpen(true);
+              setLoading(false);
+            } else {
+              Service.storeCredentials(res1.data);
+              setSnackbar({
+                ...snackbar,
+                message: "Login Successful",
+                severity: "success",
+              });
+              setSbOpen(true);
+              setLoading(false);
 
-            Service.removeCredentials();
-          } else {
-            setSnackbar({
-              ...snackbar,
-              message: "Login Successful",
-              severity: "success",
-            });
-            setSbOpen(true);
-            setLoading(false);
-
-            // redirect to dashboard
-            history.push("/admin/dashboard");
-          }
+              // redirect to dashboard
+              history.push("/admin/dashboard");
+            }
+          });
+      })
+      .catch((err) => {
+        setSnackbar({
+          ...snackbar,
+          message: "Something went wrong",
+          severity: "error",
         });
+        setSbOpen(true);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);

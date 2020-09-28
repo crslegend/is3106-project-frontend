@@ -36,8 +36,6 @@ const AdminNavBar = ({ handleDrawerToggle }) => {
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <IconButton
-          color="inherit"
-          aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
           className={classes.menuButton}

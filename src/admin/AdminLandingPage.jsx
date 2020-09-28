@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useRouteMatch, Redirect } from "react-router-dom";
 
 import withRoot from "../constants/withRoot";
 import PrivateRoute from "../components/PrivateRoute";

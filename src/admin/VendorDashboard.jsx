@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Typography from "../components/Typography";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -8,11 +9,14 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
+
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import SettingsIcon from "@material-ui/icons/Settings";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import AdminNavBar from "./AdminNavBar";
+import Service from "../AxiosService";
 
 const mobileView = window.innerWidth < 900;
 
@@ -45,10 +49,18 @@ const VendorDashboard = (props) => {
   const { window } = props;
   const classes = useStyles();
 
+  // react router dom history
+  const history = useHistory();
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleLogout = () => {
+    Service.removeCredentials();
+    history.push("/admin");
   };
 
   const menu = (
@@ -56,7 +68,7 @@ const VendorDashboard = (props) => {
       <div className={classes.toolbar}>
         <Divider />
         <List>
-          <ListItem button>
+          <ListItem button onClick={() => console.log("clicked")}>
             <ListItemIcon className={classes.icon}>
               <ShoppingBasketIcon />
             </ListItemIcon>
@@ -73,6 +85,12 @@ const VendorDashboard = (props) => {
               <SettingsIcon />
             </ListItemIcon>
             <ListItemText primary="Settings" />
+          </ListItem>
+          <ListItem button onClick={handleLogout}>
+            <ListItemIcon className={classes.icon}>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
           </ListItem>
         </List>
       </div>
@@ -115,7 +133,11 @@ const VendorDashboard = (props) => {
           </Drawer>
         </Hidden>
       </nav>
-      <div className={classes.root}>Dashboard</div>
+      <div className={classes.root}>
+        <Switch>
+          <Route />
+        </Switch>
+      </div>
     </Fragment>
   );
 };
