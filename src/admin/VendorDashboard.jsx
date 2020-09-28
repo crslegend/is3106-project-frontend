@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
-import Typography from "../components/Typography";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, NavLink, BrowserRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -17,8 +16,9 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import AdminNavBar from "./AdminNavBar";
 import Service from "../AxiosService";
-
-const mobileView = window.innerWidth < 900;
+import VendorGroupBuyList from "./DashboardComponents/VendorGroupBuyList";
+import VendorRecipeList from "./DashboardComponents/VendorRecipeList";
+import VendorSettings from "./DashboardComponents/VendorSettings";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,16 +43,19 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "auto",
     marginRight: "10px",
   },
+  activeMenuItem: {
+    backgroundColor: "rgba(237, 208, 197, 0.6)",
+  },
 }));
 
 const VendorDashboard = (props) => {
   const { window } = props;
   const classes = useStyles();
 
-  // react router dom history
+  // get history and current path
   const history = useHistory();
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -68,19 +71,31 @@ const VendorDashboard = (props) => {
       <div className={classes.toolbar}>
         <Divider />
         <List>
-          <ListItem button onClick={() => console.log("clicked")}>
+          <ListItem button component={NavLink} exact to={"/admin/dashboard"} activeClassName={classes.activeMenuItem}>
             <ListItemIcon className={classes.icon}>
               <ShoppingBasketIcon />
             </ListItemIcon>
             <ListItemText primary="Groupbuys" />
           </ListItem>
-          <ListItem button>
+          <ListItem
+            button
+            component={NavLink}
+            exact
+            to={"/admin/dashboard/recipes"}
+            activeClassName={classes.activeMenuItem}
+          >
             <ListItemIcon className={classes.icon}>
               <FastfoodIcon />
             </ListItemIcon>
             <ListItemText primary="Recipes" />
           </ListItem>
-          <ListItem button>
+          <ListItem
+            button
+            component={NavLink}
+            exact
+            to={"/admin/dashboard/settings"}
+            activeClassName={classes.activeMenuItem}
+          >
             <ListItemIcon className={classes.icon}>
               <SettingsIcon />
             </ListItemIcon>
@@ -102,42 +117,46 @@ const VendorDashboard = (props) => {
   return (
     <Fragment>
       <AdminNavBar handleDrawerToggle={handleDrawerToggle} />
-      <nav className={classes.drawer}>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden mdUp implementation="js">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor="left"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {menu}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="js">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {menu}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <div className={classes.root}>
-        <Switch>
-          <Route />
-        </Switch>
-      </div>
+      <BrowserRouter>
+        <nav className={classes.drawer}>
+          <Hidden mdUp implementation="js">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor="left"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true,
+              }}
+            >
+              {menu}
+            </Drawer>
+          </Hidden>
+          <Hidden smDown implementation="js">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {menu}
+            </Drawer>
+          </Hidden>
+        </nav>
+
+        <div className={classes.root}>
+          <Switch>
+            <Route exact path={`/admin/dashboard`} render={() => <VendorGroupBuyList />} />
+            <Route path={`/admin/dashboard/recipes`} render={() => <VendorRecipeList />} />
+            <Route path={`/admin/dashboard/settings`} render={() => <VendorSettings />} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     </Fragment>
   );
 };

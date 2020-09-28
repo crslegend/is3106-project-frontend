@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import AppBar from "../components/AppBar";
 import Link from "@material-ui/core/Link";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -28,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  subscript: {
+    fontSize: "small",
+  },
 }));
 
 const AdminNavBar = ({ handleDrawerToggle }) => {
@@ -35,15 +37,11 @@ const AdminNavBar = ({ handleDrawerToggle }) => {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <IconButton
-          edge="start"
-          onClick={handleDrawerToggle}
-          className={classes.menuButton}
-        >
+        <IconButton edge="start" onClick={handleDrawerToggle} className={classes.menuButton}>
           <MenuIcon />
         </IconButton>
         <Link variant="h6" underline="none" className={classes.title} href="/admin">
-          Sashimi - Vendor Portal
+          Sashimi <sub className={classes.subscript}>Vendor</sub>
         </Link>
       </Toolbar>
     </AppBar>

@@ -30,6 +30,7 @@ const AdminLandingPage = (props) => {
           render={() => <VendorLogin {...props} setSbOpen={setOpen} snackbar={snackbar} setSnackbar={setSnackbar} />}
         />
         <PrivateRoute path={`${path}/dashboard`} render={() => <VendorDashboard {...props} />} />
+        <Redirect from={`${path}/*`} to={`${path}`} />
       </Switch>
       <Toast open={open} setOpen={setOpen} {...snackbar} />
     </Fragment>
