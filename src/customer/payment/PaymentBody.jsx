@@ -41,9 +41,12 @@ const styles = (theme) => ({
     },
   },
   divide: {
-    marginBottom: "20px",
+    marginBottom: "10px",
     height: "2px",
     backgroundColor: "white",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "5px",
+    },
   },
   payForm: {
     background: fade("#E6BEAE", 0.5),
