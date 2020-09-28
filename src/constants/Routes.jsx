@@ -10,29 +10,20 @@ import EditProfilePage from "../customer/userProfile/EditProfilePage";
 import GroupBuyPage from "../customer/groupBuy/GroupBuyPage";
 import NewRecipePage from "../customer/newRecipe/NewRecipePage";
 import CardDetailPage from "../customer/groupBuy/CardDetailPage";
+import AdminLandingPage from "../admin/AdminLandingPage";
 
 const Routes = (props) => (
   <Router>
     <Switch>
       <Route exact path="/" render={() => <LandingPage {...props} />} />
-      <Route
-        exact
-        path="/login"
-        render={() => <LoginRegisterPage {...props} />}
-      />
-      <Route
-        exact
-        path="/forgetpassword"
-        render={() => <ForgetPasswordPage {...props} />}
-      />
+      <Route exact path="/login" render={() => <LoginRegisterPage {...props} />} />
+      <Route exact path="/forgetpassword" render={() => <ForgetPasswordPage {...props} />} />
       <Route path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
       <Route path="/newrecipe" render={() => <NewRecipePage {...props} />} />
       <Route path="/viewdetails" render={() => <CardDetailPage {...props} />} />
       <Route path="/profile" render={() => <ProfilePage {...props} />} />
-      <Route
-        path="/editprofile"
-        render={() => <EditProfilePage {...props} />}
-      />
+      <Route path="/editprofile" render={() => <EditProfilePage {...props} />} />
+      <Route exact path="/admin" render={() => <AdminLandingPage />} />
     </Switch>
   </Router>
 );
