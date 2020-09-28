@@ -123,12 +123,12 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
       });
   };
 
-  // // redirect to dashboard if user is logged in
-  // useEffect(() => {
-  //   if (Cookies.get("t1") && Cookies.get("t2")) {
-  //     history.push("/admin/dashboard");
-  //   }
-  // });
+  // redirect to dashboard if user is logged in
+  useEffect(() => {
+    if (Cookies.get("t1") && Cookies.get("t2")) {
+      history.push("/admin/dashboard");
+    }
+  });
 
   return (
     <Fragment>
