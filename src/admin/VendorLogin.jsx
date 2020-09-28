@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -35,10 +35,11 @@ const useStyles = makeStyles((theme) => ({
   },
   helperText: {
     margin: "5px 0",
+    color: "error",
   },
 }));
 
-const VendorLogin = () => {
+const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
   const classes = useStyles();
 
   const [loginDetails, setLoginDetails] = useState({
@@ -49,7 +50,10 @@ const VendorLogin = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  // handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault(); // prevent html form refresh
+
     // simple login form validation
     let error = false;
     if (loginDetails.email === "" || !loginDetails.email.includes("@")) {
@@ -71,77 +75,95 @@ const VendorLogin = () => {
     setLoading(true);
 
     // calling backend login api
-    Service.client.post("/api/token/", loginDetails).then((res) => console.log(res));
+    Service.client
+      .post("/api/token/", loginDetails)
+      .then((res) => {
+        setSnackbar({
+          ...snackbar,
+          message: "Login Successful",
+          severity: "success"
+        });
+        setSbOpen(true);
+        setLoading(false);
+        Service.storeCredentials(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSnackbar({
+          ...snackbar,
+          message: "Invalid credentials",
+          severity: "error",
+        });
+        setSbOpen(true);
+        setLoading(false);
+      });
   };
 
   return (
-    <Container maxWidth="xs">
-      <Paper className={classes.paper} elevation={0} variant="outlined">
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography variant="h5">Vendor Login</Typography>
+    <Fragment>
+      <Container maxWidth="xs">
+        <Paper className={classes.paper} elevation={0} variant="outlined">
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography variant="h5">Vendor Login</Typography>
 
-        <form className={classes.form} noValidate>
-          <TextField
-            className={classes.input}
-            id="email"
-            fullWidth
-            autoFocus
-            margin="normal"
-            variant="outlined"
-            label="Email"
-            name="email"
-            required
-            value={loginDetails.email}
-            onChange={(event) =>
-              setLoginDetails({
-                ...loginDetails,
-                email: event.target.value,
-              })
-            }
-            error={emailError}
-            helperText={
-              emailError && (
-                <Typography variant="subtitle" color="error">
-                  Enter a valid email
-                </Typography>
-              )
-            }
-            FormHelperTextProps={{ classes: { root: classes.helperText } }}
-          />
-          <TextField
-            className={classes.input}
-            id="password"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            label="Password"
-            type="password"
-            required
-            value={loginDetails.password}
-            onChange={(event) =>
-              setLoginDetails({
-                ...loginDetails,
-                password: event.target.value,
-              })
-            }
-            error={passwordError}
-            helperText={
-              passwordError && (
-                <Typography variant="subtitle" color="error">
-                  Enter a password
-                </Typography>
-              )
-            }
-            FormHelperTextProps={{ classes: { root: classes.helperText } }}
-          />
-          <Button className={classes.button} variant="contained" fullWidth color="primary" onClick={handleSubmit}>
-            {loading ? <CircularProgress size={30} color="secondary" /> : "Login"}
-          </Button>
-        </form>
-      </Paper>
-    </Container>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <TextField
+              className={classes.input}
+              id="email"
+              fullWidth
+              autoFocus
+              margin="normal"
+              variant="outlined"
+              label="Email"
+              name="email"
+              required
+              value={loginDetails.email}
+              onChange={(event) =>
+                setLoginDetails({
+                  ...loginDetails,
+                  email: event.target.value,
+                })
+              }
+              error={emailError}
+              helperText={emailError && "Enter a valid email"}
+              FormHelperTextProps={{ classes: { root: classes.helperText } }}
+            />
+            <TextField
+              className={classes.input}
+              id="password"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              label="Password"
+              type="password"
+              required
+              value={loginDetails.password}
+              onChange={(event) =>
+                setLoginDetails({
+                  ...loginDetails,
+                  password: event.target.value,
+                })
+              }
+              error={passwordError}
+              helperText={passwordError && "Enter a password"}
+              FormHelperTextProps={{ classes: { root: classes.helperText } }}
+            />
+            <Button
+              type="submit"
+              className={classes.button}
+              variant="contained"
+              fullWidth
+              color="primary"
+              onClick={handleSubmit}
+            >
+              {loading ? <CircularProgress size={30} color="secondary" /> : "Login"}
+            </Button>
+          </form>
+        </Paper>
+      </Container>
+    </Fragment>
   );
 };
 
