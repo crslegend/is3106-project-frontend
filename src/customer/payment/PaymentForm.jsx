@@ -1,7 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid, TextField } from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  Button,
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@material-ui/core";
 import useForm from "./UseForm";
 
 const styles = (theme) => ({
@@ -12,27 +21,27 @@ const styles = (theme) => ({
       borderRadius: "10px",
 
       textAlign: "center",
-      fontSize: 15,
+      fontSize: 18,
       padding: "8px 10px",
       [theme.breakpoints.down("sm")]: {
-        fontSize: 10,
+        fontSize: 15,
         padding: "8px 1px",
       },
     },
     "& Option": {
-      fontSize: 15,
+      fontSize: 18,
       [theme.breakpoints.down("sm")]: {
-        fontSize: 10,
+        fontSize: 15,
       },
     },
     // ammend active
     "& Select": {
       backgroundColor: "white",
       borderRadius: "10px",
-      fontSize: 15,
+      fontSize: 18,
       padding: "8px 10px",
       [theme.breakpoints.down("sm")]: {
-        fontSize: 13,
+        fontSize: 15,
         paddingTop: "4px",
         padding: "8px 5px",
       },
@@ -45,15 +54,23 @@ const styles = (theme) => ({
       padding: theme.spacing(0.5, 0.5),
     },
     "& label": {
-      fontSize: 15,
+      fontSize: 18,
       padding: "8px 10px",
       marginLeft: "10px",
       [theme.breakpoints.down("sm")]: {
-        fontSize: 12,
+        fontSize: 15,
         padding: "8px 1px",
         marginLeft: "5px",
       },
     },
+  },
+  button: {
+    margin: "10px 20px",
+    backgroundColor: "#E6BEAE",
+    color: "white",
+  },
+  dialog: {
+    textAlign: "center",
   },
 });
 
@@ -79,12 +96,27 @@ const payments = [
 
 const PaymentForm = (props) => {
   const { classes } = props;
-  const { values, handleInputChange } = useForm(initialValues);
+  const { values, resetForm, handleInputChange } = useForm(initialValues);
 
   const [payment, setPayment] = React.useState("CARD");
+  const [open, setOpen] = React.useState(false);
 
   const handleChange = (event) => {
     setPayment(event.target.value);
+  };
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = (event) => {
+    setOpen(false);
+    event.preventDefault();
+    resetForm();
   };
 
   return (
@@ -199,6 +231,31 @@ const PaymentForm = (props) => {
           </TextField>
         </Grid>
       </Grid>
+      <Box textAlign="right">
+        <Button
+          className={classes.button}
+          onClick={handleOpenDialog}
+          variant="outlined"
+        >
+          Confirm
+        </Button>
+        <Dialog open={open} onCancel={handleClose}>
+          <DialogTitle className={classes.dialog}>
+            Do you want to submit?
+          </DialogTitle>
+          <DialogContent>
+            Please confirm your order form and click okay.
+          </DialogContent>
+          <DialogActions>
+            <Button type="button" onclick={handleSubmit}>
+              Okay
+            </Button>
+            <Button type="button" onClick={handleClose}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </form>
   );
 };

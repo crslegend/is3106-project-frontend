@@ -57,21 +57,84 @@ const styles = (theme) => ({
       marginBottom: "5px",
     },
   },
+  item2: {
+    [theme.breakpoints.down("sm")]: {
+      order: 1,
+    },
+  },
+  item1: {
+    [theme.breakpoints.down("sm")]: {
+      order: 2,
+    },
+  },
   payForm: {
     background: fade("#E6BEAE", 0.5),
     width: "100%",
   },
   media: {
-    height: "150px",
+    height: "140px",
     width: "80%",
-    margin: "20px 45px",
+    margin: "6px 45px 0px",
     objectFit: "cover",
     [theme.breakpoints.down("md")]: {
-      margin: "20px 30px",
+      margin: "6px 30px 0px",
     },
     [theme.breakpoints.down("sm")]: {
       height: "100px",
-      margin: "10px 20px",
+      margin: "10px 15px",
+    },
+  },
+  summaryLeft: {
+    display: "inline",
+    float: "left",
+    marginRight: "20px",
+    marginLeft: "18px",
+    textTransform: "none",
+    [theme.breakpoints.down("md")]: {
+      marginRight: "5px",
+      marginLeft: "5px",
+      fontSize: "15px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "3px",
+      marginLeft: "5px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "-10px",
+      fontSize: "12px",
+    },
+  },
+  summaryRight: {
+    display: "inline",
+    float: "right",
+    marginRight: "15px",
+    marginLeft: "20px",
+    [theme.breakpoints.down("md")]: {
+      marginRight: "5px",
+      marginLeft: "10px",
+      fontSize: "15px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "3px",
+      marginLeft: "5px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "3px",
+      marginRight: "0px",
+      fontSize: "12px",
+    },
+  },
+  summaryDivide: {
+    marginTop: "10px",
+    height: "1px",
+    width: "95%",
+    backgroundColor: "white",
+    [theme.breakpoints.down("md")]: {
+      width: "90%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "15px",
+      marginLeft: "4px",
     },
   },
 });
@@ -92,7 +155,7 @@ const PaymentBody = (props) => {
         </Grid>
         <Grid item xs={10}>
           <Grid container spacing={3}>
-            <Grid item xs={10} md={6}>
+            <Grid item xs={10} md={6} className={classes.item1}>
               <Card className={classes.payForm}>
                 <CardContent className={classes.title}>
                   Check Out Details
@@ -101,35 +164,67 @@ const PaymentBody = (props) => {
                 <PaymentForm />
               </Card>
             </Grid>
-            <Grid item xs={10} md={4}>
+            <Grid item xs={10} md={4} className={classes.item2}>
               <Card className={classes.payForm}>
                 <CardContent className={classes.title}>
                   Group Buy Summary
                 </CardContent>
                 <Divider classes={{ root: classes.divide }} />
                 <Grid container>
-                  <Grid xs={6} md={12}>
+                  <Grid xs={5} md={12}>
                     <CardMedia
                       className={classes.media}
                       image={image}
                       title="Grilled Lamb Chop"
                     />
                   </Grid>
-                  <Grid xs={6} md={12}>
+                  <Grid xs={7} md={12}>
                     <CardContent>
-                      <Typography display="inline">
+                      <Typography
+                        variant="h6"
+                        fontWeight="900"
+                        className={classes.summaryLeft}
+                      >
                         Grilled Lamb Chop
                       </Typography>
-                      <Typography display="inline">$9.00</Typography>
+                      <Typography
+                        variant="body1"
+                        className={classes.summaryRight}
+                      >
+                        $9.00
+                      </Typography>
                     </CardContent>
                     <CardContent>
-                      <Typography display="inline">Delivery Fee</Typography>
-                      <Typography display="inline">$2.00</Typography>
+                      <Typography
+                        variant="body1"
+                        className={classes.summaryLeft}
+                      >
+                        Delivery Fee
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        className={classes.summaryRight}
+                      >
+                        $2.00
+                      </Typography>
                     </CardContent>
-                    <Divider classes={{ root: classes.divide }} />
+                    <Divider
+                      variant="middle"
+                      classes={{ root: classes.summaryDivide }}
+                    />
                     <CardContent>
-                      <Typography display="inline">Total Amount:</Typography>
-                      <Typography display="inline">$11.00</Typography>
+                      <Typography
+                        variant="body1"
+                        className={classes.summaryLeft}
+                      >
+                        Total Amount:
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        className={classes.summaryRight}
+                      >
+                        $11.00
+                      </Typography>
                     </CardContent>
                   </Grid>
                 </Grid>
