@@ -61,11 +61,30 @@ const IngredientsTabs = (props) => {
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState([]);
 
+  // for changing between tabs
   useEffect(() => {
+    console.log("change");
+    let listing = null;
+    setProducts([]);
+    const getItems = async () => {
+      setPage(1);
+      // console.log(page);
+      listing = await getListing(1, value);
+      setPage(1 + 1);
+      setPaginationInfo(listing.pagination);
+      setProducts(listing.product);
+      console.log(listing);
+    };
+    getItems();
+  }, [value]);
+  console.log(page);
+
+  // for loading more pages of data
+  useEffect(() => {
+    console.log("load more data");
     let listing = null;
     const getItems = async () => {
-      listing = await getListing(page);
-      console.log(listing);
+      listing = await getListing(page, value);
       setPage(page + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
@@ -74,6 +93,7 @@ const IngredientsTabs = (props) => {
   }, []);
 
   const handleChange = (event, newValue) => {
+    event.preventDefault();
     setValue(newValue);
   };
 
@@ -86,20 +106,13 @@ const IngredientsTabs = (props) => {
 
     let listing = null;
     const getItems = async () => {
-      listing = await getListing(page);
+      listing = await getListing(page, value);
       // console.log(listing);
       setProducts(products.concat(listing.product));
     };
     getItems();
     // console.log(page);
   };
-
-  // const handleSubmit = () => {
-  //   chosenIngredients.push(parseInt(amount, 10));
-  //   // console.log(chosenIngredients);
-  //   console.log(amount);
-  //   updateIngredients([...chosenIngredients]);
-  // };
 
   return (
     <div className={classes.root}>
@@ -113,8 +126,8 @@ const IngredientsTabs = (props) => {
           scrollButtons="auto"
         >
           <Tab label="Meat and Seafood" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
+          <Tab label="Vegetables" />
+          <Tab label="Dairy, Chilled and Eggs" />
           <Tab label="Item Four" />
           <Tab label="Item Five" />
           <Tab label="Item Six" />
@@ -124,6 +137,60 @@ const IngredientsTabs = (props) => {
       <TabPanel
         value={value}
         index={0}
+        id="scrollableDiv"
+        style={{ height: 500, overflow: "auto" }}
+      >
+        <Grid container spacing={2}>
+          <InfiniteScroll
+            dataLength={page}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            scrollableTarget="scrollableDiv"
+            scrollThreshold={0.9}
+          >
+            {products &&
+              products.map((product) => (
+                <ItemListingCard
+                  key={product.id}
+                  product={product && product}
+                  updateIngredients={updateIngredients}
+                  chosenIngredients={chosenIngredients}
+                  calculateTotalPrice={calculateTotalPrice}
+                />
+              ))}
+          </InfiniteScroll>
+        </Grid>
+      </TabPanel>
+      <TabPanel
+        value={value}
+        index={1}
+        id="scrollableDiv1"
+        style={{ height: 500, overflow: "auto" }}
+      >
+        <Grid container spacing={2}>
+          <InfiniteScroll
+            dataLength={page}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            scrollableTarget="scrollableDiv1"
+            scrollThreshold={0.9}
+          >
+            {products &&
+              products.map((product) => (
+                <ItemListingCard
+                  key={product.id}
+                  product={product && product}
+                  updateIngredients={updateIngredients}
+                  chosenIngredients={chosenIngredients}
+                  calculateTotalPrice={calculateTotalPrice}
+                />
+              ))}
+          </InfiniteScroll>
+        </Grid>
+      </TabPanel>
+      <TabPanel
+        value={value}
+        index={2}
         id="scrollableDiv"
         style={{ height: 500, overflow: "auto" }}
       >
@@ -146,12 +213,6 @@ const IngredientsTabs = (props) => {
               ))}
           </InfiniteScroll>
         </Grid>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Four
