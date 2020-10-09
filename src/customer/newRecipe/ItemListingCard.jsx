@@ -20,8 +20,9 @@ const styles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     flexShrink: 1,
-    margin: 15,
-    width: "19vw",
+    marginTop: 10,
+    marginBottom: 10,
+    width: "13vw",
     [theme.breakpoints.down("md")]: {
       width: "25vw",
     },
@@ -37,10 +38,6 @@ const styles = makeStyles((theme) => ({
     // maxWidth: "50%",
   },
   cardHeader: {
-    fontFamily: theme.typography.fontFamilySecondary,
-    textTransform: "uppercase",
-    fontWeight: 550,
-    fontSize: 22,
     [theme.breakpoints.down("md")]: {
       fontSize: 16,
     },
@@ -52,9 +49,6 @@ const styles = makeStyles((theme) => ({
     },
   },
   cardBody: {
-    fontFamily: "Raleway",
-    fontWeight: 500,
-    fontSize: 20,
     [theme.breakpoints.down("md")]: {
       fontSize: 16,
     },
@@ -149,16 +143,14 @@ const ItemListingCard = (props) => {
             className={classes.media}
             image={product && product.images[0]}
           />
-          <CardContent height="150" width="150">
-            <Typography className={classes.cardHeader}>
-              {product && product.name}
-            </Typography>
-            <Typography className={classes.cardBody}>
+          <CardContent>
+            <Typography variant="body1">{product && product.name}</Typography>
+            <Typography variant="subtitle1">
               $
               {product &&
                 parseFloat(product.storeSpecificData[0].mrp).toFixed(2)}
             </Typography>
-            <Typography className={classes.cardBody}>
+            <Typography variant="body2">
               {product && product.metaData.DisplayUnit}
             </Typography>
           </CardContent>

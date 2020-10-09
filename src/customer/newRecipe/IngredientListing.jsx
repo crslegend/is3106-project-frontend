@@ -33,6 +33,8 @@ const styles = (theme) => ({
   recipeList: {
     height: "100%",
     borderRadius: 12,
+    width: "90%",
+    margin: "auto",
   },
   recipeListHeader: {
     display: "flex",
@@ -109,7 +111,7 @@ const IngredientListing = (props) => {
   );
 
   return (
-    <Grid container spacing={2}>
+    <Grid container>
       <Grid item xs={12} sm={8}>
         <Paper className={classes.ingredientsList}>
           <h1>Searchbar here</h1>

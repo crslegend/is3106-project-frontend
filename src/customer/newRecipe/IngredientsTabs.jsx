@@ -128,10 +128,6 @@ const IngredientsTabs = (props) => {
           <Tab label="Meat and Seafood" />
           <Tab label="Vegetables" />
           <Tab label="Dairy, Chilled and Eggs" />
-          <Tab label="Item Four" />
-          <Tab label="Item Five" />
-          <Tab label="Item Six" />
-          <Tab label="Item Seven" />
         </Tabs>
       </AppBar>
       <TabPanel
@@ -140,14 +136,14 @@ const IngredientsTabs = (props) => {
         id="scrollableDiv"
         style={{ height: 500, overflow: "auto" }}
       >
-        <Grid container spacing={2}>
-          <InfiniteScroll
-            dataLength={page}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            scrollableTarget="scrollableDiv"
-            scrollThreshold={0.9}
-          >
+        <InfiniteScroll
+          dataLength={page}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          scrollableTarget="scrollableDiv"
+          scrollThreshold={0.95}
+        >
+          <Grid container justify="space-around">
             {products &&
               products.map((product) => (
                 <ItemListingCard
@@ -158,8 +154,8 @@ const IngredientsTabs = (props) => {
                   calculateTotalPrice={calculateTotalPrice}
                 />
               ))}
-          </InfiniteScroll>
-        </Grid>
+          </Grid>
+        </InfiniteScroll>
       </TabPanel>
       <TabPanel
         value={value}
@@ -167,14 +163,14 @@ const IngredientsTabs = (props) => {
         id="scrollableDiv1"
         style={{ height: 500, overflow: "auto" }}
       >
-        <Grid container spacing={2}>
-          <InfiniteScroll
-            dataLength={page}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            scrollableTarget="scrollableDiv1"
-            scrollThreshold={0.9}
-          >
+        <InfiniteScroll
+          dataLength={page}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          scrollableTarget="scrollableDiv1"
+          scrollThreshold={0.95}
+        >
+          <Grid container justify="space-around">
             {products &&
               products.map((product) => (
                 <ItemListingCard
@@ -185,8 +181,8 @@ const IngredientsTabs = (props) => {
                   calculateTotalPrice={calculateTotalPrice}
                 />
               ))}
-          </InfiniteScroll>
-        </Grid>
+          </Grid>
+        </InfiniteScroll>
       </TabPanel>
       <TabPanel
         value={value}
@@ -194,13 +190,14 @@ const IngredientsTabs = (props) => {
         id="scrollableDiv"
         style={{ height: 500, overflow: "auto" }}
       >
-        <Grid container spacing={2}>
-          <InfiniteScroll
-            dataLength={page}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            scrollableTarget="scrollableDiv"
-          >
+        <InfiniteScroll
+          dataLength={page}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          scrollableTarget="scrollableDiv2"
+          scrollThreshold={0.95}
+        >
+          <Grid container justify="space-around">
             {products &&
               products.map((product) => (
                 <ItemListingCard
@@ -211,20 +208,8 @@ const IngredientsTabs = (props) => {
                   calculateTotalPrice={calculateTotalPrice}
                 />
               ))}
-          </InfiniteScroll>
-        </Grid>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
+          </Grid>
+        </InfiniteScroll>
       </TabPanel>
     </div>
   );
