@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { AppBar, Box, Container, Grid, Tab, Tabs } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ItemListingCard from "./ItemListingCard";
-import getListing from "./getListing";
+import ntuc from "./getListing";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -69,7 +69,7 @@ const IngredientsTabs = (props) => {
     const getItems = async () => {
       setPage(1);
       // console.log(page);
-      listing = await getListing(1, value);
+      listing = await ntuc.getListing(1, value);
       setPage(1 + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
@@ -84,7 +84,7 @@ const IngredientsTabs = (props) => {
     console.log("load more data");
     let listing = null;
     const getItems = async () => {
-      listing = await getListing(page, value);
+      listing = await ntuc.getListing(page, value);
       setPage(page + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
@@ -106,7 +106,7 @@ const IngredientsTabs = (props) => {
 
     let listing = null;
     const getItems = async () => {
-      listing = await getListing(page, value);
+      listing = await ntuc.getListing(page, value);
       // console.log(listing);
       setProducts(products.concat(listing.product));
     };

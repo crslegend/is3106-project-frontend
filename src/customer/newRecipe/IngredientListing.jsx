@@ -15,7 +15,7 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import { Delete, Edit } from "@material-ui/icons";
+import { Delete, Edit, AddShoppingCart } from "@material-ui/icons";
 import NewRecipeForm from "./NewRecipeForm";
 import IngredientsTabs from "./IngredientsTabs";
 
@@ -31,22 +31,38 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   recipeList: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    marginTop: "15px",
     height: "100%",
-    borderRadius: 12,
+    borderRadius: 10,
     width: "90%",
     margin: "auto",
+    backgroundColor: "#DCCCBB",
   },
   recipeListHeader: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
+    paddingTop: "15px",
   },
   price: {
     lineHeight: 3,
+    textTransform: "capitalize",
   },
   ingredientsList: {
-    width: "90%",
+    width: "95%",
     margin: "auto",
+  },
+  submitButton: {
+    width: "40%",
+    alignSelf: "center",
+    marginBottom: "15px",
+  },
+  list: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
 });
 
@@ -125,60 +141,88 @@ const IngredientListing = (props) => {
 
       <Grid item xs={12} sm={4}>
         <Paper className={classes.recipeList}>
-          <div className={classes.recipeListHeader}>
-            <Typography variant="h4" className={classes.title}>
-              {recipeInfo.name && recipeInfo.name
-                ? recipeInfo.name
-                : "Name of Recipe"}
-            </Typography>
-            <IconButton edge="end" onClick={() => editRecipeNameAndDate()}>
-              <Edit />
-            </IconButton>
+          <div>
+            <div className={classes.recipeListHeader}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                }}
+              >
+                <Typography variant="h5" className={classes.title}>
+                  {recipeInfo.name && recipeInfo.name
+                    ? `Recipe: ${recipeInfo.name}`
+                    : "Recipe: -"}
+                </Typography>
+                <Typography variant="h5" className={classes.title}>
+                  {recipeInfo.date && recipeInfo.date
+                    ? `Fulfillment Date: ${recipeInfo.date.toDateString()}`
+                    : "Fulfillment Date: -"}
+                </Typography>
+              </div>
+
+              <IconButton edge="end" onClick={() => editRecipeNameAndDate()}>
+                <Edit />
+              </IconButton>
+            </div>
           </div>
-
-          <Typography variant="h5" className={classes.title}>
-            {recipeInfo.date && recipeInfo.date
-              ? recipeInfo.date.toDateString()
-              : "Fulfillment Date"}
-          </Typography>
           <div className={classes.separator} />
-          <List>
-            {chosenIngredients && chosenIngredients.length > 0 ? (
-              chosenIngredients.map((value) => {
-                return (
-                  <Fragment>
-                    <ListItem key={value.productId}>
-                      <ListItemAvatar>
-                        <Avatar src={value.imageURL} />
-                      </ListItemAvatar>
+          <div>
+            <List className={classes.list}>
+              {chosenIngredients && chosenIngredients.length > 0 ? (
+                chosenIngredients.map((value) => {
+                  return (
+                    <div className={classes.list}>
+                      <Fragment>
+                        <ListItem key={value.productId}>
+                          <ListItemAvatar>
+                            <Avatar src={value.imageURL} />
+                          </ListItemAvatar>
 
-                      <ListItemText
-                        id={value.productId}
-                        primary={`${value.name} ${value.selectedAmount}g $${value.estimatedPrice}`}
-                      />
-                      <ListItemSecondaryAction>
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          onClick={() => deleteIngredient(value.productId)}
-                        >
-                          <Delete />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider />
-                  </Fragment>
-                );
-              })
-            ) : (
-              <Typography variant="h5">No Ingredients Added Yet</Typography>
-            )}
-          </List>
+                          <ListItemText
+                            id={value.productId}
+                            primary={`${value.name} ${value.selectedAmount}g $${value.estimatedPrice}`}
+                          />
+                          <ListItemSecondaryAction>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => deleteIngredient(value.productId)}
+                            >
+                              <Delete />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                        <Divider />
+                      </Fragment>
+                    </div>
+                  );
+                })
+              ) : (
+                <Fragment>
+                  <AddShoppingCart style={{ fontSize: 50 }} color="disabled" />
+                  <Typography variant="subtitle1">
+                    No Ingredients Yet
+                  </Typography>
+                </Fragment>
+              )}
+            </List>
+          </div>
           <div className={classes.separator} />
-          <Typography variant="h5" className={classes.price}>
-            Total Price: ${totalPrice}
-          </Typography>
-          <Button onClick={handleSubmit}>Enter Group Buy</Button>
+          <div>
+            <Typography variant="h5" className={classes.price}>
+              Total Price: ${totalPrice}
+            </Typography>
+            <Button
+              onClick={handleSubmit}
+              color="inherit"
+              variant="outlined"
+              className={classes.submitButton}
+            >
+              Enter Group Buy
+            </Button>
+          </div>
         </Paper>
       </Grid>
     </Grid>

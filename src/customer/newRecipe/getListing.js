@@ -1,3 +1,4 @@
+import axios from "axios";
 import Service from "../../AxiosService";
 
 const getListing = async (pageNum, tabIndex) => {
@@ -27,4 +28,18 @@ const getListing = async (pageNum, tabIndex) => {
   return result;
 };
 
-export default getListing;
+const getSearchResults = async () => {
+  await axios
+    .get("https://website-api.omni.fairprice.com.sg/api/layout/search/v2", {
+      params: {
+        experiments:
+          "cartRecommendVariant-A,keywordCampaignVariant-B,searchRepurchaseVariant-B",
+        q: "mooncake",
+      },
+    })
+    .then((res) => {
+      console.log(res);
+    });
+};
+
+export default { getListing, getSearchResults };
