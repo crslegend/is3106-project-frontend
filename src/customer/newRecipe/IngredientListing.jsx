@@ -53,6 +53,7 @@ const styles = (theme) => ({
   ingredientsList: {
     width: "95%",
     margin: "auto",
+    marginTop: "15px",
   },
   submitButton: {
     width: "40%",
@@ -198,15 +199,17 @@ const IngredientListing = (props) => {
                     );
                   })
                 ) : (
-                  <Fragment>
-                    <AddShoppingCart
-                      style={{ fontSize: 50 }}
-                      color="disabled"
-                    />
-                    <Typography variant="subtitle1">
-                      No Ingredients Yet
-                    </Typography>
-                  </Fragment>
+                  <div style={{ paddingTop: "150px" }}>
+                    <Fragment>
+                      <AddShoppingCart
+                        style={{ fontSize: 50 }}
+                        color="disabled"
+                      />
+                      <Typography variant="subtitle1">
+                        No Ingredients Yet
+                      </Typography>
+                    </Fragment>
+                  </div>
                 )}
               </List>
             </Grid>

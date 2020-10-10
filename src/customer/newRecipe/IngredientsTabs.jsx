@@ -47,6 +47,13 @@ const styles = (theme) => ({
     flexDirection: "row",
     alignItems: "center",
   },
+  separator: {
+    height: 4,
+    width: "100%",
+    display: "block",
+    margin: `${theme.spacing(1)}px auto 0`,
+    backgroundColor: theme.palette.secondary.main,
+  },
 });
 
 const IngredientsTabs = (props) => {
@@ -127,6 +134,9 @@ const IngredientsTabs = (props) => {
           flexDirection: "row",
           justifyContent: "space-between",
         }}
+        inputWrapperStyle={{
+          borderRadius: 10,
+        }}
         resultsTemplate={(props, state) => {
           return state.results.map((product) => {
             return (
@@ -143,7 +153,7 @@ const IngredientsTabs = (props) => {
           });
         }}
       />
-      <br />
+      <div className={classes.separator} />
       <AppBar position="static" color="default">
         <Tabs
           value={value}
