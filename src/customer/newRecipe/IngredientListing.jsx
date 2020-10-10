@@ -33,7 +33,6 @@ const styles = (theme) => ({
   recipeList: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
     marginTop: "15px",
     height: "100%",
     borderRadius: 10,
@@ -130,7 +129,6 @@ const IngredientListing = (props) => {
     <Grid container>
       <Grid item xs={12} sm={8}>
         <Paper className={classes.ingredientsList}>
-          <h1>Searchbar here</h1>
           <IngredientsTabs
             updateIngredients={updateIngredients}
             chosenIngredients={chosenIngredients}
@@ -166,14 +164,15 @@ const IngredientListing = (props) => {
                 <Edit />
               </IconButton>
             </div>
+            <div className={classes.separator} />
           </div>
-          <div className={classes.separator} />
+
           <div>
-            <List className={classes.list}>
-              {chosenIngredients && chosenIngredients.length > 0 ? (
-                chosenIngredients.map((value) => {
-                  return (
-                    <div className={classes.list}>
+            <Grid container justify="center">
+              <List>
+                {chosenIngredients && chosenIngredients.length > 0 ? (
+                  chosenIngredients.map((value) => {
+                    return (
                       <Fragment>
                         <ListItem key={value.productId}>
                           <ListItemAvatar>
@@ -196,21 +195,32 @@ const IngredientListing = (props) => {
                         </ListItem>
                         <Divider />
                       </Fragment>
-                    </div>
-                  );
-                })
-              ) : (
-                <Fragment>
-                  <AddShoppingCart style={{ fontSize: 50 }} color="disabled" />
-                  <Typography variant="subtitle1">
-                    No Ingredients Yet
-                  </Typography>
-                </Fragment>
-              )}
-            </List>
+                    );
+                  })
+                ) : (
+                  <Fragment>
+                    <AddShoppingCart
+                      style={{ fontSize: 50 }}
+                      color="disabled"
+                    />
+                    <Typography variant="subtitle1">
+                      No Ingredients Yet
+                    </Typography>
+                  </Fragment>
+                )}
+              </List>
+            </Grid>
           </div>
-          <div className={classes.separator} />
-          <div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              flex: 1,
+            }}
+          >
+            <div className={classes.separator} />
             <Typography variant="h5" className={classes.price}>
               Total Price: ${totalPrice}
             </Typography>

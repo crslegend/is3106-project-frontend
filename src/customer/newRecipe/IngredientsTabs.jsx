@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { AppBar, Box, Container, Grid, Tab, Tabs } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
+import FuzzySearch from "react-fuzzy";
 import ItemListingCard from "./ItemListingCard";
 import ntuc from "./getListing";
 
@@ -113,9 +114,36 @@ const IngredientsTabs = (props) => {
     getItems();
     // console.log(page);
   };
-
+  console.log(products);
   return (
     <div className={classes.root}>
+      <FuzzySearch
+        width="100%"
+        placeholder="Search from the Selected Category below"
+        list={products}
+        keys={["name"]}
+        listWrapperStyle={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+        resultsTemplate={(props, state) => {
+          return state.results.map((product) => {
+            return (
+              <Grid container>
+                <ItemListingCard
+                  key={product.id}
+                  product={product && product}
+                  updateIngredients={updateIngredients}
+                  chosenIngredients={chosenIngredients}
+                  calculateTotalPrice={calculateTotalPrice}
+                />
+              </Grid>
+            );
+          });
+        }}
+      />
+      <br />
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -187,7 +215,7 @@ const IngredientsTabs = (props) => {
       <TabPanel
         value={value}
         index={2}
-        id="scrollableDiv"
+        id="scrollableDiv2"
         style={{ height: 500, overflow: "auto" }}
       >
         <InfiniteScroll
