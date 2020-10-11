@@ -136,7 +136,10 @@ const ItemListingCard = (props) => {
             <Typography variant="h5" style={{ fontWeight: "bold" }}>
               $
               {product &&
-                parseFloat(product.storeSpecificData[0].mrp).toFixed(2)}
+                (
+                  parseFloat(product.storeSpecificData[0].mrp) -
+                  parseFloat(product.storeSpecificData[0].discount)
+                ).toFixed(2)}
             </Typography>
             <br />
             <Typography variant="body1">{product && product.name}</Typography>
