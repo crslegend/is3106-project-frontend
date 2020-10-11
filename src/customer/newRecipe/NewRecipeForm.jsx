@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -19,14 +20,19 @@ import DateFnsUtils from "@date-io/date-fns";
 const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
-    "& h2": {
+    "& h5": {
       textTransform: "capitalize",
-      fontSize: 25,
+      textAlign: "center",
     },
   },
   calender: {
     postion: "fixed !important",
     right: "calc(100% - 479px) !important",
+  },
+  button: {
+    "&:hover": {
+      backgroundColor: "#EEF1EF",
+    },
   },
 });
 
@@ -66,7 +72,7 @@ const NewRecipeForm = (props) => {
         onClose={handleClose}
       >
         <DialogTitle className={classes.root}>
-          Give your recipe a name!
+          <Typography variant="h5">Give your recipe a name!</Typography>
         </DialogTitle>
         <form>
           <DialogContent>
@@ -96,12 +102,23 @@ const NewRecipeForm = (props) => {
             </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} color="primary">
-              Create
-            </Button>
+            {recipeName && recipeName.length > 0 ? (
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
+                Create Recipe
+              </Button>
+            ) : (
+              <Button
+                className={classes.button}
+                onClick={handleClose}
+                color="secondary"
+              >
+                Skip For Now
+              </Button>
+            )}
           </DialogActions>
         </form>
       </Dialog>
