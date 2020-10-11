@@ -68,6 +68,7 @@ const styles = (theme) => ({
   },
   progress: {
     marginTop: "200px",
+    marginBottom: "200px",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -245,7 +246,13 @@ const IngredientsTabs = (props) => {
         value={value}
         index={0}
         id="scrollableDiv"
-        style={{ height: 500, overflow: "auto" }}
+        style={{
+          height: 500,
+          overflow: "auto",
+
+          borderBottom: "2px solid #e8e8e8",
+          borderLeft: "2px solid #e8e8e8",
+        }}
       >
         <InfiniteScroll
           dataLength={page}
@@ -277,7 +284,12 @@ const IngredientsTabs = (props) => {
         value={value}
         index={1}
         id="scrollableDiv1"
-        style={{ height: 500, overflow: "auto" }}
+        style={{
+          height: 500,
+          overflow: "auto",
+          borderBottom: "2px solid #e8e8e8",
+          borderLeft: "2px solid #e8e8e8",
+        }}
       >
         <InfiniteScroll
           dataLength={page}
@@ -309,7 +321,12 @@ const IngredientsTabs = (props) => {
         value={value}
         index={2}
         id="scrollableDiv2"
-        style={{ height: 500, overflow: "auto" }}
+        style={{
+          height: 500,
+          overflow: "auto",
+          borderBottom: "2px solid #e8e8e8",
+          borderLeft: "2px solid #e8e8e8",
+        }}
       >
         <InfiniteScroll
           dataLength={page}
