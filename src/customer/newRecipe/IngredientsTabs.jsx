@@ -191,6 +191,7 @@ const IngredientsTabs = (props) => {
             inputWrapperStyle={{
               borderRadius: 10,
             }}
+            inputStyle={{ border: 0 }}
             resultsTemplate={(props, state) => {
               return state.results.map((product) => {
                 return (
