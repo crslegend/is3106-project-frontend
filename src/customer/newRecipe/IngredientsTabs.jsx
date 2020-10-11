@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { AppBar, Box, Container, Grid, Tab, Tabs } from "@material-ui/core";
+import {
+  AppBar,
+  Box,
+  Container,
+  Grid,
+  Tab,
+  Tabs,
+  CircularProgress,
+} from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FuzzySearch from "react-fuzzy";
 import ItemListingCard from "./ItemListingCard";
@@ -53,6 +61,9 @@ const styles = (theme) => ({
     display: "block",
     margin: `${theme.spacing(1)}px auto 0`,
     backgroundColor: theme.palette.secondary.main,
+  },
+  progress: {
+    marginTop: "200px",
   },
 });
 
@@ -166,6 +177,7 @@ const IngredientsTabs = (props) => {
           <Tab label="Meat and Seafood" />
           <Tab label="Vegetables" />
           <Tab label="Dairy, Chilled and Eggs" />
+          <Tab label="example" />
         </Tabs>
       </AppBar>
       <TabPanel
@@ -182,7 +194,7 @@ const IngredientsTabs = (props) => {
           scrollThreshold={0.95}
         >
           <Grid container justify="space-around">
-            {products &&
+            {products && products.length > 0 ? (
               products.map((product) => (
                 <ItemListingCard
                   key={product.id}
@@ -191,7 +203,12 @@ const IngredientsTabs = (props) => {
                   chosenIngredients={chosenIngredients}
                   calculateTotalPrice={calculateTotalPrice}
                 />
-              ))}
+              ))
+            ) : (
+              <div className={classes.progress}>
+                <CircularProgress />
+              </div>
+            )}
           </Grid>
         </InfiniteScroll>
       </TabPanel>
@@ -209,7 +226,7 @@ const IngredientsTabs = (props) => {
           scrollThreshold={0.95}
         >
           <Grid container justify="space-around">
-            {products &&
+            {products && products.length > 0 ? (
               products.map((product) => (
                 <ItemListingCard
                   key={product.id}
@@ -218,7 +235,12 @@ const IngredientsTabs = (props) => {
                   chosenIngredients={chosenIngredients}
                   calculateTotalPrice={calculateTotalPrice}
                 />
-              ))}
+              ))
+            ) : (
+              <div className={classes.progress}>
+                <CircularProgress />
+              </div>
+            )}
           </Grid>
         </InfiniteScroll>
       </TabPanel>
@@ -236,7 +258,7 @@ const IngredientsTabs = (props) => {
           scrollThreshold={0.95}
         >
           <Grid container justify="space-around">
-            {products &&
+            {products && products.length > 0 ? (
               products.map((product) => (
                 <ItemListingCard
                   key={product.id}
@@ -245,9 +267,19 @@ const IngredientsTabs = (props) => {
                   chosenIngredients={chosenIngredients}
                   calculateTotalPrice={calculateTotalPrice}
                 />
-              ))}
+              ))
+            ) : (
+              <div className={classes.progress}>
+                <CircularProgress />
+              </div>
+            )}
           </Grid>
         </InfiniteScroll>
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <div className={classes.progress}>
+          <CircularProgress />
+        </div>
       </TabPanel>
     </div>
   );
