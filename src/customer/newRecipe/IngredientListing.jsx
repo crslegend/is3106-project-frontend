@@ -34,7 +34,7 @@ const styles = (theme) => ({
     display: "flex",
     flexDirection: "column",
     marginTop: "15px",
-    height: "100%",
+    height: "98%",
     borderRadius: 10,
     width: "90%",
     margin: "auto",
@@ -129,13 +129,13 @@ const IngredientListing = (props) => {
   return (
     <Grid container>
       <Grid item xs={12} sm={8}>
-        <Paper className={classes.ingredientsList}>
+        <div className={classes.ingredientsList}>
           <IngredientsTabs
             updateIngredients={updateIngredients}
             chosenIngredients={chosenIngredients}
             calculateTotalPrice={calculateTotalPrice}
           />
-        </Paper>
+        </div>
       </Grid>
 
       <Grid item xs={12} sm={4}>

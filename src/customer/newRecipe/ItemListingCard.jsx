@@ -166,7 +166,7 @@ const ItemListingCard = (props) => {
         <DialogTitle className={classes.dialog}>
           <CardMedia
             className={classes.media}
-            image={product && product.images[0]}
+            image={product && product.images && product.images[0]}
           />
           {product.name} <br />${product.storeSpecificData[0].mrp}{" "}
           {product.metaData.DisplayUnit}

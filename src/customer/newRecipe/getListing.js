@@ -1,7 +1,7 @@
 import axios from "axios";
 import Service from "../../AxiosService";
 
-const getListing = async (pageNum, tabIndex) => {
+const getListing = async (pageNum, tabIndex, sortMethod) => {
   let categoryStr = "";
   if (tabIndex === 0) {
     categoryStr = "meat-seafood";
@@ -12,12 +12,14 @@ const getListing = async (pageNum, tabIndex) => {
   }
 
   let result = null;
+  console.log(`getListing.jsx ${sortMethod}`);
   await Service.ntucClient
     .get("", {
       params: {
         category: categoryStr,
         includeTagDetails: "true",
         page: pageNum,
+        sorting: sortMethod,
         url: categoryStr,
       },
     })

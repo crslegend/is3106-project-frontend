@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -9,6 +9,10 @@ import {
   Tab,
   Tabs,
   CircularProgress,
+  InputLabel,
+  FormControl,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FuzzySearch from "react-fuzzy";
@@ -65,6 +69,11 @@ const styles = (theme) => ({
   progress: {
     marginTop: "200px",
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxHeight: 50,
+  },
 });
 
 const IngredientsTabs = (props) => {
@@ -79,6 +88,7 @@ const IngredientsTabs = (props) => {
   const [paginationInfo, setPaginationInfo] = useState();
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState([]);
+  const [sortMethod, setSortMethod] = useState("");
 
   // for changing between tabs
   useEffect(() => {
@@ -88,25 +98,43 @@ const IngredientsTabs = (props) => {
     const getItems = async () => {
       setPage(1);
       // console.log(page);
-      listing = await ntuc.getListing(1, value);
+      listing = await ntuc.getListing(1, value, "");
       setPage(1 + 1);
+      setSortMethod("");
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
-      console.log(listing);
+      console.log(`CHANGE TAB ${sortMethod}`);
     };
     getItems();
   }, [value]);
-  console.log(page);
+  // console.log(page);
+
+  // for changing sort methods
+  useEffect(() => {
+    let listing = null;
+    setProducts([]);
+    const getItems = async () => {
+      setPage(1);
+      // console.log(page);
+      listing = await ntuc.getListing(1, value, sortMethod);
+      setPage(1 + 1);
+      setPaginationInfo(listing.pagination);
+      setProducts(listing.product);
+      console.log(`CHANGE SORT ${sortMethod}`);
+    };
+    getItems();
+  }, [sortMethod]);
 
   // for loading more pages of data
   useEffect(() => {
     console.log("load more data");
     let listing = null;
     const getItems = async () => {
-      listing = await ntuc.getListing(page, value);
+      listing = await ntuc.getListing(page, value, sortMethod);
       setPage(page + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
+      console.log(`LOAD MORE DATA ${sortMethod}`);
     };
     getItems();
   }, []);
@@ -125,45 +153,78 @@ const IngredientsTabs = (props) => {
 
     let listing = null;
     const getItems = async () => {
-      listing = await ntuc.getListing(page, value);
+      listing = await ntuc.getListing(page, value, sortMethod);
       // console.log(listing);
       setProducts(products.concat(listing.product));
     };
     getItems();
     // console.log(page);
   };
-  console.log(products);
+  // console.log(products);
+
+  const handleSortChange = (event) => {
+    setSortMethod(event.target.value);
+  };
+
   return (
     <div className={classes.root}>
-      <FuzzySearch
-        width="100%"
-        placeholder="Search from the Selected Category below"
-        list={products}
-        keys={["name"]}
-        listWrapperStyle={{
+      <div
+        style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
+          alignItems: "center",
         }}
-        inputWrapperStyle={{
-          borderRadius: 10,
-        }}
-        resultsTemplate={(props, state) => {
-          return state.results.map((product) => {
-            return (
-              <Grid container>
-                <ItemListingCard
-                  key={product.id}
-                  product={product && product}
-                  updateIngredients={updateIngredients}
-                  chosenIngredients={chosenIngredients}
-                  calculateTotalPrice={calculateTotalPrice}
-                />
-              </Grid>
-            );
-          });
-        }}
-      />
+      >
+        <Fragment>
+          <FuzzySearch
+            width="85%"
+            placeholder="Search from the Selected Category below"
+            list={products}
+            keys={["name"]}
+            listWrapperStyle={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+            inputWrapperStyle={{
+              borderRadius: 10,
+            }}
+            resultsTemplate={(props, state) => {
+              return state.results.map((product) => {
+                return (
+                  <Grid container>
+                    <ItemListingCard
+                      key={product.id}
+                      product={product && product}
+                      updateIngredients={updateIngredients}
+                      chosenIngredients={chosenIngredients}
+                      calculateTotalPrice={calculateTotalPrice}
+                    />
+                  </Grid>
+                );
+              });
+            }}
+          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              label="Sort By"
+              value={sortMethod}
+              onChange={handleSortChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="PRICE_ASC">Price: Low to High</MenuItem>
+              <MenuItem value="PRICE_DESC">Price: High to Low</MenuItem>
+              <MenuItem value="A-Z">(A-Z) Alphabetically</MenuItem>
+              <MenuItem value="Z-A">(Z-A) Alphabetically</MenuItem>
+            </Select>
+          </FormControl>
+        </Fragment>
+      </div>
+
       <div className={classes.separator} />
       <AppBar position="static" color="default">
         <Tabs
