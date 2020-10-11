@@ -98,6 +98,9 @@ const NewRecipeForm = (props) => {
                 label="Choose a Fulfillment Date"
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e)}
+                // InputProps={{
+                //   classes: { ".MuiButton-root": classes.button },
+                // }}
               />
             </MuiPickersUtilsProvider>
           </DialogContent>

@@ -37,23 +37,12 @@ const styles = makeStyles((theme) => ({
     // maxHeight: "50%",
     // maxWidth: "50%",
   },
-  cardHeader: {
-    [theme.breakpoints.down("md")]: {
-      fontSize: 16,
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 14,
-    },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 10,
-    },
-  },
-  cardBody: {
-    [theme.breakpoints.down("md")]: {
-      fontSize: 16,
-    },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 10,
+  cardContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    "& p": {
+      textAlign: "left",
     },
   },
   dialog: {
@@ -138,18 +127,19 @@ const ItemListingCard = (props) => {
   return (
     <Fragment>
       <Card className={classes.root}>
-        <CardActionArea onClick={handleClickOpen}>
+        <CardActionArea onClick={handleClickOpen} style={{ height: "100%" }}>
           <CardMedia
             className={classes.media}
             image={product && product.images[0]}
           />
-          <CardContent>
-            <Typography variant="body1">{product && product.name}</Typography>
-            <Typography variant="subtitle1">
+          <CardContent className={classes.cardContent}>
+            <Typography variant="h5" style={{ fontWeight: "bold" }}>
               $
               {product &&
                 parseFloat(product.storeSpecificData[0].mrp).toFixed(2)}
             </Typography>
+            <br />
+            <Typography variant="body1">{product && product.name}</Typography>
             <Typography variant="body2">
               {product && product.metaData.DisplayUnit}
             </Typography>
