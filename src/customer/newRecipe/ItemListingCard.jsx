@@ -14,7 +14,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-// import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -31,11 +30,11 @@ const styles = makeStyles((theme) => ({
       width: "33vw",
     },
   },
-  media: {
+  mediaCard: {
     height: 0,
     paddingTop: "56.25%",
-    // maxHeight: "50%",
-    // maxWidth: "50%",
+    width: "60%",
+    margin: "auto",
   },
   cardContent: {
     display: "flex",
@@ -47,9 +46,20 @@ const styles = makeStyles((theme) => ({
   },
   dialog: {
     backgroundColor: theme.palette.primary.main,
-    "& h2": {
+    "& p": {
       textTransform: "capitalize",
     },
+  },
+  button: {
+    "&:hover": {
+      backgroundColor: "#EEF1EF",
+    },
+  },
+  mediaDialog: {
+    height: 0,
+    paddingTop: "90.25%",
+    width: "85%",
+    margin: "auto",
   },
 }));
 
@@ -129,7 +139,7 @@ const ItemListingCard = (props) => {
       <Card className={classes.root}>
         <CardActionArea onClick={handleClickOpen} style={{ height: "100%" }}>
           <CardMedia
-            className={classes.media}
+            className={classes.mediaCard}
             image={product && product.images[0]}
           />
           <CardContent className={classes.cardContent}>
@@ -155,14 +165,26 @@ const ItemListingCard = (props) => {
         disableEscapeKeyDown
         open={open}
         onClose={handleClose}
+        PaperProps={{ style: { minWidth: "350px", maxWidth: "350px" } }}
       >
         <DialogTitle className={classes.dialog}>
           <CardMedia
-            className={classes.media}
+            className={classes.mediaDialog}
             image={product && product.images && product.images[0]}
           />
-          {product.name} <br />${product.storeSpecificData[0].mrp}{" "}
-          {product.metaData.DisplayUnit}
+          <br />
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>
+            $
+            {(
+              parseFloat(product.storeSpecificData[0].mrp) -
+              parseFloat(product.storeSpecificData[0].discount)
+            ).toFixed(2)}
+          </Typography>
+
+          <Typography variant="body1">{product.name}</Typography>
+          <Typography variant="body2">
+            {product.metaData.DisplayUnit}
+          </Typography>
         </DialogTitle>
         <form>
           <DialogContent>
@@ -181,10 +203,24 @@ const ItemListingCard = (props) => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button
+              onClick={handleClose}
+              color="secondary"
+              className={classes.button}
+            >
               Cancel
             </Button>
-            <Button color="primary" onClick={handleAddToRecipe}>
+            <Button
+              color="secondary"
+              onClick={handleAddToRecipe}
+              className={classes.button}
+              disabled={
+                selectedItem &&
+                (selectedItem.selectedAmount === undefined ||
+                  selectedItem.selectedAmount === 0 ||
+                  selectedItem.selectedAmount === "")
+              }
+            >
               Add To Recipe
             </Button>
           </DialogActions>
