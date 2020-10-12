@@ -240,7 +240,10 @@ const IngredientsTabs = (props) => {
           <Tab label="Meat and Seafood" />
           <Tab label="Vegetables" />
           <Tab label="Dairy, Chilled and Eggs" />
-          <Tab label="example" />
+          <Tab label="Frozen Greens" />
+          <Tab label="Frozen Food" />
+          <Tab label="Frozen Meat" />
+          <Tab label="Frozen Seafood" />
         </Tabs>
       </AppBar>
       <TabPanel

@@ -14,6 +14,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import Chef from "../../assets/placeholder.jpg";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -80,7 +81,7 @@ const ItemListingCard = (props) => {
     setSelectedItem({
       name: product.name,
       productId: product.id,
-      imageURL: product.images[0],
+      imageURL: product.images ? product.images[0] : Chef,
       amount: product.metaData["Unit Of Weight"]
         ? product.metaData["Unit Of Weight"].replace(/ +/g, "").toLowerCase()
         : product.metaData.DisplayUnit.replace(/ +/g, "").toLowerCase(),
@@ -140,7 +141,7 @@ const ItemListingCard = (props) => {
         <CardActionArea onClick={handleClickOpen} style={{ height: "100%" }}>
           <CardMedia
             className={classes.mediaCard}
-            image={product && product.images[0]}
+            image={product && product.images ? product.images[0] : Chef}
           />
           <CardContent className={classes.cardContent}>
             <Typography variant="h5" style={{ fontWeight: "bold" }}>
@@ -170,7 +171,7 @@ const ItemListingCard = (props) => {
         <DialogTitle className={classes.dialog}>
           <CardMedia
             className={classes.mediaDialog}
-            image={product && product.images && product.images[0]}
+            image={product && product.images ? product.images[0] : Chef}
           />
           <br />
           <Typography variant="h5" style={{ fontWeight: "bold" }}>
