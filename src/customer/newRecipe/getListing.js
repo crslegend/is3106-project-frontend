@@ -4,15 +4,30 @@ import Service from "../../AxiosService";
 const getListing = async (pageNum, tabIndex, sortMethod) => {
   let categoryStr = "";
   if (tabIndex === 0) {
-    categoryStr = "meat-seafood";
+    categoryStr = "chicken";
   } else if (tabIndex === 1) {
-    categoryStr = "vegetables";
+    categoryStr = "pork";
   } else if (tabIndex === 2) {
-    categoryStr = "dairy-chilled-eggs";
+    categoryStr = "beef-lamb-1";
+  } else if (tabIndex === 3) {
+    categoryStr = "fish---seafood";
+  } else if (tabIndex === 4) {
+    categoryStr = "meatballs";
+  } else if (tabIndex === 5) {
+    categoryStr = "vegetables";
+  } else if (tabIndex === 6) {
+    categoryStr = "eggs";
+  } else if (tabIndex === 7) {
+    categoryStr = "delicatessen";
+  } else if (tabIndex === 8) {
+    categoryStr = "chilled-food";
   }
 
   let result = null;
-  console.log(`getListing.jsx ${sortMethod}`);
+  // console.log(`tabIndex: ${tabIndex}`);
+  // console.log(`getListing.jsx ${sortMethod}`);
+  // console.log(`pageNum: ${pageNum}`);
+  // console.log(`categoryStr: ${categoryStr}`);
   await Service.ntucClient
     .get("", {
       params: {
@@ -24,7 +39,7 @@ const getListing = async (pageNum, tabIndex, sortMethod) => {
       },
     })
     .then((res) => {
-      // console.log(res.data.data.page.layouts[1].value.collection);
+      console.log(res.data.data.page.layouts[1].value.collection);
       result = res.data.data.page.layouts[1].value.collection;
     });
   return result;

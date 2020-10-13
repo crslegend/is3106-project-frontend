@@ -13,6 +13,7 @@ import {
   FormControl,
   Select,
   MenuItem,
+  Typography,
 } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FuzzySearch from "react-fuzzy";
@@ -69,6 +70,8 @@ const styles = (theme) => ({
   progress: {
     marginTop: "200px",
     marginBottom: "200px",
+    display: "block",
+    margin: "auto",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -96,6 +99,7 @@ const IngredientsTabs = (props) => {
     console.log("change");
     let listing = null;
     setProducts([]);
+    setHasMore(true);
     const getItems = async () => {
       setPage(1);
       // console.log(page);
@@ -114,6 +118,7 @@ const IngredientsTabs = (props) => {
   useEffect(() => {
     let listing = null;
     setProducts([]);
+    setHasMore(true);
     const getItems = async () => {
       setPage(1);
       // console.log(page);
@@ -161,11 +166,13 @@ const IngredientsTabs = (props) => {
     getItems();
     // console.log(page);
   };
-  // console.log(products);
+  // console.log(hasMore);
 
   const handleSortChange = (event) => {
     setSortMethod(event.target.value);
   };
+
+  const tabs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   return (
     <div className={classes.root}>
@@ -237,132 +244,64 @@ const IngredientsTabs = (props) => {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label="Meat and Seafood" />
+          <Tab label="Chicken" />
+          <Tab label="Pork" />
+          <Tab label="Beef & Lamb" />
+          <Tab label="Fish & Seafood" />
+          <Tab label="Meatballs" />
           <Tab label="Vegetables" />
-          <Tab label="Dairy, Chilled and Eggs" />
-          <Tab label="Frozen Greens" />
-          <Tab label="Frozen Food" />
-          <Tab label="Frozen Meat" />
-          <Tab label="Frozen Seafood" />
+          <Tab label="Eggs" />
+          <Tab label="Delicatessen" />
+          <Tab label="Chilled Food" />
         </Tabs>
       </AppBar>
-      <TabPanel
-        value={value}
-        index={0}
-        id="scrollableDiv"
-        style={{
-          height: 500,
-          overflow: "auto",
 
-          borderBottom: "2px solid #e8e8e8",
-          borderLeft: "2px solid #e8e8e8",
-        }}
-      >
-        <InfiniteScroll
-          dataLength={page}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          scrollableTarget="scrollableDiv"
-          scrollThreshold={0.95}
-        >
-          <Grid container justify="space-around">
-            {products && products.length > 0 ? (
-              products.map((product) => (
-                <ItemListingCard
-                  key={product.id}
-                  product={product && product}
-                  updateIngredients={updateIngredients}
-                  chosenIngredients={chosenIngredients}
-                  calculateTotalPrice={calculateTotalPrice}
-                />
-              ))
-            ) : (
-              <div className={classes.progress}>
-                <CircularProgress />
-              </div>
-            )}
-          </Grid>
-        </InfiniteScroll>
-      </TabPanel>
-      <TabPanel
-        value={value}
-        index={1}
-        id="scrollableDiv1"
-        style={{
-          height: 500,
-          overflow: "auto",
-          borderBottom: "2px solid #e8e8e8",
-          borderLeft: "2px solid #e8e8e8",
-        }}
-      >
-        <InfiniteScroll
-          dataLength={page}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          scrollableTarget="scrollableDiv1"
-          scrollThreshold={0.95}
-        >
-          <Grid container justify="space-around">
-            {products && products.length > 0 ? (
-              products.map((product) => (
-                <ItemListingCard
-                  key={product.id}
-                  product={product && product}
-                  updateIngredients={updateIngredients}
-                  chosenIngredients={chosenIngredients}
-                  calculateTotalPrice={calculateTotalPrice}
-                />
-              ))
-            ) : (
-              <div className={classes.progress}>
-                <CircularProgress />
-              </div>
-            )}
-          </Grid>
-        </InfiniteScroll>
-      </TabPanel>
-      <TabPanel
-        value={value}
-        index={2}
-        id="scrollableDiv2"
-        style={{
-          height: 500,
-          overflow: "auto",
-          borderBottom: "2px solid #e8e8e8",
-          borderLeft: "2px solid #e8e8e8",
-        }}
-      >
-        <InfiniteScroll
-          dataLength={page}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          scrollableTarget="scrollableDiv2"
-          scrollThreshold={0.95}
-        >
-          <Grid container justify="space-around">
-            {products && products.length > 0 ? (
-              products.map((product) => (
-                <ItemListingCard
-                  key={product.id}
-                  product={product && product}
-                  updateIngredients={updateIngredients}
-                  chosenIngredients={chosenIngredients}
-                  calculateTotalPrice={calculateTotalPrice}
-                />
-              ))
-            ) : (
-              <div className={classes.progress}>
-                <CircularProgress />
-              </div>
-            )}
-          </Grid>
-        </InfiniteScroll>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <div className={classes.progress}>
-          <CircularProgress />
-        </div>
-      </TabPanel>
+      {tabs.map((tab) => {
+        return (
+          <TabPanel
+            value={value}
+            index={tab}
+            id={tab.toString()}
+            style={{
+              height: 500,
+              overflow: "auto",
+              borderBottom: "2px solid #e8e8e8",
+              borderLeft: "2px solid #e8e8e8",
+            }}
+          >
+            <InfiniteScroll
+              dataLength={page}
+              next={fetchMoreData}
+              hasMore={hasMore}
+              scrollableTarget={tab.toString()}
+              scrollThreshold={0.95}
+              endMessage={(
+                <Typography variant="body1" style={{ fontWeight: "bold" }}>
+                  Yay! You have reached the end!
+                </Typography>
+              )}
+            >
+              <Grid container>
+                {products && products.length > 0 ? (
+                  products.map((product) => (
+                    <ItemListingCard
+                      key={product.id}
+                      product={product && product}
+                      updateIngredients={updateIngredients}
+                      chosenIngredients={chosenIngredients}
+                      calculateTotalPrice={calculateTotalPrice}
+                    />
+                  ))
+                ) : (
+                  <div className={classes.progress}>
+                    <CircularProgress />
+                  </div>
+                )}
+              </Grid>
+            </InfiniteScroll>
+          </TabPanel>
+        );
+      })}
     </div>
   );
 };

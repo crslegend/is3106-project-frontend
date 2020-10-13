@@ -20,8 +20,7 @@ const styles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     flexShrink: 1,
-    marginTop: 10,
-    marginBottom: 10,
+    margin: 10,
     width: "13vw",
     [theme.breakpoints.down("md")]: {
       width: "25vw",
