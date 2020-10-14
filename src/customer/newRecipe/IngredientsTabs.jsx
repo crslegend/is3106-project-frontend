@@ -65,7 +65,8 @@ const styles = (theme) => ({
     width: "100%",
     display: "block",
     margin: `${theme.spacing(1)}px auto 0`,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#8f7054",
+    // backgroundColor: theme.palette.secondary.main,
   },
   progress: {
     marginTop: "200px",
@@ -77,6 +78,12 @@ const styles = (theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     maxHeight: 50,
+  },
+  tabText: {
+    color: "#ffffff",
+  },
+  appBar: {
+    backgroundColor: "#8f7054",
   },
 });
 
@@ -235,12 +242,13 @@ const IngredientsTabs = (props) => {
       </div>
 
       <div className={classes.separator} />
-      <AppBar position="static" color="default">
+      <AppBar position="static" classes={{ root: classes.appBar }}>
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="secondary"
+          TabIndicatorProps={{ style: { backgroundColor: "#ffffff" } }}
+          TabScrollButtonProps={{ style: { color: "#ffffff" } }}
+          classes={{ root: classes.tabText }}
           variant="scrollable"
           scrollButtons="auto"
         >
@@ -275,11 +283,11 @@ const IngredientsTabs = (props) => {
               hasMore={hasMore}
               scrollableTarget={tab.toString()}
               scrollThreshold={0.95}
-              endMessage={
+              endMessage={(
                 <Typography variant="body1" style={{ fontWeight: "bold" }}>
                   Yay! You have reached the end!
                 </Typography>
-              }
+              )}
             >
               <Grid container>
                 {products && products.length > 0 ? (
