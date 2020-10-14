@@ -166,7 +166,7 @@ const IngredientsTabs = (props) => {
     getItems();
     // console.log(page);
   };
-  // console.log(hasMore);
+  console.log(products);
 
   const handleSortChange = (event) => {
     setSortMethod(event.target.value);
@@ -275,11 +275,11 @@ const IngredientsTabs = (props) => {
               hasMore={hasMore}
               scrollableTarget={tab.toString()}
               scrollThreshold={0.95}
-              endMessage={(
+              endMessage={
                 <Typography variant="body1" style={{ fontWeight: "bold" }}>
                   Yay! You have reached the end!
                 </Typography>
-              )}
+              }
             >
               <Grid container>
                 {products && products.length > 0 ? (

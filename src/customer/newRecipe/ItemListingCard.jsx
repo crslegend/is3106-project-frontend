@@ -15,6 +15,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Chef from "../../assets/placeholder.jpg";
+import calculatePrice from "./calculatePrice";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -81,28 +82,24 @@ const ItemListingCard = (props) => {
       name: product.name,
       productId: product.id,
       imageURL: product.images ? product.images[0] : Chef,
-      amount: product.metaData["Unit Of Weight"]
-        ? product.metaData["Unit Of Weight"].replace(/ +/g, "").toLowerCase()
-        : product.metaData.DisplayUnit.replace(/ +/g, "").toLowerCase(),
-      price: product.storeSpecificData[0].mrp,
+      amount:
+        product.metaData["Unit Of Weight"] &&
+        !product.metaData.DisplayUnit.endsWith("per pack)") &&
+        !product.metaData["Unit Of Weight"].endsWith("OZ")
+          ? product.metaData["Unit Of Weight"]
+          : product.metaData.DisplayUnit,
+      price:
+        parseFloat(product.storeSpecificData[0].mrp) -
+        parseFloat(product.storeSpecificData[0].discount).toFixed(2),
     });
   };
 
   const setAmount = (amount) => {
-    let price = 0;
-    if (selectedItem.amount.endsWith("kg")) {
-      price = parseFloat(
-        (parseFloat(selectedItem.price) /
-          (parseFloat(selectedItem.amount.replace(/\D/g, "")) * 1000)) *
-          parseFloat(amount)
-      );
-    } else {
-      price = parseFloat(
-        (parseFloat(selectedItem.price) /
-          parseFloat(selectedItem.amount.replace(/\D/g, ""))) *
-          parseFloat(amount)
-      );
-    }
+    const price = calculatePrice(
+      selectedItem.price,
+      selectedItem.amount,
+      amount
+    );
 
     if (isNaN(price)) {
       setCost(0);
@@ -154,7 +151,15 @@ const ItemListingCard = (props) => {
             <br />
             <Typography variant="body1">{product && product.name}</Typography>
             <Typography variant="body2">
-              {product && product.metaData.DisplayUnit}
+              {product &&
+              product.metaData["Unit Of Weight"] &&
+              product.metaData["Unit Of Weight"] !== "EA" &&
+              !product.metaData["Unit Of Weight"].endsWith("S") &&
+              !product.metaData["Unit Of Weight"].endsWith("LT") &&
+              !product.metaData["Unit Of Weight"].endsWith("OZ") &&
+              !product.metaData.DisplayUnit.endsWith("per pack)")
+                ? product.metaData["Unit Of Weight"]
+                : product.metaData.DisplayUnit}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -183,7 +188,14 @@ const ItemListingCard = (props) => {
 
           <Typography variant="body1">{product.name}</Typography>
           <Typography variant="body2">
-            {product.metaData.DisplayUnit}
+            {product.metaData["Unit Of Weight"] &&
+            product.metaData["Unit Of Weight"] !== "EA" &&
+            !product.metaData["Unit Of Weight"].endsWith("S") &&
+            !product.metaData["Unit Of Weight"].endsWith("LT") &&
+            !product.metaData["Unit Of Weight"].endsWith("OZ") &&
+            !product.metaData.DisplayUnit.endsWith("per pack)")
+              ? product.metaData["Unit Of Weight"]
+              : product.metaData.DisplayUnit}
           </Typography>
         </DialogTitle>
         <form>
@@ -217,7 +229,7 @@ const ItemListingCard = (props) => {
               disabled={
                 selectedItem &&
                 (selectedItem.selectedAmount === undefined ||
-                  selectedItem.selectedAmount === 0 ||
+                  selectedItem.selectedAmount === "0" ||
                   selectedItem.selectedAmount === "")
               }
             >
