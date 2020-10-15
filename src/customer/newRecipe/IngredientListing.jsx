@@ -105,9 +105,7 @@ const IngredientListing = (props) => {
   }, [chosenIngredients]);
 
   const deleteIngredient = (value) => {
-    updateIngredients(
-      chosenIngredients.filter((item) => item.productId !== value)
-    );
+    updateIngredients(chosenIngredients.filter((item) => item !== value));
   };
 
   const handleSubmit = () => {
@@ -175,20 +173,20 @@ const IngredientListing = (props) => {
                   chosenIngredients.map((value) => {
                     return (
                       <Fragment>
-                        <ListItem key={value.productId}>
+                        <ListItem key={value}>
                           <ListItemAvatar>
                             <Avatar src={value.imageURL} />
                           </ListItemAvatar>
 
                           <ListItemText
-                            id={value.productId}
+                            id={value}
                             primary={`${value.name} ${value.selectedAmount}g $${value.estimatedPrice}`}
                           />
                           <ListItemSecondaryAction>
                             <IconButton
                               edge="end"
                               aria-label="delete"
-                              onClick={() => deleteIngredient(value.productId)}
+                              onClick={() => deleteIngredient(value)}
                             >
                               <Delete />
                             </IconButton>
