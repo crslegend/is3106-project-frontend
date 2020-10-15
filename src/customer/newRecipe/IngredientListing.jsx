@@ -24,7 +24,7 @@ const styles = (theme) => ({
     textTransform: "capitalize",
   },
   separator: {
-    height: 4,
+    height: 2,
     width: "80%",
     display: "block",
     margin: `${theme.spacing(1)}px auto 0`,
@@ -111,10 +111,10 @@ const IngredientListing = (props) => {
   };
 
   const handleSubmit = () => {
-    if (recipeInfo.name === "" && recipeInfo.date === null) {
+    if (recipeInfo.name === "" || recipeInfo.date === null) {
       setOpen(true);
     }
-    setRecipeInfo((recipeInfo.chosenIngredients = chosenIngredients));
+    setRecipeInfo({ ...recipeInfo, chosenIngredients });
     console.log(recipeInfo);
   };
 

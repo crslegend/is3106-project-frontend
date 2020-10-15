@@ -65,7 +65,7 @@ const styles = (theme) => ({
     width: "100%",
     display: "block",
     margin: `${theme.spacing(1)}px auto 0`,
-    backgroundColor: "#8f7054",
+    backgroundColor: "#77625C",
     // backgroundColor: theme.palette.secondary.main,
   },
   progress: {
@@ -83,7 +83,8 @@ const styles = (theme) => ({
     color: "#ffffff",
   },
   appBar: {
-    backgroundColor: "#8f7054",
+    // backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "#77625C",
   },
 });
 
