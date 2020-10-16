@@ -1,7 +1,12 @@
 const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
   let price = 0;
 
-  if (sellingAmount.includes("X") && sellingAmount.endsWith("KG")) {
+  if (
+    sellingAmount.includes("X") &&
+    (sellingAmount.endsWith("KG") ||
+      sellingAmount.endsWith("Kg") ||
+      sellingAmount.endsWith("kg"))
+  ) {
     const sellingAmountStr = sellingAmount
       .split(" ")[2]
       .replace(/[^.,0-9]/g, "");
@@ -35,7 +40,12 @@ const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
       (parseFloat(sellingPrice) / parseFloat(sellingAmountStr)) *
         parseFloat(selectedAmount)
     );
-  } else if (sellingAmount.endsWith("KG") || sellingAmount.endsWith(" KG")) {
+  } else if (
+    sellingAmount.endsWith("KG") ||
+    sellingAmount.endsWith(" KG") ||
+    sellingAmount.endsWith("Kg") ||
+    sellingAmount.endsWith("kg")
+  ) {
     price = parseFloat(
       (parseFloat(sellingPrice) /
         (parseFloat(sellingAmount.replace(/[^.,0-9]/g, "")) * 1000)) *
@@ -83,4 +93,37 @@ const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
   return price;
 };
 
-export default calculatePrice;
+const addUnitToAmount = (sellingAmount) => {
+  let unit = "";
+  if (
+    sellingAmount.endsWith("per pack)") ||
+    sellingAmount.endsWith("Per Pack)") ||
+    sellingAmount.endsWith("S")
+  ) {
+    unit = "pc";
+  } else if (
+    sellingAmount.endsWith("G") ||
+    sellingAmount.endsWith("g") ||
+    sellingAmount.endsWith("gm")
+  ) {
+    unit = "g";
+  } else if (
+    sellingAmount.endsWith("KG") ||
+    sellingAmount.endsWith("Kg") ||
+    sellingAmount.endsWith("kg")
+  ) {
+    unit = "kg";
+  } else if (sellingAmount.endsWith("ML") || sellingAmount.endsWith("ml")) {
+    unit = "ml";
+  } else if (
+    sellingAmount.endsWith("L") ||
+    sellingAmount.endsWith("l") ||
+    sellingAmount.endsWith("LT")
+  ) {
+    unit = "L";
+  }
+
+  return unit;
+};
+
+export default { calculatePrice, addUnitToAmount };

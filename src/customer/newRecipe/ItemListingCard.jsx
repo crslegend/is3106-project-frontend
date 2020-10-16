@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  InputAdornment,
   TextField,
 } from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -15,7 +16,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Chef from "../../assets/placeholder.jpg";
-import calculatePrice from "./calculatePrice";
+import processData from "./processData";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -95,7 +96,7 @@ const ItemListingCard = (props) => {
   };
 
   const setAmount = (amount) => {
-    const price = calculatePrice(
+    const price = processData.calculatePrice(
       selectedItem.price,
       selectedItem.amount,
       amount
@@ -107,9 +108,12 @@ const ItemListingCard = (props) => {
       setCost(price);
     }
 
+    const amountWithUnit =
+      amount + processData.addUnitToAmount(selectedItem.amount);
+
     setSelectedItem({
       ...selectedItem,
-      selectedAmount: amount,
+      selectedAmount: amountWithUnit,
       estimatedPrice: price.toFixed(2),
     });
   };
@@ -130,6 +134,14 @@ const ItemListingCard = (props) => {
   };
 
   // console.log(selectedItem);
+
+  const inputAdornment = () => {
+    if (selectedItem) {
+      const unit = processData.addUnitToAmount(selectedItem.amount);
+      return <InputAdornment position="end">{unit}</InputAdornment>;
+    }
+    return null;
+  };
 
   return (
     <Fragment>
@@ -212,6 +224,9 @@ const ItemListingCard = (props) => {
               InputProps={{ inputProps: { min: 0 } }}
               required
               onChange={(e) => setAmount(e.target.value)}
+              InputProps={{
+                endAdornment: inputAdornment(),
+              }}
             />
           </DialogContent>
           <DialogActions>

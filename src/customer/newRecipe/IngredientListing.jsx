@@ -173,15 +173,35 @@ const IngredientListing = (props) => {
                   chosenIngredients.map((value) => {
                     return (
                       <Fragment>
-                        <ListItem key={value}>
+                        <ListItem
+                          key={value}
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <ListItemAvatar>
                             <Avatar src={value.imageURL} />
                           </ListItemAvatar>
 
                           <ListItemText
+                            style={{ marginRight: "20px" }}
+                            secondaryTypographyProps={{
+                              style: { fontWeight: "normal" },
+                            }}
                             id={value}
-                            primary={`${value.name} ${value.selectedAmount}g $${value.estimatedPrice}`}
+                            primary={`${value.name}`}
+                            secondary={`Quantity: ${value.selectedAmount}`}
                           />
+
+                          <ListItemText
+                            style={{ marginLeft: "20px" }}
+                            id={value}
+                            primary={`$${value.estimatedPrice}`}
+                          />
+
                           <ListItemSecondaryAction>
                             <IconButton
                               edge="end"
@@ -223,7 +243,7 @@ const IngredientListing = (props) => {
           >
             <div className={classes.separator} />
             <Typography variant="h5" className={classes.price}>
-              Total Price: ${totalPrice}
+              Total Price: ${totalPrice.toFixed(2)}
             </Typography>
             <Button
               onClick={handleSubmit}

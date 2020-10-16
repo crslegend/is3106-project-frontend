@@ -198,6 +198,7 @@ const IngredientsTabs = (props) => {
             placeholder="Search from the Selected Category below"
             list={products}
             keys={["name"]}
+            distance={80}
             listWrapperStyle={{
               display: "flex",
               flexDirection: "row",
@@ -284,11 +285,6 @@ const IngredientsTabs = (props) => {
               hasMore={hasMore}
               scrollableTarget={tab.toString()}
               scrollThreshold={0.95}
-              endMessage={(
-                <Typography variant="body1" style={{ fontWeight: "bold" }}>
-                  Yay! You have reached the end!
-                </Typography>
-              )}
             >
               <Grid container>
                 {products && products.length > 0 ? (
