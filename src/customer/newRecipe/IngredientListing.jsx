@@ -78,7 +78,10 @@ const styles = (theme) => ({
 const IngredientListing = (props) => {
   const { classes, recipeInfo, setRecipeInfo, setOpen, setEditMode } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [priceRange, setPriceRange] = useState({
+    estimated_price_start: 0,
+    estimated_price_end: 0,
+  });
   const [alertOpen, setAlertOpen] = useState(false);
 
   // useEffect(() => {
@@ -106,7 +109,13 @@ const IngredientListing = (props) => {
     for (i = 0; i < chosenIngredients.length; i += 1) {
       total += parseFloat(chosenIngredients[i].estimatedPrice);
     }
-    setTotalPrice(total);
+
+    const lowEnd = (total / 100) * 90;
+    const highEnd = (total / 100) * 110;
+    setPriceRange({
+      estimated_price_start: lowEnd,
+      estimated_price_end: highEnd,
+    });
   };
 
   useEffect(() => {
@@ -296,7 +305,8 @@ const IngredientListing = (props) => {
           >
             <div className={classes.separator} />
             <Typography variant="h5" className={classes.price}>
-              Estimated Price: ${totalPrice.toFixed(2)}
+              Estimated Price: ${priceRange.estimated_price_start.toFixed(2)} -
+              ${priceRange.estimated_price_end.toFixed(2)}
             </Typography>
             <Button
               onClick={handleSubmit}
