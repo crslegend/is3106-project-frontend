@@ -67,7 +67,7 @@ const styles = (theme) => ({
 });
 
 const IngredientListing = (props) => {
-  const { classes, recipeInfo, setRecipeInfo, setOpen } = props;
+  const { classes, recipeInfo, setRecipeInfo, setOpen, setEditMode } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -110,19 +110,17 @@ const IngredientListing = (props) => {
 
   const handleSubmit = () => {
     if (recipeInfo.name === "" || recipeInfo.date === null) {
+      setEditMode(true);
       setOpen(true);
     }
     setRecipeInfo({ ...recipeInfo, chosenIngredients });
     console.log(recipeInfo);
   };
 
-  const editRecipeNameAndDate = () => (
-    <NewRecipeForm
-      recipeInfo={recipeInfo}
-      setRecipeInfo={setRecipeInfo}
-      open={setOpen(true)}
-    />
-  );
+  const editRecipeNameAndDate = () => {
+    setEditMode(true);
+    setOpen(true);
+  };
 
   return (
     <Grid container>

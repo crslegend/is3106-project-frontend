@@ -37,8 +37,14 @@ const styles = (theme) => ({
 });
 
 const NewRecipeForm = (props) => {
-  const { classes, setRecipeInfo, open, setOpen } = props;
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const getTomorrowDate = () => {
+    const tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    return tmr;
+  };
+
+  const { classes, setRecipeInfo, open, setOpen, editMode } = props;
+  const [selectedDate, setSelectedDate] = useState(getTomorrowDate());
   const [recipeName, setName] = useState("");
 
   const handleDateChange = (e) => {
@@ -51,6 +57,11 @@ const NewRecipeForm = (props) => {
 
   const handleClose = () => {
     setOpen(false);
+    const updatedInfo = {
+      name: recipeName,
+      date: selectedDate,
+    };
+    setRecipeInfo(updatedInfo);
   };
 
   const handleSubmit = () => {
@@ -82,7 +93,6 @@ const NewRecipeForm = (props) => {
               label="Recipe Name"
               type="text"
               placeholder="Grilled Lamb Chop"
-              required
               value={recipeName}
               onChange={(e) => handleNameChange(e.target.value)}
             />
@@ -94,7 +104,7 @@ const NewRecipeForm = (props) => {
                 variant="normal"
                 format="dd/MM/yyyy"
                 margin="normal"
-                minDate={new Date()}
+                minDate={getTomorrowDate()}
                 label="Choose a Fulfillment Date"
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e)}
@@ -105,7 +115,15 @@ const NewRecipeForm = (props) => {
             </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
-            {recipeName && recipeName.length > 0 ? (
+            {editMode ? (
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
+                Update Recipe
+              </Button>
+            ) : recipeName.length > 0 ? (
               <Button
                 className={classes.button}
                 onClick={handleSubmit}

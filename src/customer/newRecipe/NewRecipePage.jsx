@@ -11,6 +11,7 @@ const NewRecipePage = () => {
   });
 
   const [open, setOpen] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
   return (
     <Fragment>
@@ -19,12 +20,14 @@ const NewRecipePage = () => {
         setRecipeInfo={setRecipeInfo}
         open={open}
         setOpen={setOpen}
+        editMode={editMode}
       />
       <IngredientListing
         recipeInfo={recipeInfo}
         setRecipeInfo={setRecipeInfo}
         open={open}
         setOpen={setOpen}
+        setEditMode={setEditMode}
       />
     </Fragment>
   );
