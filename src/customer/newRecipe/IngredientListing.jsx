@@ -16,13 +16,21 @@ import {
   Snackbar,
   Typography,
 } from "@material-ui/core";
-import { Delete, Edit, AddShoppingCart } from "@material-ui/icons";
+import {
+  Delete,
+  Edit,
+  AddShoppingCart,
+  AssignmentTwoTone,
+  DateRangeTwoTone,
+} from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import IngredientsTabs from "./IngredientsTabs";
 
 const styles = (theme) => ({
   title: {
     textTransform: "capitalize",
+    fontWeight: "bold",
+    alignSelf: "center",
   },
   separator: {
     height: 2,
@@ -39,7 +47,7 @@ const styles = (theme) => ({
     borderRadius: 10,
     width: "90%",
     margin: "auto",
-    backgroundColor: "#DCCCBB",
+    backgroundColor: "#EEE2DF",
   },
   recipeListHeader: {
     display: "flex",
@@ -160,16 +168,48 @@ const IngredientListing = (props) => {
                   alignItems: "flex-start",
                 }}
               >
-                <Typography variant="h5" className={classes.title}>
-                  {recipeInfo.name && recipeInfo.name
-                    ? `Recipe: ${recipeInfo.name}`
-                    : "Recipe: -"}
-                </Typography>
-                <Typography variant="h5" className={classes.title}>
-                  {recipeInfo.date && recipeInfo.date
-                    ? `Fulfillment Date: ${recipeInfo.date.toDateString()}`
-                    : "Fulfillment Date: -"}
-                </Typography>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <AssignmentTwoTone fontSize="large" />
+
+                  <Typography
+                    variant="h5"
+                    style={{
+                      textTransform: "capitalize",
+                      alignSelf: "center",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    {recipeInfo.name && recipeInfo.name
+                      ? ` ${recipeInfo.name}`
+                      : ""}
+                  </Typography>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <DateRangeTwoTone fontSize="large" />
+                  <Typography
+                    variant="h5"
+                    style={{
+                      textTransform: "capitalize",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    {recipeInfo.date && recipeInfo.date
+                      ? ` ${recipeInfo.date.toDateString()}`
+                      : ""}
+                  </Typography>
+                </div>
               </div>
 
               <IconButton edge="end" onClick={() => editRecipeNameAndDate()}>
@@ -256,7 +296,7 @@ const IngredientListing = (props) => {
           >
             <div className={classes.separator} />
             <Typography variant="h5" className={classes.price}>
-              Total Price: ${totalPrice.toFixed(2)}
+              Estimated Price: ${totalPrice.toFixed(2)}
             </Typography>
             <Button
               onClick={handleSubmit}
