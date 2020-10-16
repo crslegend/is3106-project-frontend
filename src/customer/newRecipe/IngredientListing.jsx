@@ -13,10 +13,11 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   Paper,
+  Snackbar,
   Typography,
 } from "@material-ui/core";
 import { Delete, Edit, AddShoppingCart } from "@material-ui/icons";
-import NewRecipeForm from "./NewRecipeForm";
+import { Alert } from "@material-ui/lab";
 import IngredientsTabs from "./IngredientsTabs";
 
 const styles = (theme) => ({
@@ -70,6 +71,7 @@ const IngredientListing = (props) => {
   const { classes, recipeInfo, setRecipeInfo, setOpen, setEditMode } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [alertOpen, setAlertOpen] = useState(false);
 
   // useEffect(() => {
   //   Service.ntucClient
@@ -112,7 +114,13 @@ const IngredientListing = (props) => {
     if (recipeInfo.name === "" || recipeInfo.date === null) {
       setEditMode(true);
       setOpen(true);
+    } else if (chosenIngredients.length === 0) {
+      setAlertOpen(true);
+    } else {
+      // call api
+      setEditMode(false);
     }
+
     setRecipeInfo({ ...recipeInfo, chosenIngredients });
     console.log(recipeInfo);
   };
@@ -120,6 +128,13 @@ const IngredientListing = (props) => {
   const editRecipeNameAndDate = () => {
     setEditMode(true);
     setOpen(true);
+  };
+
+  const handleAlertClose = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertOpen(false);
   };
 
   return (
@@ -254,6 +269,18 @@ const IngredientListing = (props) => {
           </div>
         </Paper>
       </Grid>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={handleAlertClose}
+      >
+        <Alert onClose={handleAlertClose} elevation={6} severity="error">
+          <Typography variant="body1">
+            Please add some ingredients before submitting!
+          </Typography>
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };
