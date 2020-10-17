@@ -127,6 +127,18 @@ const IngredientListing = (props) => {
     updateIngredients(chosenIngredients.filter((item) => item !== value));
   };
 
+  // const formatDate = (date) => {
+  //   if (date !== null) {
+  //     const newDate = new Date(
+  //       date.getTime() - date.getTimezoneOffset() * 60000
+  //     )
+  //       .toISOString()
+  //       .split("T")[0];
+  //     return newDate;
+  //   }
+  //   return null;
+  // };
+
   const handleSubmit = () => {
     if (recipeInfo.name === "" || recipeInfo.date === null) {
       setEditMode(true);
@@ -134,13 +146,21 @@ const IngredientListing = (props) => {
     } else if (chosenIngredients.length === 0) {
       setAlertOpen(true);
     } else {
-      // call api
       setEditMode(false);
+      setRecipeInfo({
+        ...recipeInfo,
+        estimated_price_start: priceRange.estimated_price_start.toFixed(2),
+        estimated_price_end: priceRange.estimated_price_end.toFixed(2),
+        ingredients: chosenIngredients,
+      });
     }
-
-    setRecipeInfo({ ...recipeInfo, chosenIngredients });
     console.log(recipeInfo);
   };
+
+  useEffect(() => {
+    console.log(recipeInfo);
+    // call api
+  }, [recipeInfo]);
 
   const editRecipeNameAndDate = () => {
     setEditMode(true);
@@ -194,9 +214,9 @@ const IngredientListing = (props) => {
                       marginLeft: "10px",
                     }}
                   >
-                    {recipeInfo.name && recipeInfo.name
-                      ? ` ${recipeInfo.name}`
-                      : ""}
+                    {recipeInfo.recipe_name && recipeInfo.recipe_name
+                      ? ` ${recipeInfo.recipe_name}`
+                      : "-"}
                   </Typography>
                 </div>
                 <div
@@ -214,9 +234,9 @@ const IngredientListing = (props) => {
                       marginLeft: "10px",
                     }}
                   >
-                    {recipeInfo.date && recipeInfo.date
-                      ? ` ${recipeInfo.date.toDateString()}`
-                      : ""}
+                    {recipeInfo.fulfillment_date && recipeInfo.fulfillment_date
+                      ? ` ${recipeInfo.fulfillment_date.toDateString()}`
+                      : "-"}
                   </Typography>
                 </div>
               </div>
@@ -245,7 +265,7 @@ const IngredientListing = (props) => {
                           }}
                         >
                           <ListItemAvatar>
-                            <Avatar src={value.imageURL} />
+                            <Avatar src={value.image_url} />
                           </ListItemAvatar>
 
                           <ListItemText
@@ -254,8 +274,8 @@ const IngredientListing = (props) => {
                               style: { fontWeight: "normal" },
                             }}
                             id={value}
-                            primary={`${value.name}`}
-                            secondary={`Quantity: ${value.selectedAmount}`}
+                            primary={`${value.ing_name}`}
+                            secondary={`Quantity: ${value.quantity}`}
                           />
 
                           <ListItemText

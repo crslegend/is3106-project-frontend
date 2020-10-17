@@ -98,7 +98,8 @@ const addUnitToAmount = (sellingAmount) => {
   if (
     sellingAmount.endsWith("per pack)") ||
     sellingAmount.endsWith("Per Pack)") ||
-    sellingAmount.endsWith("S")
+    sellingAmount.endsWith("S") ||
+    sellingAmount.endsWith("pc")
   ) {
     unit = "pc";
   } else if (

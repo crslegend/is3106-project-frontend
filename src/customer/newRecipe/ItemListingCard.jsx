@@ -80,25 +80,32 @@ const ItemListingCard = (props) => {
   const handleClickOpen = () => {
     setOpen(true);
     setSelectedItem({
-      name: product.name,
-      productId: product.id,
-      imageURL: product.images ? product.images[0] : Chef,
-      amount:
-        product.metaData["Unit Of Weight"] &&
-        !product.metaData.DisplayUnit.endsWith("per pack)") &&
-        !product.metaData["Unit Of Weight"].endsWith("OZ")
-          ? product.metaData["Unit Of Weight"]
-          : product.metaData.DisplayUnit,
-      price:
+      foreign_id: product.id,
+      ing_name: product.name,
+      image_url: product.images ? product.images[0] : Chef,
+      category: product.primaryCategory.parentCategory.name,
+      sellingPrice:
         parseFloat(product.storeSpecificData[0].mrp) -
         parseFloat(product.storeSpecificData[0].discount).toFixed(2),
+      metadata: {
+        "Country of Origin": product.metaData["Country of Origin"],
+        "Dietary Attributes": product.metaData["Dietary Attributes"]
+          ? product.metaData["Dietary Attributes"]
+          : [""],
+        amount:
+          product.metaData["Unit Of Weight"] &&
+          !product.metaData.DisplayUnit.endsWith("per pack)") &&
+          !product.metaData["Unit Of Weight"].endsWith("OZ")
+            ? product.metaData["Unit Of Weight"]
+            : product.metaData.DisplayUnit,
+      },
     });
   };
 
   const setAmount = (amount) => {
     const price = processData.calculatePrice(
-      selectedItem.price,
-      selectedItem.amount,
+      selectedItem.sellingPrice,
+      selectedItem.metadata.amount,
       amount
     );
 
@@ -109,11 +116,11 @@ const ItemListingCard = (props) => {
     }
 
     const amountWithUnit =
-      amount + processData.addUnitToAmount(selectedItem.amount);
+      amount + processData.addUnitToAmount(selectedItem.metadata.amount);
 
     setSelectedItem({
       ...selectedItem,
-      selectedAmount: amountWithUnit,
+      quantity: amountWithUnit,
       estimatedPrice: price.toFixed(2),
     });
   };
@@ -137,7 +144,7 @@ const ItemListingCard = (props) => {
 
   const inputAdornment = () => {
     if (selectedItem) {
-      const unit = processData.addUnitToAmount(selectedItem.amount);
+      const unit = processData.addUnitToAmount(selectedItem.metadata.amount);
       return <InputAdornment position="end">{unit}</InputAdornment>;
     }
     return null;
@@ -243,9 +250,9 @@ const ItemListingCard = (props) => {
               className={classes.button}
               disabled={
                 selectedItem &&
-                (selectedItem.selectedAmount === undefined ||
-                  selectedItem.selectedAmount === "0" ||
-                  selectedItem.selectedAmount === "")
+                (selectedItem.quantity === undefined ||
+                  selectedItem.quantity === "0" ||
+                  selectedItem.quantity === "")
               }
             >
               Add To Recipe

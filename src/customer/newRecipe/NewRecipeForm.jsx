@@ -43,7 +43,7 @@ const NewRecipeForm = (props) => {
     return tmr;
   };
 
-  const { classes, setRecipeInfo, open, setOpen, editMode } = props;
+  const { classes, recipeInfo, setRecipeInfo, open, setOpen, editMode } = props;
   const [selectedDate, setSelectedDate] = useState(getTomorrowDate());
   const [recipeName, setName] = useState("");
 
@@ -57,21 +57,22 @@ const NewRecipeForm = (props) => {
 
   const handleClose = () => {
     setOpen(false);
-    const updatedInfo = {
-      name: recipeName,
-      date: selectedDate,
-    };
-    setRecipeInfo(updatedInfo);
+
+    setRecipeInfo({
+      ...recipeInfo,
+      recipe_name: recipeName,
+      fulfillment_date: selectedDate,
+    });
   };
 
   const handleSubmit = () => {
     setOpen(false);
-    const updatedInfo = {
-      name: recipeName,
-      date: selectedDate,
-    };
 
-    setRecipeInfo(updatedInfo);
+    setRecipeInfo({
+      ...recipeInfo,
+      recipe_name: recipeName,
+      fulfillment_date: selectedDate,
+    });
   };
 
   return (
