@@ -45,18 +45,23 @@ const getListing = async (pageNum, tabIndex, sortMethod) => {
   return result;
 };
 
-const getSearchResults = async () => {
+const getSearchResults = async (pageNum, keyword) => {
   await axios
-    .get("https://website-api.omni.fairprice.com.sg/api/layout/search/v2", {
+    .get("https://website-api.omni.fairprice.com.sg/api/product/v2", {
       params: {
-        experiments:
-          "cartRecommendVariant-A,keywordCampaignVariant-B,searchRepurchaseVariant-B",
-        q: "mooncake",
+        includeTagDetails: "true",
+        pageType: "search",
+        page: pageNum,
+        query: keyword,
+        url: keyword,
       },
     })
     .then((res) => {
-      console.log(res);
+      console.log("RESULTS");
+      console.log(res.data.data);
     });
 };
+
+// getSearchResults("snowskin%20mooncake");
 
 export default { getListing, getSearchResults };

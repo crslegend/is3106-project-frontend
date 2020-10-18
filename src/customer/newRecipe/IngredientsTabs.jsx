@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, fade } from "@material-ui/core/styles";
 import {
   AppBar,
   Box,
@@ -13,10 +13,10 @@ import {
   FormControl,
   Select,
   MenuItem,
-  Typography,
 } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FuzzySearch from "react-fuzzy";
+import SearchBar from "material-ui-search-bar";
 import ItemListingCard from "./ItemListingCard";
 import ntuc from "./getListing";
 
@@ -86,6 +86,21 @@ const styles = (theme) => ({
     // backgroundColor: theme.palette.secondary.dark,
     backgroundColor: "#77625C",
   },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "85%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  },
 });
 
 const IngredientsTabs = (props) => {
@@ -101,6 +116,7 @@ const IngredientsTabs = (props) => {
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState([]);
   const [sortMethod, setSortMethod] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   // for changing between tabs
   useEffect(() => {
@@ -158,6 +174,18 @@ const IngredientsTabs = (props) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    console.log(searchValue);
+  }, [searchValue]);
+
+  const getSearchResults = () => {
+    let listing = null;
+    const results = async () => {
+      listing = await ntuc.getSearchResults(1, searchValue);
+    };
+    results();
+  };
+
   const fetchMoreData = () => {
     setPage(page + 1);
     if (page > paginationInfo.total_pages) {
@@ -193,7 +221,7 @@ const IngredientsTabs = (props) => {
         }}
       >
         <Fragment>
-          <FuzzySearch
+          {/* <FuzzySearch
             width="85%"
             placeholder="Search from the Selected Category below"
             list={products}
@@ -223,6 +251,18 @@ const IngredientsTabs = (props) => {
                 );
               });
             }}
+          /> */}
+
+          <SearchBar
+            style={{
+              width: "80%",
+              backgroundColor: "#e0e0e0",
+            }}
+            placeholder="Search for Products"
+            value={searchValue}
+            onChange={(newValue) => setSearchValue(newValue)}
+            onRequestSearch={getSearchResults}
+            onCancelSearch={() => setSearchValue("")}
           />
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel>Sort By</InputLabel>
