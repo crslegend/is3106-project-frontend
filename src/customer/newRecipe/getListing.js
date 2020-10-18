@@ -47,20 +47,37 @@ const getListing = async (pageNum, tabIndex, sortMethod) => {
 
 const getSearchResults = async (pageNum, keyword, sortMethod) => {
   let result = null;
+  let finalKeyword = "";
+
+  if (keyword.split(" ").length > 1) {
+    // replaces the spaces in between with %20
+    finalKeyword = keyword.trim().replace(/\s+/g, "%20");
+  } else {
+    finalKeyword = keyword;
+  }
+
   await axios
     .get("https://website-api.omni.fairprice.com.sg/api/product/v2", {
       params: {
         includeTagDetails: "true",
         pageType: "search",
         page: pageNum,
-        query: keyword,
-        url: keyword,
+        query: finalKeyword,
+        url: finalKeyword,
         sorting: sortMethod,
       },
     })
+    // .get("https://website-api.omni.fairprice.com.sg/api/layout/search/v2?", {
+    //   params: {
+    //     experiments:
+    //       "cartRecommendVariant-A%2CkeywordCampaignVariant-B%2CsearchRepurchaseVariant-B",
+    //     includeTagDetails: "true",
+    //     q: finalKeyword,
+    //   },
+    // })
     .then((res) => {
       console.log("RESULTS");
-      console.log(res.data.data);
+      console.log(res);
       result = res.data.data;
     });
   return result;
