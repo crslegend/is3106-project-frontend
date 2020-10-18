@@ -124,6 +124,7 @@ const IngredientsTabs = (props) => {
     let listing = null;
     setProducts([]);
     setHasMore(true);
+    setSearchValue("");
     const getItems = async () => {
       setPage(1);
       // console.log(page);
@@ -152,7 +153,21 @@ const IngredientsTabs = (props) => {
       setProducts(listing.product);
       console.log(`CHANGE SORT ${sortMethod}`);
     };
-    getItems();
+
+    const results = async () => {
+      setPage(1);
+      listing = await ntuc.getSearchResults(1, searchValue, sortMethod);
+      setPage(1 + 1);
+      setPaginationInfo(listing.pagination);
+      setProducts(listing.product);
+      console.log(`CHANGE SORT ${sortMethod}`);
+    };
+
+    if (searchValue === "") {
+      getItems();
+    } else {
+      results();
+    }
   }, [sortMethod]);
 
   // for loading more pages of data
@@ -166,7 +181,20 @@ const IngredientsTabs = (props) => {
       setProducts(listing.product);
       console.log(`LOAD MORE DATA ${sortMethod}`);
     };
-    getItems();
+
+    const results = async () => {
+      listing = await ntuc.getSearchResults(page, searchValue, sortMethod);
+      setPage(page + 1);
+      setPaginationInfo(listing.pagination);
+      setProducts(listing.product);
+      console.log(`LOAD MORE DATA ${sortMethod}`);
+    };
+
+    if (searchValue === "") {
+      getItems();
+    } else {
+      results();
+    }
   }, []);
 
   const handleChange = (event, newValue) => {
@@ -174,14 +202,19 @@ const IngredientsTabs = (props) => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    console.log(searchValue);
-  }, [searchValue]);
-
   const getSearchResults = () => {
+    if (searchValue === "") {
+      return;
+    }
+
     let listing = null;
+    setProducts([]);
+    setHasMore(true);
     const results = async () => {
-      listing = await ntuc.getSearchResults(1, searchValue);
+      listing = await ntuc.getSearchResults(1, searchValue, sortMethod);
+      setPage(1 + 1);
+      setPaginationInfo(listing.pagination);
+      setProducts(listing.product);
     };
     results();
   };
@@ -199,7 +232,18 @@ const IngredientsTabs = (props) => {
       // console.log(listing);
       setProducts(products.concat(listing.product));
     };
-    getItems();
+
+    const results = async () => {
+      listing = await ntuc.getSearchResults(page, searchValue, sortMethod);
+      setProducts(products.concat(listing.product));
+    };
+
+    if (searchValue === "") {
+      getItems();
+    } else {
+      results();
+    }
+
     // console.log(page);
   };
   console.log(products);

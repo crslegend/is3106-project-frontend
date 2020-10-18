@@ -45,7 +45,8 @@ const getListing = async (pageNum, tabIndex, sortMethod) => {
   return result;
 };
 
-const getSearchResults = async (pageNum, keyword) => {
+const getSearchResults = async (pageNum, keyword, sortMethod) => {
+  let result = null;
   await axios
     .get("https://website-api.omni.fairprice.com.sg/api/product/v2", {
       params: {
@@ -54,14 +55,15 @@ const getSearchResults = async (pageNum, keyword) => {
         page: pageNum,
         query: keyword,
         url: keyword,
+        sorting: sortMethod,
       },
     })
     .then((res) => {
       console.log("RESULTS");
       console.log(res.data.data);
+      result = res.data.data;
     });
+  return result;
 };
-
-// getSearchResults("snowskin%20mooncake");
 
 export default { getListing, getSearchResults };
