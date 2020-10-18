@@ -76,6 +76,12 @@ const styles = (theme) => ({
     display: "block",
     margin: "auto",
   },
+  noResults: {
+    marginTop: "200px",
+    marginBottom: "150px",
+    display: "block",
+    margin: "auto",
+  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
@@ -223,7 +229,7 @@ const IngredientsTabs = (props) => {
   };
 
   const fetchMoreData = () => {
-    if (page > paginationInfo.total_pages) {
+    if (paginationInfo.total_pages && page > paginationInfo.total_pages) {
       setHasMore(false);
       return;
     }
@@ -394,7 +400,7 @@ const IngredientsTabs = (props) => {
                     </div>
                   )
                 ) : (
-                  <div className={classes.progress}>
+                  <div className={classes.noResults}>
                     <SearchIcon style={{ fontSize: 50 }} color="disabled" />
                     <Typography variant="body1" style={{ fontSize: "18px" }}>
                       We could not find anything that matches your search
