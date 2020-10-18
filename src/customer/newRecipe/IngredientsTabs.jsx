@@ -13,7 +13,9 @@ import {
   FormControl,
   Select,
   MenuItem,
+  Typography,
 } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FuzzySearch from "react-fuzzy";
 import SearchBar from "material-ui-search-bar";
@@ -171,31 +173,32 @@ const IngredientsTabs = (props) => {
   }, [sortMethod]);
 
   // for loading more pages of data
-  useEffect(() => {
-    console.log("load more data");
-    let listing = null;
-    const getItems = async () => {
-      listing = await ntuc.getListing(page, value, sortMethod);
-      setPage(page + 1);
-      setPaginationInfo(listing.pagination);
-      setProducts(listing.product);
-      console.log(`LOAD MORE DATA ${sortMethod}`);
-    };
+  // useEffect(() => {
+  //   console.log("load more data");
+  //   let listing = null;
+  //   const getItems = async () => {
+  //     console.log(`USE EFFECT ${page}`);
+  //     listing = await ntuc.getListing(page, value, sortMethod);
+  //     setPage(page + 1);
+  //     setPaginationInfo(listing.pagination);
+  //     setProducts(listing.product);
+  //     console.log(`LOAD MORE DATA ${sortMethod}`);
+  //   };
 
-    const results = async () => {
-      listing = await ntuc.getSearchResults(page, searchValue, sortMethod);
-      setPage(page + 1);
-      setPaginationInfo(listing.pagination);
-      setProducts(listing.product);
-      console.log(`LOAD MORE DATA ${sortMethod}`);
-    };
+  //   const results = async () => {
+  //     listing = await ntuc.getSearchResults(page, searchValue, sortMethod);
+  //     setPage(page + 1);
+  //     setPaginationInfo(listing.pagination);
+  //     setProducts(listing.product);
+  //     console.log(`LOAD MORE DATA ${sortMethod}`);
+  //   };
 
-    if (searchValue === "") {
-      getItems();
-    } else {
-      results();
-    }
-  }, []);
+  //   if (searchValue === "") {
+  //     getItems();
+  //   } else {
+  //     results();
+  //   }
+  // }, []);
 
   const handleChange = (event, newValue) => {
     event.preventDefault();
@@ -220,7 +223,6 @@ const IngredientsTabs = (props) => {
   };
 
   const fetchMoreData = () => {
-    setPage(page + 1);
     if (page > paginationInfo.total_pages) {
       setHasMore(false);
       return;
@@ -228,13 +230,17 @@ const IngredientsTabs = (props) => {
 
     let listing = null;
     const getItems = async () => {
+      console.log(`FETCH MORE ${page}`);
       listing = await ntuc.getListing(page, value, sortMethod);
+      setPage(page + 1);
       // console.log(listing);
       setProducts(products.concat(listing.product));
     };
 
     const results = async () => {
+      console.log(`FETCH MORE ${page}`);
       listing = await ntuc.getSearchResults(page, searchValue, sortMethod);
+      setPage(page + 1);
       setProducts(products.concat(listing.product));
     };
 
@@ -371,19 +377,31 @@ const IngredientsTabs = (props) => {
               scrollThreshold={0.95}
             >
               <Grid container>
-                {products && products.length > 0 ? (
-                  products.map((product) => (
-                    <ItemListingCard
-                      key={product.id}
-                      product={product && product}
-                      updateIngredients={updateIngredients}
-                      chosenIngredients={chosenIngredients}
-                      calculateTotalPrice={calculateTotalPrice}
-                    />
-                  ))
+                {products ? (
+                  products.length > 0 ? (
+                    products.map((product) => (
+                      <ItemListingCard
+                        key={product.id}
+                        product={product && product}
+                        updateIngredients={updateIngredients}
+                        chosenIngredients={chosenIngredients}
+                        calculateTotalPrice={calculateTotalPrice}
+                      />
+                    ))
+                  ) : (
+                    <div className={classes.progress}>
+                      <CircularProgress />
+                    </div>
+                  )
                 ) : (
                   <div className={classes.progress}>
-                    <CircularProgress />
+                    <SearchIcon style={{ fontSize: 50 }} color="disabled" />
+                    <Typography variant="body1" style={{ fontSize: "18px" }}>
+                      We could not find anything that matches your search
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Try searching other keywords
+                    </Typography>
                   </div>
                 )}
               </Grid>
