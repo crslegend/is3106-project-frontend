@@ -166,8 +166,8 @@ const IngredientListing = (props) => {
         estimated_price_end: priceRange.estimated_price_end.toFixed(2),
         ingredients: chosenIngredients,
       });
+      setConfirmSubmitModal(true);
     }
-    setConfirmSubmitModal(true);
     // console.log(recipeInfo);
   };
 
