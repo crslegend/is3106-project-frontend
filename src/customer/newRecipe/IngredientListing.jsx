@@ -140,7 +140,7 @@ const IngredientListing = (props) => {
   // };
 
   const handleSubmit = () => {
-    if (recipeInfo.name === "" || recipeInfo.date === null) {
+    if (recipeInfo.recipe_name === "" || recipeInfo.fulfillment_date === null) {
       setEditMode(true);
       setOpen(true);
     } else if (chosenIngredients.length === 0) {
