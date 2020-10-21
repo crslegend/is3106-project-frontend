@@ -28,7 +28,9 @@ const removeCredentials = () => {
 // set request interceptor to use access token if exists
 client.interceptors.request.use(
   (config) => {
-    config.headers.Authorization = `Bearer ${Cookies.get("t1")}`;
+    if (Cookies.get("t1")) {
+      config.headers.Authorization = `Bearer ${Cookies.get("t1")}`;
+    }
     return config;
   },
   (err) => {
