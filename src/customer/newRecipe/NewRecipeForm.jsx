@@ -43,7 +43,15 @@ const NewRecipeForm = (props) => {
     return tmr;
   };
 
-  const { classes, recipeInfo, setRecipeInfo, open, setOpen, editMode } = props;
+  const {
+    classes,
+    recipeInfo,
+    setRecipeInfo,
+    open,
+    setOpen,
+    editMode,
+    setDateForDisplay,
+  } = props;
   const [selectedDate, setSelectedDate] = useState(getTomorrowDate());
   const [recipeName, setName] = useState("");
 
@@ -55,14 +63,27 @@ const NewRecipeForm = (props) => {
     setName(e);
   };
 
+  const formatDate = (date) => {
+    if (date !== null) {
+      const newDate = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
+      return newDate;
+    }
+    return null;
+  };
+
   const handleClose = () => {
     setOpen(false);
 
     setRecipeInfo({
       ...recipeInfo,
       recipe_name: recipeName,
-      fulfillment_date: selectedDate,
+      fulfillment_date: formatDate(selectedDate),
     });
+    setDateForDisplay(selectedDate);
   };
 
   const handleSubmit = () => {
@@ -71,8 +92,9 @@ const NewRecipeForm = (props) => {
     setRecipeInfo({
       ...recipeInfo,
       recipe_name: recipeName,
-      fulfillment_date: selectedDate,
+      fulfillment_date: formatDate(selectedDate),
     });
+    setDateForDisplay(selectedDate);
   };
 
   return (

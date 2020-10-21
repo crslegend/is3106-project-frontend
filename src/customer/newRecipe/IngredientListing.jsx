@@ -4,6 +4,11 @@ import { withStyles } from "@material-ui/core/styles";
 import {
   Avatar,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
   IconButton,
@@ -25,6 +30,7 @@ import {
 } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import IngredientsTabs from "./IngredientsTabs";
+import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   title: {
@@ -73,16 +79,35 @@ const styles = (theme) => ({
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
+  submitModalButton: {
+    "&:hover": {
+      backgroundColor: "#EEF1EF",
+    },
+  },
+  dialog: {
+    backgroundColor: theme.palette.primary.main,
+    "& h5": {
+      textTransform: "capitalize",
+    },
+  },
 });
 
 const IngredientListing = (props) => {
-  const { classes, recipeInfo, setRecipeInfo, setOpen, setEditMode } = props;
+  const {
+    classes,
+    recipeInfo,
+    setRecipeInfo,
+    setOpen,
+    setEditMode,
+    dateForDisplay,
+  } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
   const [priceRange, setPriceRange] = useState({
     estimated_price_start: 0,
     estimated_price_end: 0,
   });
   const [alertOpen, setAlertOpen] = useState(false);
+  const [openConfirmSubmitModal, setConfirmSubmitModal] = useState(false);
 
   // useEffect(() => {
   //   Service.ntucClient
@@ -107,7 +132,7 @@ const IngredientListing = (props) => {
     let total = 0;
     let i = 0;
     for (i = 0; i < chosenIngredients.length; i += 1) {
-      total += parseFloat(chosenIngredients[i].estimatedPrice);
+      total += parseFloat(chosenIngredients[i].estimated_price);
     }
 
     const lowEnd = (total / 100) * 90;
@@ -127,18 +152,6 @@ const IngredientListing = (props) => {
     updateIngredients(chosenIngredients.filter((item) => item !== value));
   };
 
-  // const formatDate = (date) => {
-  //   if (date !== null) {
-  //     const newDate = new Date(
-  //       date.getTime() - date.getTimezoneOffset() * 60000
-  //     )
-  //       .toISOString()
-  //       .split("T")[0];
-  //     return newDate;
-  //   }
-  //   return null;
-  // };
-
   const handleSubmit = () => {
     if (recipeInfo.recipe_name === "" || recipeInfo.fulfillment_date === null) {
       setEditMode(true);
@@ -154,13 +167,31 @@ const IngredientListing = (props) => {
         ingredients: chosenIngredients,
       });
     }
-    console.log(recipeInfo);
+    setConfirmSubmitModal(true);
+    // console.log(recipeInfo);
   };
 
-  useEffect(() => {
+  const submitRecipe = () => {
     console.log(recipeInfo);
-    // call api
-  }, [recipeInfo]);
+    setConfirmSubmitModal(false);
+
+    Service.client
+      .post("/api/token/", {
+        email: "a@a.com",
+        password: "password",
+      })
+      .then((res) => {
+        console.log(res);
+        Service.storeCredentials(res.data); // store access and refresh tokens
+
+        Service.client
+          .post("/recipes/create_recipe", recipeInfo)
+          .then((res) => console.log(res)); // get protected view
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const editRecipeNameAndDate = () => {
     setEditMode(true);
@@ -234,8 +265,8 @@ const IngredientListing = (props) => {
                       marginLeft: "10px",
                     }}
                   >
-                    {recipeInfo.fulfillment_date && recipeInfo.fulfillment_date
-                      ? ` ${recipeInfo.fulfillment_date.toDateString()}`
+                    {dateForDisplay && dateForDisplay
+                      ? ` ${dateForDisplay.toDateString()}`
                       : "-"}
                   </Typography>
                 </div>
@@ -281,7 +312,7 @@ const IngredientListing = (props) => {
                           <ListItemText
                             style={{ marginLeft: "20px" }}
                             id={value}
-                            primary={`$${value.estimatedPrice}`}
+                            primary={`$${value.estimated_price}`}
                           />
 
                           <ListItemSecondaryAction>
@@ -351,6 +382,41 @@ const IngredientListing = (props) => {
           </Typography>
         </Alert>
       </Snackbar>
+
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        open={openConfirmSubmitModal}
+        PaperProps={{ style: { minWidth: "400px", maxWidth: "400px" } }}
+      >
+        <DialogTitle className={classes.dialog}>
+          <Typography variant="h5">Confirm Submission</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <Typography variant="body1">
+              You cannot make any more changes once you have submitted for
+              approval. Continue to submit?
+            </Typography>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="secondary"
+            className={classes.submitModalButton}
+            onClick={() => setConfirmSubmitModal(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            color="secondary"
+            className={classes.submitModalButton}
+            onClick={submitRecipe}
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };

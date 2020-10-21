@@ -84,7 +84,7 @@ const ItemListingCard = (props) => {
       ing_name: product.name,
       image_url: product.images ? product.images[0] : Chef,
       category: product.primaryCategory.parentCategory.name,
-      sellingPrice:
+      selling_price:
         parseFloat(product.storeSpecificData[0].mrp) -
         parseFloat(product.storeSpecificData[0].discount).toFixed(2),
       metadata: {
@@ -104,7 +104,7 @@ const ItemListingCard = (props) => {
 
   const setAmount = (amount) => {
     const price = processData.calculatePrice(
-      selectedItem.sellingPrice,
+      selectedItem.selling_price,
       selectedItem.metadata.amount,
       amount
     );
@@ -121,7 +121,7 @@ const ItemListingCard = (props) => {
     setSelectedItem({
       ...selectedItem,
       quantity: amountWithUnit,
-      estimatedPrice: price.toFixed(2),
+      estimated_price: price.toFixed(2),
     });
   };
 
