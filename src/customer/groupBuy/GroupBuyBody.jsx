@@ -1,10 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles, fade } from "@material-ui/core/styles";
 import { Grid, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
 import GroupBuyCard from "../../components/GroupBuyCard";
+import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   root: {
@@ -104,6 +105,7 @@ const styles = (theme) => ({
 
 const GroupBuyBody = (props) => {
   const { classes } = props;
+  const [groupbuys, setGroupbuys] = useState([]);
   const itemsPerPage = 4;
   const [page, setPage] = React.useState(1);
   const [noOfPages] = React.useState(Math.ceil(4 / itemsPerPage));
@@ -111,6 +113,13 @@ const GroupBuyBody = (props) => {
   const handleChange = (event, value) => {
     setPage(value);
   };
+
+  useEffect(() => {
+    Service.client.get("/orders/all_groupbuys").then((res) => {
+      setGroupbuys(res.data.results);
+      console.log(res.data.results);
+    });
+  }, []);
 
   return (
     <Fragment>
@@ -139,18 +148,15 @@ const GroupBuyBody = (props) => {
       <Grid container className={classes.root}>
         <Grid item xs={1} />
         <Grid xs={10} container className={classes.cardSection}>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
+          {groupbuys &&
+            groupbuys.map((groupbuy) => (
+              <Grid item xs={5} md={4} lg={3}>
+                <GroupBuyCard
+                  key={groupbuy.gb_id}
+                  groupbuyitem={groupbuy.recipe}
+                />
+              </Grid>
+            ))}
         </Grid>
         <Grid item xs={1} />
       </Grid>

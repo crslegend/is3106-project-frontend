@@ -92,7 +92,7 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const GroupBuyCard = () => {
+const GroupBuyCard = ({ groupbuyitem }) => {
   const classes = styles();
 
   return (
@@ -101,13 +101,13 @@ const GroupBuyCard = () => {
         <CardMedia
           className={classes.media}
           image={image}
-          title="Grilled Lamb Chop"
+          title={groupbuyitem.recipe_name}
         />
         <CardContent height="150" width="150">
           <Typography className={classes.cardHeader}>
-            Grilled Lamb Chop
+            {groupbuyitem.recipe_name}
           </Typography>
-          <Typography className={classes.cardBody}>$12.99</Typography>
+          <Typography className={classes.cardBody}>$22</Typography>
           <Button className={classes.cardButton} href="/viewdetails">
             View Details
           </Button>
