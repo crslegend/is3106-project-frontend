@@ -45,6 +45,18 @@ const styles = (theme) => ({
     paddingLeft: "20px",
     paddingRight: "20px",
   },
+  cardComponent: {
+    marginTop: "40px",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "30px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "20px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "10px",
+    },
+  },
   search: {
     position: "relative",
     margin: 20,
@@ -150,10 +162,11 @@ const GroupBuyBody = (props) => {
         <Grid xs={10} container className={classes.cardSection}>
           {groupbuys &&
             groupbuys.map((groupbuy) => (
-              <Grid item xs={5} md={4} lg={3}>
+              <Grid item xs={5} md={4} xl={3} className={classes.cardComponent}>
                 <GroupBuyCard
                   key={groupbuy.gb_id}
                   groupbuyitem={groupbuy.recipe}
+                  groupbuy={groupbuy}
                 />
               </Grid>
             ))}

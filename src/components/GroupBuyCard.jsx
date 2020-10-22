@@ -14,14 +14,15 @@ const styles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     flexShrink: 1,
-    margin: 15,
     width: "19vw",
+    height: "100%",
     [theme.breakpoints.down("md")]: {
       width: "25vw",
     },
     [theme.breakpoints.down("sm")]: {
       margin: 10,
       width: "33vw",
+      height: "95%",
     },
   },
   media: {
@@ -37,7 +38,7 @@ const styles = makeStyles((theme) => ({
       fontSize: 16,
     },
     [theme.breakpoints.down("sm")]: {
-      fontSize: 14,
+      fontSize: 13,
     },
     [theme.breakpoints.down("xs")]: {
       fontSize: 10,
@@ -48,7 +49,7 @@ const styles = makeStyles((theme) => ({
     fontWeight: 500,
     fontSize: 20,
     [theme.breakpoints.down("md")]: {
-      fontSize: 16,
+      fontSize: 15,
     },
     [theme.breakpoints.down("xs")]: {
       fontSize: 10,
@@ -64,8 +65,8 @@ const styles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       fontSize: 14,
     },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 12,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
     },
   },
   cardButton: {
@@ -73,27 +74,43 @@ const styles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: fade(theme.palette.primary.main, 0.8),
     },
-    padding: 10,
-    margin: 7,
+    padding: 8,
+    margin: 6,
     textTransform: "none",
     fontFamily: "Raleway",
     color: "#5E4955",
-    fontSize: 20,
+    fontSize: 18,
     [theme.breakpoints.down("md")]: {
-      fontSize: 16,
-      padding: 7,
-      margin: 5,
+      fontSize: 12,
+      padding: 6,
+      margin: 4,
     },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 10,
-      padding: 3,
-      margin: 2,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 8,
+      width: "10px",
+      padding: 5,
+      margin: 0,
     },
   },
 }));
 
-const GroupBuyCard = ({ groupbuyitem }) => {
+const GroupBuyCard = ({ groupbuyitem, groupbuy }) => {
   const classes = styles();
+
+  let warning;
+
+  const orderamount =
+    (groupbuy.current_order_quantity / groupbuy.minimum_order_quantity) * 100;
+
+  if (orderamount >= 80 && orderamount < 100) {
+    warning = (
+      <Typography className={classes.cardWarning}>Selling Fast!</Typography>
+    );
+  } else if (orderamount >= 100) {
+    warning = (
+      <Typography className={classes.cardWarning}>Quantity Reached!</Typography>
+    );
+  }
 
   return (
     <Card className={classes.root}>
@@ -107,13 +124,15 @@ const GroupBuyCard = ({ groupbuyitem }) => {
           <Typography className={classes.cardHeader}>
             {groupbuyitem.recipe_name}
           </Typography>
-          <Typography className={classes.cardBody}>$22</Typography>
+          <Typography className={classes.cardBody}>
+            ${groupbuy.final_price}
+          </Typography>
           <Button className={classes.cardButton} href="/viewdetails">
             View Details
           </Button>
         </CardContent>
-        <Typography className={classes.cardWarning}>Selling Fast!</Typography>
       </CardActionArea>
+      {warning}
     </Card>
   );
 };
