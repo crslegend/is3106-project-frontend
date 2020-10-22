@@ -126,24 +126,48 @@ const IngredientsTabs = (props) => {
   const [sortMethod, setSortMethod] = useState("");
   const [searchValue, setSearchValue] = useState("");
 
-  // for changing between tabs
-  useEffect(() => {
-    console.log("change");
+  const getSearchResults = () => {
+    if (searchValue === "") {
+      return;
+    }
+
     let listing = null;
     setProducts([]);
     setHasMore(true);
-    setSearchValue("");
-    const getItems = async () => {
-      setPage(1);
-      // console.log(page);
-      listing = await ntuc.getListing(1, value, "");
+    setValue(9); // to navigate to the search results tab
+    const results = async () => {
+      listing = await ntuc.getSearchResults(1, searchValue, sortMethod);
       setPage(1 + 1);
-      setSortMethod("");
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
-      console.log(`CHANGE TAB ${sortMethod}`);
     };
-    getItems();
+    results();
+  };
+
+  // for changing between tabs
+  useEffect(() => {
+    console.log("change");
+    if (value !== 9) {
+      let listing = null;
+      setProducts([]);
+      setHasMore(true);
+      // setSearchValue("");
+      const getItems = async () => {
+        setPage(1);
+        // console.log(page);
+        listing = await ntuc.getListing(1, value, "");
+        setPage(1 + 1);
+        setSortMethod("");
+        setPaginationInfo(listing.pagination);
+        setProducts(listing.product);
+        console.log(`CHANGE TAB ${sortMethod}`);
+      };
+      getItems();
+    } else if (value === 9 && searchValue === "") {
+      setProducts([]);
+    } else if (value === 9 && searchValue !== "") {
+      getSearchResults();
+    }
   }, [value]);
   // console.log(page);
 
@@ -211,23 +235,6 @@ const IngredientsTabs = (props) => {
     setValue(newValue);
   };
 
-  const getSearchResults = () => {
-    if (searchValue === "") {
-      return;
-    }
-
-    let listing = null;
-    setProducts([]);
-    setHasMore(true);
-    const results = async () => {
-      listing = await ntuc.getSearchResults(1, searchValue, sortMethod);
-      setPage(1 + 1);
-      setPaginationInfo(listing.pagination);
-      setProducts(listing.product);
-    };
-    results();
-  };
-
   const fetchMoreData = () => {
     if (paginationInfo.total_pages && page > paginationInfo.total_pages) {
       setHasMore(false);
@@ -264,7 +271,7 @@ const IngredientsTabs = (props) => {
     setSortMethod(event.target.value);
   };
 
-  const tabs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  const tabs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
     <div className={classes.root}>
@@ -359,6 +366,7 @@ const IngredientsTabs = (props) => {
           <Tab label="Eggs" />
           <Tab label="Delicatessen" />
           <Tab label="Chilled Food" />
+          <Tab label="Search Results" />
         </Tabs>
       </AppBar>
 
@@ -394,6 +402,16 @@ const IngredientsTabs = (props) => {
                         calculateTotalPrice={calculateTotalPrice}
                       />
                     ))
+                  ) : value === 9 && searchValue === "" ? (
+                    <div className={classes.noResults}>
+                      <SearchIcon style={{ fontSize: 50 }} color="disabled" />
+                      <Typography variant="body1" style={{ fontSize: "18px" }}>
+                        No keywords found in searchbar
+                      </Typography>
+                      <Typography variant="subtitle1">
+                        Start searching for products by typing in the searchbar
+                      </Typography>
+                    </div>
                   ) : (
                     <div className={classes.progress}>
                       <CircularProgress />
