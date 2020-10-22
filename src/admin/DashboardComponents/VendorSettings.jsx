@@ -50,11 +50,6 @@ const VendorSettings = () => {
     setProfile({ ...profile, [name]: value });
   };
 
-  const handleOnChangePassword = (event) => {
-    const { name, value } = event.target;
-    setProfile({ ...passwordDetails, [name]: value });
-  };
-
   const handleSubmitProfile = (event) => {
     event.preventDefault();
     console.log(profile);
@@ -97,14 +92,14 @@ const VendorSettings = () => {
                     id="name"
                     label="Name"
                     name="name"
-                    value={profile.name}
+                    value={profile.name || ''}
                     onChange={handleOnChange}
                   />
                   <TextField
                     className={classes.topMargin}
                     label="Email"
                     name="email"
-                    value={profile.email}
+                    value={profile.email || ''}
                     defaultValue={profile.email}
                     onChange={handleOnChange}
                   />
@@ -112,7 +107,7 @@ const VendorSettings = () => {
                     className={classes.topMargin}
                     label="Vendor Name"
                     name="vendor_name"
-                    value={profile.vendor_name}
+                    value={profile.vendor_name || ''}
                     onChange={handleOnChange}
                   />
                 </Grid>
