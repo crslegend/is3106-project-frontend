@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Typography from "../../components/Typography";
 import Button from "../../components/Button";
 
@@ -96,12 +97,39 @@ const ProfileBody = () => {
       </Tabs>
       <TabPanel value={value} index={0}>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Profile
-          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <Typography component="h1" variant="h5">
+                Profile Photo
+              </Typography>
+              <img
+                alt="J Sharp"
+                // eslint-disable-next-line global-require
+                src={require("../../assets/profilecircle.png")}
+                width="200px"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <input
+                accept="image/*"
+                className={classes.input}
+                style={{ display: "none" }}
+                id="raised-button-file"
+                multiple
+                type="file"
+              />
+              <label htmlFor="raised-button-file">
+                <Button
+                  variant="raised"
+                  component="span"
+                  className={classes.button}
+                >
+                  Upload
+                </Button>
+              </label>
+            </Grid>
+          </Grid>
+
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"

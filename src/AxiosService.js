@@ -1,8 +1,12 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { BACKEND_URL } from "./config.js";
+import { BACKEND_URL } from "./config";
 
 axios.defaults.timeout = 2500;
+
+const baseClient = axios.create({
+  baseURL: BACKEND_URL,
+});
 
 const client = axios.create({
   baseURL: BACKEND_URL,
@@ -14,9 +18,9 @@ const ntucClient = axios.create({
 
 // set JWT, add refresh token to cookie
 const storeCredentials = ({ access, refresh }) => {
-  client.defaults.headers.common["Authorization"] = `Bearer ${access}`;
-  Cookies.set("t1", access, { expires: 1, path: "" });
-  Cookies.set("t2", refresh, { expires: 1, path: "" });
+  client.defaults.headers.common.Authorization = `Bearer ${access}`;
+  Cookies.set("t1", access, { expires: 1, path: "/" });
+  Cookies.set("t2", refresh, { expires: 1, path: "/" });
 };
 
 // remove refresh token cookie
@@ -45,15 +49,19 @@ client.interceptors.response.use(
     return new Promise((resolve, reject) => {
       const originReq = err.config;
       // console.log(originReq);
-      if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
-        originReq.__isRetryRequest = true;
+      if (
+        err.response.status === 401 &&
+        err.config &&
+        !err.config.isRetryRequest
+      ) {
+        originReq.isRetryRequest = true;
 
-        let q = axios
+        const q = axios
           .post(`${BACKEND_URL}/api/token/refresh/`, {
             refresh: Cookies.get("t2"),
           })
           .then((res) => {
-            client.defaults.headers.common["Authorization"] = `Bearer ${res.data.access}`;
+            client.defaults.headers.common.Authorization = `Bearer ${res.data.access}`;
             originReq.headers.Authorization = `Bearer ${res.data.access}`;
             Cookies.remove("t1");
             Cookies.set("t1", res.data.access, { expires: 1, path: "" });
@@ -69,6 +77,7 @@ client.interceptors.response.use(
 );
 
 export default {
+  baseClient,
   client,
   ntucClient,
   storeCredentials,

@@ -4,7 +4,8 @@ import Cookies from "js-cookie";
 import PropTypes from "prop-types";
 
 const PrivateRoute = ({ render, path, ...rest }) => {
-  const newRender = Cookies.get("t1") && Cookies.get("t2") ? render : () => null;
+  const newRender =
+    Cookies.get("t1") && Cookies.get("t2") ? render : () => null;
   return <Route render={newRender} path {...rest} />;
 };
 
