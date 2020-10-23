@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
+const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
   const classes = useStyles();
   let flippyHorizontal;
 
@@ -67,7 +67,7 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
   const history = useHistory();
 
   // handle form submit
-  const handleSubmit = (e) => {
+  const handleSubmitLogin = (e) => {
     e.preventDefault(); // prevent html form refresh
 
     // simple login form validation
@@ -150,6 +150,93 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
       });
   };
 
+  const [registerDetails, setRegisterDetails] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [nameError, setNameError] = useState(false);
+
+  // handle form submit
+  const handleSubmitRegister = (e) => {
+    e.preventDefault(); // prevent html form refresh
+
+    // simple login form validation
+    let error = false;
+
+    if (registerDetails.name === "") {
+      setNameError(true);
+      error = true;
+    } else {
+      setNameError(false);
+    }
+    if (registerDetails.email === "" || !registerDetails.email.includes("@")) {
+      setEmailError(true);
+      error = true;
+    } else {
+      setEmailError(false);
+    }
+    // simple password validation
+    if (registerDetails.password === "") {
+      setPasswordError(true);
+      error = true;
+    } else {
+      setPasswordError(false);
+    }
+    if (error) return;
+
+    setLoading(true);
+    console.log(`register name - ${registerDetails.name}`);
+    console.log(`register email - ${registerDetails.email}`);
+    console.log(`register password - ${registerDetails.password}`);
+
+    // calling backend register api
+    Service.client
+      .post("/auth/create_user", registerDetails)
+      .then(() => {
+        Service.client.post("/api/token/", registerDetails).then((res2) => {
+          Service.storeCredentials(res2.data);
+          console.log(
+            `credentials stored access- ${res2.data.access}, refresh -  ${res2.data.refresh}`
+          );
+          setSnackbar({
+            ...snackbar,
+            message: "Registration Successful",
+            severity: "success",
+          });
+          setSbOpen(true);
+          setLoading(false);
+          setRegisterDetails(null);
+
+          // redirect to dashboard
+          history.push("/");
+        });
+      })
+      .catch((err) => {
+        setSnackbar({
+          ...snackbar,
+          message: "Something went wrong",
+          severity: "error",
+        });
+        setSbOpen(true);
+        setLoading(false);
+        setRegisterDetails(null);
+        console.log(`${err} - something went wrong`);
+      })
+      .catch((err) => {
+        console.log(`${err} - duplicate email`);
+        setSnackbar({
+          ...snackbar,
+          message: "Email has been registered before",
+          severity: "error",
+        });
+        setSbOpen(true);
+        setLoading(false);
+        setRegisterDetails(null);
+      });
+  };
+
   return (
     <div className={classes.image}>
       <Box display="flex" flexDirection="row-reverse" bgcolor="transparent">
@@ -174,7 +261,11 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
-              <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={handleSubmitLogin}
+              >
                 <Avatar className={classes.avatar}>
                   <LockOutlinedIcon />
                 </Avatar>
@@ -242,7 +333,7 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={handleSubmit}
+                  onClick={handleSubmitLogin}
                 >
                   {loading ? (
                     <CircularProgress size={30} color="secondary" />
@@ -268,6 +359,7 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
               </form>
             </div>
           </FrontSide>
+
           <BackSide
             style={{
               height: "100%",
@@ -282,7 +374,11 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
-              <form className={classes.form} noValidate>
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={handleSubmitRegister}
+              >
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <TextField
@@ -294,6 +390,17 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
                       id="name"
                       label="Name"
                       autoFocus
+                      onChange={(event) =>
+                        setRegisterDetails({
+                          ...registerDetails,
+                          name: event.target.value,
+                        })
+                      }
+                      error={nameError}
+                      helperText={emailError && "Enter a name"}
+                      FormHelperTextProps={{
+                        classes: { root: classes.helperText },
+                      }}
                     />
                   </Grid>
 
@@ -306,6 +413,17 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
+                      onChange={(event) =>
+                        setRegisterDetails({
+                          ...registerDetails,
+                          email: event.target.value,
+                        })
+                      }
+                      error={emailError}
+                      helperText={emailError && "Enter a valid email"}
+                      FormHelperTextProps={{
+                        classes: { root: classes.helperText },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -318,6 +436,17 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
                       type="password"
                       id="password"
                       autoComplete="current-password"
+                      onChange={(event) =>
+                        setRegisterDetails({
+                          ...registerDetails,
+                          password: event.target.value,
+                        })
+                      }
+                      error={passwordError}
+                      helperText={passwordError && "Enter a password"}
+                      FormHelperTextProps={{
+                        classes: { root: classes.helperText },
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -327,8 +456,13 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  onClick={handleSubmitRegister}
                 >
-                  Sign Up
+                  {loading ? (
+                    <CircularProgress size={30} color="secondary" />
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
                 <Grid container justify="flex-end">
                   <Grid item>
@@ -349,4 +483,4 @@ const Login = ({ setSbOpen, snackbar, setSnackbar }) => {
   );
 };
 
-export default withRoot(Login);
+export default withRoot(Authentication);

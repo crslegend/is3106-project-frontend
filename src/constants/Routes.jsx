@@ -30,7 +30,7 @@ const Routes = (props) => {
         <Route exact path="/" render={() => <LandingPage {...props} />} />
         <Route
           exact
-          path="/login"
+          path="/auth"
           render={() => (
             <LoginRegisterPage
               {...props}
@@ -57,11 +57,8 @@ const Routes = (props) => {
           path="/viewdetails"
           render={() => <CardDetailPage {...props} />}
         />
-        <PrivateRoute
-          path="/profile"
-          render={() => <ProfilePage {...props} />}
-        />
-        <PrivateRoute
+        <Route path="/profile" render={() => <ProfilePage {...props} />} />
+        <Route
           path="/editprofile"
           render={() => <EditProfilePage {...props} />}
         />
