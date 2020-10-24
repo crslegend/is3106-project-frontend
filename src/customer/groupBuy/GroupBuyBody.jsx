@@ -13,6 +13,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
 import SearchBar from "material-ui-search-bar";
 import FuzzySearch from "fuzzy-search";
+import sortArray from "sort-array";
 import GroupBuyCard from "../../components/GroupBuyCard";
 import Service from "../../AxiosService";
 
@@ -159,7 +160,49 @@ const GroupBuyBody = (props) => {
   }, [searchValue]);
 
   const handleSortChange = (event) => {
-    setSortMethod(event.target.value);
+    const buttonValue = event.target.value;
+    setSortMethod(buttonValue);
+    if (buttonValue === "" || buttonValue === undefined) {
+      Service.client.get("/orders/all_groupbuys").then((res) => {
+        setGroupbuys(res.data.results);
+      });
+    } else if (buttonValue === "A-Z") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: "recipe_name",
+        computed: {
+          recipe_name: (row) => row.recipe.recipe_name,
+        },
+      });
+      console.log(arr);
+      setGroupbuys(arr);
+    } else if (buttonValue === "Z-A") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: "recipe_name",
+        computed: {
+          recipe_name: (row) => row.recipe.recipe_name,
+        },
+        order: "desc",
+      });
+      console.log(arr);
+      setGroupbuys(arr);
+    } else if (buttonValue === "PRICE_ASC") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: "final_price",
+      });
+      console.log(arr);
+      setGroupbuys(arr);
+    } else if (buttonValue === "PRICE_DESC") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: "final_price",
+        order: "desc",
+      });
+      console.log(arr);
+      setGroupbuys(arr);
+    }
   };
 
   const getSearchResults = () => {
