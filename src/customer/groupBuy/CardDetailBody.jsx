@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Link, useParams } from "react-router-dom";
 
 import image from "../../assets/lamb.jpg";
 
@@ -184,17 +185,16 @@ const BorderLinearProgress = withStyles((theme) => ({
 
 const CardDetailBody = () => {
   const classes = styles();
+  const { id } = useParams();
+  console.log(id);
 
   return (
     <Fragment>
       <Grid container className={classes.root}>
         <Grid item xs={2}>
-          <ArrowBackIcon
-            onClick={() => {
-              window.location.href = "groupbuy";
-            }}
-            className={classes.icon}
-          />
+          <Link to="/groupbuy">
+            <ArrowBackIcon className={classes.icon} />
+          </Link>
         </Grid>
         <Grid xs={9}>
           <Card className={classes.card}>
@@ -203,14 +203,12 @@ const CardDetailBody = () => {
                 <CardMedia
                   className={classes.media}
                   image={image}
-                  title="Grilled Lamb Chop"
+                  title="title"
                 />
               </Grid>
               <Grid xs={12} md={7}>
                 <CardContent height="150" width="150">
-                  <Typography className={classes.cardHeader}>
-                    Grilled Lamb Chop
-                  </Typography>
+                  <Typography className={classes.cardHeader}>title</Typography>
                   <Typography className={classes.cardBody}>$12.99</Typography>
                   <p className={classes.progressHeader}>Order Fulfillment</p>
                   <div style={{ position: "relative" }}>

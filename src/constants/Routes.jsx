@@ -28,7 +28,13 @@ const Routes = (props) => (
       />
       <Route path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
       <Route path="/newrecipe" render={() => <NewRecipePage {...props} />} />
-      <Route path="/viewdetails" render={() => <CardDetailPage {...props} />} />
+      <Route
+        path="/viewdetails/:id"
+        strict
+        sensitive
+        render={(match) => <CardDetailPage match={match} />}
+      />
+
       <Route path="/profile" render={() => <ProfilePage {...props} />} />
       <Route path="/payment" render={() => <PaymentPage {...props} />} />
       <Route

@@ -7,6 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 
 import image from "../assets/lamb.jpg";
 
@@ -94,8 +95,10 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const GroupBuyCard = ({ groupbuyitem, groupbuy }) => {
+const GroupBuyCard = (props) => {
   const classes = styles();
+
+  const { groupbuyitem, groupbuy } = props;
 
   let warning;
 
@@ -127,7 +130,11 @@ const GroupBuyCard = ({ groupbuyitem, groupbuy }) => {
           <Typography className={classes.cardBody}>
             ${groupbuy.final_price}
           </Typography>
-          <Button className={classes.cardButton} href="/viewdetails">
+          <Button
+            className={classes.cardButton}
+            component={Link}
+            to={`/viewdetails/${groupbuy.gb_id}`}
+          >
             View Details
           </Button>
         </CardContent>
