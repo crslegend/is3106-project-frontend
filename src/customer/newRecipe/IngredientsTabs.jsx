@@ -17,7 +17,6 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import InfiniteScroll from "react-infinite-scroll-component";
-import FuzzySearch from "react-fuzzy";
 import SearchBar from "material-ui-search-bar";
 import ItemListingCard from "./ItemListingCard";
 import ntuc from "./getListing";
