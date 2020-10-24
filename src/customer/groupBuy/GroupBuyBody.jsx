@@ -12,6 +12,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
 import SearchBar from "material-ui-search-bar";
+import FuzzySearch from "fuzzy-search";
 import GroupBuyCard from "../../components/GroupBuyCard";
 import Service from "../../AxiosService";
 
@@ -148,8 +149,23 @@ const GroupBuyBody = (props) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (searchValue === "") {
+      Service.client.get("/orders/all_groupbuys").then((res) => {
+        setGroupbuys(res.data.results);
+        console.log(res.data.results);
+      });
+    }
+  }, [searchValue]);
+
   const handleSortChange = (event) => {
     setSortMethod(event.target.value);
+  };
+
+  const getSearchResults = () => {
+    const searcher = new FuzzySearch(groupbuys, ["recipe.recipe_name"]);
+    const result = searcher.search(searchValue);
+    setGroupbuys(result);
   };
 
   return (
@@ -188,6 +204,7 @@ const GroupBuyBody = (props) => {
               placeholder="Search for Group Buys"
               value={searchValue}
               onChange={(newValue) => setSearchValue(newValue)}
+              onRequestSearch={getSearchResults}
               onCancelSearch={() => setSearchValue("")}
             />
             <FormControl variant="outlined" className={classes.formControl}>
