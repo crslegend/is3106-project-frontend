@@ -1,9 +1,17 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles, fade } from "@material-ui/core/styles";
-import { Grid, InputBase } from "@material-ui/core";
+import {
+  FormControl,
+  Grid,
+  InputBase,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
+import SearchBar from "material-ui-search-bar";
 import GroupBuyCard from "../../components/GroupBuyCard";
 import Service from "../../AxiosService";
 
@@ -113,6 +121,11 @@ const styles = (theme) => ({
       size: "small",
     },
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxHeight: 50,
+  },
 });
 
 const GroupBuyBody = (props) => {
@@ -121,6 +134,8 @@ const GroupBuyBody = (props) => {
   const itemsPerPage = 4;
   const [page, setPage] = React.useState(1);
   const [noOfPages] = React.useState(Math.ceil(4 / itemsPerPage));
+  const [searchValue, setSearchValue] = useState("");
+  const [sortMethod, setSortMethod] = useState("");
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -133,15 +148,18 @@ const GroupBuyBody = (props) => {
     });
   }, []);
 
+  const handleSortChange = (event) => {
+    setSortMethod(event.target.value);
+  };
+
   return (
     <Fragment>
       <Grid container className={classes.root}>
-        <Grid item xs={1} />
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <div className={classes.header}>Available Group Buys</div>
         </Grid>
-        <Grid item xs={4}>
-          <div className={classes.search}>
+        <Grid item xs={8}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -153,9 +171,43 @@ const GroupBuyBody = (props) => {
               }}
               inputProps={{ "aria-label": "search" }}
             />
+          </div> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <SearchBar
+              style={{
+                width: "80%",
+                backgroundColor: "#e0e0e0",
+              }}
+              placeholder="Search for Group Buys"
+              value={searchValue}
+              onChange={(newValue) => setSearchValue(newValue)}
+              onCancelSearch={() => setSearchValue("")}
+            />
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel>Sort By</InputLabel>
+              <Select
+                label="Sort By"
+                value={sortMethod}
+                onChange={handleSortChange}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="PRICE_ASC">Price: Low to High</MenuItem>
+                <MenuItem value="PRICE_DESC">Price: High to Low</MenuItem>
+                <MenuItem value="A-Z">(A-Z) Alphabetically</MenuItem>
+                <MenuItem value="Z-A">(Z-A) Alphabetically</MenuItem>
+              </Select>
+            </FormControl>
           </div>
         </Grid>
-        <Grid item xs={1} />
       </Grid>
       <Grid container className={classes.root}>
         <Grid item xs={1} />
