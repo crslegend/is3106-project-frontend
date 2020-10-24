@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -19,20 +20,39 @@ import DateFnsUtils from "@date-io/date-fns";
 const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
-    "& h2": {
+    "& h5": {
       textTransform: "capitalize",
-      fontSize: 25,
+      textAlign: "center",
     },
   },
   calender: {
     postion: "fixed !important",
     right: "calc(100% - 479px) !important",
   },
+  button: {
+    "&:hover": {
+      backgroundColor: "#EEF1EF",
+    },
+  },
 });
 
 const NewRecipeForm = (props) => {
-  const { classes, setRecipeInfo, open, setOpen } = props;
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const getTomorrowDate = () => {
+    const tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    return tmr;
+  };
+
+  const {
+    classes,
+    recipeInfo,
+    setRecipeInfo,
+    open,
+    setOpen,
+    editMode,
+    setDateForDisplay,
+  } = props;
+  const [selectedDate, setSelectedDate] = useState(getTomorrowDate());
   const [recipeName, setName] = useState("");
 
   const handleDateChange = (e) => {
@@ -43,18 +63,38 @@ const NewRecipeForm = (props) => {
     setName(e);
   };
 
+  const formatDate = (date) => {
+    if (date !== null) {
+      const newDate = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
+      return newDate;
+    }
+    return null;
+  };
+
   const handleClose = () => {
     setOpen(false);
+
+    setRecipeInfo({
+      ...recipeInfo,
+      recipe_name: recipeName,
+      fulfillment_date: formatDate(selectedDate),
+    });
+    setDateForDisplay(selectedDate);
   };
 
   const handleSubmit = () => {
     setOpen(false);
-    const updatedInfo = {
-      name: recipeName,
-      date: selectedDate,
-    };
 
-    setRecipeInfo(updatedInfo);
+    setRecipeInfo({
+      ...recipeInfo,
+      recipe_name: recipeName,
+      fulfillment_date: formatDate(selectedDate),
+    });
+    setDateForDisplay(selectedDate);
   };
 
   return (
@@ -66,7 +106,7 @@ const NewRecipeForm = (props) => {
         onClose={handleClose}
       >
         <DialogTitle className={classes.root}>
-          Give your recipe a name!
+          <Typography variant="h5">Give your recipe a name!</Typography>
         </DialogTitle>
         <form>
           <DialogContent>
@@ -76,7 +116,6 @@ const NewRecipeForm = (props) => {
               label="Recipe Name"
               type="text"
               placeholder="Grilled Lamb Chop"
-              required
               value={recipeName}
               onChange={(e) => handleNameChange(e.target.value)}
             />
@@ -88,20 +127,42 @@ const NewRecipeForm = (props) => {
                 variant="normal"
                 format="dd/MM/yyyy"
                 margin="normal"
-                minDate={new Date()}
+                minDate={getTomorrowDate()}
                 label="Choose a Fulfillment Date"
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e)}
+                // InputProps={{
+                //   classes: { ".MuiButton-root": classes.button },
+                // }}
               />
             </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} color="primary">
-              Create
-            </Button>
+            {editMode ? (
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
+                Update Recipe
+              </Button>
+            ) : recipeName.length > 0 ? (
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
+                Create Recipe
+              </Button>
+            ) : (
+              <Button
+                className={classes.button}
+                onClick={handleClose}
+                color="secondary"
+              >
+                Skip For Now
+              </Button>
+            )}
           </DialogActions>
         </form>
       </Dialog>

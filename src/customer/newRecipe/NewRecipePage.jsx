@@ -6,25 +6,32 @@ import IngredientListing from "./IngredientListing";
 
 const NewRecipePage = () => {
   const [recipeInfo, setRecipeInfo] = useState({
-    name: "",
-    date: null,
+    recipe_name: "",
+    fulfillment_date: null,
   });
 
+  const [dateForDisplay, setDateForDisplay] = useState(null);
   const [open, setOpen] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
   return (
     <Fragment>
       <Navbar />
       <NewRecipeForm
+        recipeInfo={recipeInfo}
         setRecipeInfo={setRecipeInfo}
         open={open}
         setOpen={setOpen}
+        editMode={editMode}
+        setDateForDisplay={setDateForDisplay}
       />
       <IngredientListing
         recipeInfo={recipeInfo}
         setRecipeInfo={setRecipeInfo}
         open={open}
         setOpen={setOpen}
+        setEditMode={setEditMode}
+        dateForDisplay={dateForDisplay}
       />
     </Fragment>
   );
