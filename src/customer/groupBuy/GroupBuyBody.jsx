@@ -98,7 +98,6 @@ const GroupBuyBody = (props) => {
           recipe_name: (row) => row.recipe.recipe_name,
         },
       });
-      console.log(arr);
       setGroupbuys(arr);
     } else if (buttonValue === "Z-A") {
       let arr = groupbuys;
@@ -109,20 +108,42 @@ const GroupBuyBody = (props) => {
         },
         order: "desc",
       });
-      console.log(arr);
       setGroupbuys(arr);
     } else if (buttonValue === "PRICE_ASC") {
       let arr = groupbuys;
       arr = sortArray(arr, {
-        by: "final_price",
+        by: ["final_price", "estimated_price_start", "estimated_price_end"],
+        computed: {
+          final_price: (row) => {
+            if (row.recipe.final_price === null) {
+              return parseFloat(0);
+            }
+            return parseFloat(row.recipe.final_price);
+          },
+          estimated_price_start: (row) =>
+            parseFloat(row.recipe.estimated_price_start),
+          estimated_price_end: (row) =>
+            parseFloat(row.recipe.estimated_price_end),
+        },
       });
-      console.log(arr);
       setGroupbuys(arr);
     } else if (buttonValue === "PRICE_DESC") {
       let arr = groupbuys;
       arr = sortArray(arr, {
-        by: "final_price",
+        by: ["estimated_price_start", "estimated_price_end", "final_price"],
         order: "desc",
+        computed: {
+          final_price: (row) => {
+            if (row.recipe.final_price === null) {
+              return parseFloat(0);
+            }
+            return parseFloat(row.recipe.final_price);
+          },
+          estimated_price_start: (row) =>
+            parseFloat(row.recipe.estimated_price_start),
+          estimated_price_end: (row) =>
+            parseFloat(row.recipe.estimated_price_end),
+        },
       });
       console.log(arr);
       setGroupbuys(arr);

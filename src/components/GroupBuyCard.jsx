@@ -127,9 +127,17 @@ const GroupBuyCard = (props) => {
           <Typography className={classes.cardHeader}>
             {groupbuyitem.recipe_name}
           </Typography>
-          <Typography className={classes.cardBody}>
-            ${groupbuy.final_price}
-          </Typography>
+          {groupbuy.final_price !== null ? (
+            <Typography className={classes.cardBody}>
+              ${groupbuy.final_price}
+            </Typography>
+          ) : (
+            <Typography className={classes.cardBody}>
+              ${groupbuy.recipe.estimated_price_start} - $
+              {groupbuy.recipe.estimated_price_end}
+            </Typography>
+          )}
+
           <Button
             className={classes.cardButton}
             component={Link}
