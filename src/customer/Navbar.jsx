@@ -101,7 +101,7 @@ const Navbar = ({ classes }) => {
 
   useEffect(() => {
     Service.client
-      .get("/auth/get_current_user")
+      .get("/users/5e4f9924-47ca-4daa-adc4-2eb27cfa1b5b")
       .then((res) => setProfile(res.data))
       .catch((err) => {
         // console.log(err);
@@ -157,8 +157,12 @@ const Navbar = ({ classes }) => {
                   color="inherit"
                   onClick={handleClick}
                 >
-                  {profile.name}
-                  <Avatar className={classes.orange}>{profile.name}</Avatar>
+                  <Avatar className={classes.orange}>
+                    {profile.name !== null &&
+                      profile.name.charAt(0).toUpperCase()}
+                    {profile.name === null &&
+                      profile.email.charAt(0).toUpperCase()}
+                  </Avatar>
                 </IconButton>
 
                 <Popover
@@ -177,7 +181,12 @@ const Navbar = ({ classes }) => {
                 >
                   <Card className={classes.root}>
                     <Box display="flex" justifyContent="center" m={1} p={1}>
-                      <Avatar className={classes.large}>{profile.name}</Avatar>
+                      <Avatar className={classes.large}>
+                        {profile.name !== null &&
+                          profile.name.charAt(0).toUpperCase()}
+                        {profile.name === null &&
+                          profile.email.charAt(0).toUpperCase()}
+                      </Avatar>
                     </Box>
                     <Box display="flex" justifyContent="center">
                       <Typography>{profile.name}</Typography>

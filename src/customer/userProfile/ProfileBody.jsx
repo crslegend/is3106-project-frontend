@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
+
+import Service from "../../AxiosService";
+import { Typography } from "@material-ui/core";
 
 const styles = (theme) => ({
   root: {
@@ -29,6 +32,13 @@ const styles = (theme) => ({
 
 const ProfileBody = (props) => {
   const { classes } = props;
+  const [profile, setProfile] = useState([]);
+
+  useEffect(() => {
+    Service.client
+      .get("/auth/get_current_user")
+      .then((res) => setProfile(res.data));
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -38,6 +48,13 @@ const ProfileBody = (props) => {
         src={require("../../assets/profilecircle.png")}
         width="250px"
       />
+
+      <Typography>
+        {profile.name}
+        {profile.email}
+        Joined: {profile.joinedDate}
+
+      </Typography>
       <Button
         variant="contained"
         size="medium"
