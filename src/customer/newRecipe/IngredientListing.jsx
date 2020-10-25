@@ -185,7 +185,7 @@ const IngredientListing = (props) => {
         Service.storeCredentials(res.data); // store access and refresh tokens
 
         Service.client
-          .post("/recipes/create_recipe", recipeInfo)
+          .post("/recipes", recipeInfo)
           .then((res) => console.log(res)); // get protected view
       })
       .catch((error) => {
