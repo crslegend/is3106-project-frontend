@@ -4,7 +4,6 @@ import { withStyles, fade } from "@material-ui/core/styles";
 import {
   FormControl,
   Grid,
-  InputBase,
   InputLabel,
   MenuItem,
   Select,
@@ -134,14 +133,22 @@ const GroupBuyBody = (props) => {
   const { classes } = props;
   const [groupbuys, setGroupbuys] = useState([]);
   const itemsPerPage = 4;
-  const [page, setPage] = React.useState(1);
-  const [noOfPages] = React.useState(Math.ceil(4 / itemsPerPage));
+  const [page, setPage] = useState(1);
+  const [noOfPages, setNumPages] = useState(
+    Math.ceil(groupbuys.length / itemsPerPage)
+  );
   const [searchValue, setSearchValue] = useState("");
   const [sortMethod, setSortMethod] = useState("");
 
   const handleChange = (event, value) => {
     setPage(value);
   };
+
+  useEffect(() => {
+    // initially the groupbuys.length = 0 when getting data
+    // after data has been gathered, need to reset the num of pages
+    setNumPages(Math.ceil(groupbuys.length / itemsPerPage));
+  }, [groupbuys.length]);
 
   useEffect(() => {
     Service.client.get("/orders/all_groupbuys").then((res) => {
@@ -270,20 +277,26 @@ const GroupBuyBody = (props) => {
         </Grid>
       </Grid>
       <Grid container className={classes.root}>
-        <Grid item xs={1} />
-        <Grid xs={10} container className={classes.cardSection}>
+        <Grid xs={12} container className={classes.cardSection}>
           {groupbuys &&
-            groupbuys.map((groupbuy) => (
-              <Grid item xs={5} md={4} xl={3} className={classes.cardComponent}>
-                <GroupBuyCard
-                  key={groupbuy.gb_id}
-                  groupbuyitem={groupbuy.recipe}
-                  groupbuy={groupbuy}
-                />
-              </Grid>
-            ))}
+            groupbuys
+              .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+              .map((groupbuy) => (
+                <Grid
+                  item
+                  xs={5}
+                  md={4}
+                  xl={3}
+                  className={classes.cardComponent}
+                >
+                  <GroupBuyCard
+                    key={groupbuy.gb_id}
+                    groupbuyitem={groupbuy.recipe}
+                    groupbuy={groupbuy}
+                  />
+                </Grid>
+              ))}
         </Grid>
-        <Grid item xs={1} />
       </Grid>
       <Grid className={classes.page}>
         <Pagination
