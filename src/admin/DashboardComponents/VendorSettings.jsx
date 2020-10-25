@@ -41,7 +41,7 @@ const VendorSettings = () => {
 
   useEffect(() => {
     Service.client
-      .get("/auth/get_current_user")
+      .get("/users")
       .then((res) => setProfile(res.data));
   }, []);
 
@@ -54,14 +54,14 @@ const VendorSettings = () => {
     event.preventDefault();
     console.log(profile);
 
-    Service.client.patch("/auth/update_user/" + profile.id, profile);
+    Service.client.patch("/users/" + profile.id, profile);
   };
 
   const handleSubmitPassword = (event) => {
     event.preventDefault();
     console.log(passwordDetails);
 
-    Service.client.post("/auth/change_user_password/" + profile.id, passwordDetails);
+    Service.client.post("/users/" + profile.id, passwordDetails);
   };
 
   return (
