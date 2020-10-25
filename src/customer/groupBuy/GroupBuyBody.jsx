@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { withStyles, fade } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import {
   FormControl,
   Grid,
@@ -20,96 +20,7 @@ import Service from "../../AxiosService";
 const styles = (theme) => ({
   root: {
     // flexGrow: 1,
-    marginTop: "20px",
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-  header: {
-    fontFamily: "Raleway",
-    fontSize: 35,
-    fontWeight: 550,
-    letterSpacing: 3,
-    color: "#2A2B2A",
-    padding: theme.spacing(2),
-    textAlign: "left",
-    [theme.breakpoints.down("md")]: {
-      fontSize: 28,
-      letterSpacing: 2,
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 20,
-      padding: theme.spacing(3),
-    },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 14,
-      padding: theme.spacing(3),
-    },
-  },
-  cardSection: {
-    // display: "flex",
-    // flexDirection: "row",
-    // justifyContent: "space-evenly",
-    // paddingLeft: "20px",
-    // paddingRight: "20px",
-  },
-  cardComponent: {
-    marginTop: "40px",
-    [theme.breakpoints.down("md")]: {
-      marginTop: "30px",
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "20px",
-    },
-    [theme.breakpoints.down("xs")]: {
-      marginTop: "10px",
-    },
-  },
-  search: {
-    position: "relative",
-    margin: 20,
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.black, 0.25),
-    },
-    width: "90%",
-    lineHeight: 3,
-    [theme.breakpoints.down("sm")]: {
-      lineHeight: 2,
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "left",
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(0, 1),
-    },
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    fontSize: 10,
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      fontSize: 20,
-      "&:focus": {
-        width: "20ch",
-      },
-    },
+    marginTop: "30px",
   },
   page: {
     "& > * + *": {
@@ -124,9 +35,14 @@ const styles = (theme) => ({
     },
   },
   formControl: {
-    minWidth: 200,
+    minWidth: 150,
     maxHeight: 50,
-    marginTop: "20px",
+    marginTop: "30px",
+  },
+  noResults: {
+    marginTop: "100px",
+    display: "block",
+    margin: "auto",
   },
 });
 
@@ -221,8 +137,8 @@ const GroupBuyBody = (props) => {
 
   return (
     <Fragment>
-      <Grid container className={classes.root}>
-        <Grid item xs={3} lg={3}>
+      <Grid container className={classes.root} justify="center">
+        <Grid item xs={3}>
           <div
             style={{
               display: "flex",
@@ -252,7 +168,8 @@ const GroupBuyBody = (props) => {
             </FormControl>
           </div>
         </Grid>
-        <Grid item xs={9} lg={9}>
+
+        <Grid item xs={9}>
           <div
             style={{
               display: "flex",
@@ -265,7 +182,7 @@ const GroupBuyBody = (props) => {
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                marginBottom: "20px",
+                marginBottom: "30px",
               }}
             >
               <SearchBar
@@ -294,7 +211,7 @@ const GroupBuyBody = (props) => {
               </div>
             </div>
             <Grid container>
-              {groupbuys &&
+              {groupbuys && groupbuys.length > 0 ? (
                 groupbuys
                   .slice((page - 1) * itemsPerPage, page * itemsPerPage)
                   .map((groupbuy) => (
@@ -311,7 +228,18 @@ const GroupBuyBody = (props) => {
                         />
                       </Grid>
                     </div>
-                  ))}
+                  ))
+              ) : (
+                <div className={classes.noResults}>
+                  <SearchIcon style={{ fontSize: 50 }} color="disabled" />
+                  <Typography variant="body1" style={{ fontSize: "18px" }}>
+                    We could not find anything that matches your search
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Try searching other keywords
+                  </Typography>
+                </div>
+              )}
             </Grid>
           </div>
         </Grid>
