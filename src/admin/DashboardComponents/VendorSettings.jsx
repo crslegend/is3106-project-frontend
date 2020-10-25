@@ -41,7 +41,7 @@ const VendorSettings = () => {
 
   useEffect(() => {
     Service.client
-      .get("/auth/get_current_user")
+      .get("/users")
       .then((res) => setProfile(res.data));
   }, []);
 
@@ -50,23 +50,18 @@ const VendorSettings = () => {
     setProfile({ ...profile, [name]: value });
   };
 
-  const handleOnChangePassword = (event) => {
-    const { name, value } = event.target;
-    setProfile({ ...passwordDetails, [name]: value });
-  };
-
   const handleSubmitProfile = (event) => {
     event.preventDefault();
     console.log(profile);
 
-    Service.client.patch("/auth/update_user/" + profile.id, profile);
+    Service.client.patch("/users/" + profile.id, profile);
   };
 
   const handleSubmitPassword = (event) => {
     event.preventDefault();
     console.log(passwordDetails);
 
-    Service.client.post("/auth/change_user_password/" + profile.id, passwordDetails);
+    Service.client.post("/users/" + profile.id, passwordDetails);
   };
 
   return (
@@ -97,14 +92,14 @@ const VendorSettings = () => {
                     id="name"
                     label="Name"
                     name="name"
-                    value={profile.name}
+                    value={profile.name || ''}
                     onChange={handleOnChange}
                   />
                   <TextField
                     className={classes.topMargin}
                     label="Email"
                     name="email"
-                    value={profile.email}
+                    value={profile.email || ''}
                     defaultValue={profile.email}
                     onChange={handleOnChange}
                   />
@@ -112,7 +107,7 @@ const VendorSettings = () => {
                     className={classes.topMargin}
                     label="Vendor Name"
                     name="vendor_name"
-                    value={profile.vendor_name}
+                    value={profile.vendor_name || ''}
                     onChange={handleOnChange}
                   />
                 </Grid>

@@ -84,7 +84,7 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
       .then((res1) => {
         // check if is vendor
         Service.baseClient
-          .get("/auth/get_current_user", {
+          .get("/users", {
             headers: {
               Authorization: `Bearer ${res1.data.access}`,
             },
