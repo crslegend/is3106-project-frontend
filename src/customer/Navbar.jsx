@@ -183,9 +183,7 @@ const Navbar = ({ classes }) => {
                       <Typography>{profile.name}</Typography>
                     </Box>
                     <Box display="flex" justifyContent="center">
-                      <Typography>
-                        {profile.email || "No user error"}
-                      </Typography>
+                      <Typography>{profile.email}</Typography>
                     </Box>
                     <CardActions>
                       <div>

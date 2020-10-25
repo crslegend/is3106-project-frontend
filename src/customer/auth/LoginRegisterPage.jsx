@@ -129,20 +129,10 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
           });
       })
       .catch((err) => {
-        setSnackbar({
-          ...snackbar,
-          message: "Something went wrong",
-          severity: "error",
-        });
-        setSbOpen(true);
-        setLoading(false);
-        console.log(`${err} - something went wrong`);
-      })
-      .catch((err) => {
         console.log(`${err} - invalid credentials`);
         setSnackbar({
           ...snackbar,
-          message: "Invalid credentials",
+          message: "Invalid credentials. Please try again.",
           severity: "error",
         });
         setSbOpen(true);
@@ -197,9 +187,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
       .then(() => {
         Service.client.post("/api/token/", registerDetails).then((res2) => {
           Service.storeCredentials(res2.data);
-          console.log(
-            `credentials stored access- ${res2.data.access}, refresh -  ${res2.data.refresh}`
-          );
+
           setSnackbar({
             ...snackbar,
             message: "Registration Successful",
@@ -216,24 +204,13 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
       .catch((err) => {
         setSnackbar({
           ...snackbar,
-          message: "Something went wrong",
+          message: "Email has been registered before. Please use a new email.",
           severity: "error",
         });
         setSbOpen(true);
         setLoading(false);
         setRegisterDetails(null);
         console.log(`${err} - something went wrong`);
-      })
-      .catch((err) => {
-        console.log(`${err} - duplicate email`);
-        setSnackbar({
-          ...snackbar,
-          message: "Email has been registered before",
-          severity: "error",
-        });
-        setSbOpen(true);
-        setLoading(false);
-        setRegisterDetails(null);
       });
   };
 
@@ -261,17 +238,17 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
               <form
                 className={classes.form}
                 noValidate
                 onSubmit={handleSubmitLogin}
               >
-                <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Sign in
-                </Typography>
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -320,10 +297,10 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                 />
                 <Grid container>
                   <Grid item>
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       control={<Checkbox value="remember" color="primary" />}
                       label="Remember me"
-                    />
+                    /> */}
                   </Grid>
                 </Grid>
 
@@ -343,9 +320,9 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="\forgetpassword" variant="body2">
+                    {/* <Link href="\forgetpassword" variant="body2">
                       Forgot password?
-                    </Link>
+                    </Link> */}
                   </Grid>
                   <Grid item>
                     <Link
