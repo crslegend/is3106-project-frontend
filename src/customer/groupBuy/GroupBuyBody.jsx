@@ -7,6 +7,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
@@ -18,7 +19,8 @@ import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
+    marginTop: "20px",
   },
   paper: {
     padding: theme.spacing(2),
@@ -47,12 +49,11 @@ const styles = (theme) => ({
     },
   },
   cardSection: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    flexWrap: "wrap",
-    paddingLeft: "20px",
-    paddingRight: "20px",
+    // display: "flex",
+    // flexDirection: "row",
+    // justifyContent: "space-evenly",
+    // paddingLeft: "20px",
+    // paddingRight: "20px",
   },
   cardComponent: {
     marginTop: "40px",
@@ -123,16 +124,16 @@ const styles = (theme) => ({
     },
   },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
+    minWidth: 200,
     maxHeight: 50,
+    marginTop: "20px",
   },
 });
 
 const GroupBuyBody = (props) => {
   const { classes } = props;
   const [groupbuys, setGroupbuys] = useState([]);
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
   const [page, setPage] = useState(1);
   const [noOfPages, setNumPages] = useState(
     Math.ceil(groupbuys.length / itemsPerPage)
@@ -221,42 +222,18 @@ const GroupBuyBody = (props) => {
   return (
     <Fragment>
       <Grid container className={classes.root}>
-        <Grid item xs={4}>
-          <div className={classes.header}>Available Group Buys</div>
-        </Grid>
-        <Grid item xs={8}>
-          {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div> */}
+        <Grid item xs={3} lg={3}>
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
+              flexDirection: "column",
+              // justifyContent: "space-around",
               alignItems: "center",
             }}
           >
-            <SearchBar
-              style={{
-                width: "80%",
-                backgroundColor: "#e0e0e0",
-              }}
-              placeholder="Search for Group Buys"
-              value={searchValue}
-              onChange={(newValue) => setSearchValue(newValue)}
-              onRequestSearch={getSearchResults}
-              onCancelSearch={() => setSearchValue("")}
-            />
+            <Typography variant="h4" style={{ textTransform: "capitalize" }}>
+              Available Group Buys
+            </Typography>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel>Sort By</InputLabel>
               <Select
@@ -275,40 +252,69 @@ const GroupBuyBody = (props) => {
             </FormControl>
           </div>
         </Grid>
-      </Grid>
-      <Grid container className={classes.root}>
-        <Grid xs={12} container className={classes.cardSection}>
-          {groupbuys &&
-            groupbuys
-              .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-              .map((groupbuy) => (
-                <Grid
-                  item
-                  xs={5}
-                  md={4}
-                  xl={3}
-                  className={classes.cardComponent}
-                >
-                  <GroupBuyCard
-                    key={groupbuy.gb_id}
-                    groupbuyitem={groupbuy.recipe}
-                    groupbuy={groupbuy}
-                  />
-                </Grid>
-              ))}
+        <Grid item xs={9} lg={9}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <SearchBar
+                style={{
+                  width: "70%",
+                  backgroundColor: "#e0e0e0",
+                }}
+                placeholder="Search for Group Buys"
+                value={searchValue}
+                onChange={(newValue) => setSearchValue(newValue)}
+                onRequestSearch={getSearchResults}
+                onCancelSearch={() => setSearchValue("")}
+              />
+
+              <div style={{ marginLeft: "30px" }}>
+                <Pagination
+                  count={noOfPages}
+                  page={page}
+                  onChange={handleChange}
+                  defaultPage={1}
+                  color="primary"
+                  size="medium"
+                  showFirstButton
+                  showLastButton
+                />
+              </div>
+            </div>
+            <Grid container>
+              {groupbuys &&
+                groupbuys
+                  .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                  .map((groupbuy) => (
+                    <div
+                      style={{
+                        marginRight: "30px",
+                      }}
+                    >
+                      <Grid item xs>
+                        <GroupBuyCard
+                          key={groupbuy.gb_id}
+                          groupbuyitem={groupbuy.recipe}
+                          groupbuy={groupbuy}
+                        />
+                      </Grid>
+                    </div>
+                  ))}
+            </Grid>
+          </div>
         </Grid>
-      </Grid>
-      <Grid className={classes.page}>
-        <Pagination
-          count={noOfPages}
-          page={page}
-          onChange={handleChange}
-          defaultPage={1}
-          color="primary"
-          size="small"
-          showFirstButton
-          showLastButton
-        />
       </Grid>
     </Fragment>
   );
