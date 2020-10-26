@@ -9,16 +9,16 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
-import image from "../assets/lamb.jpg";
+import image from "../../assets/lamb.jpg";
 
 const styles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     flexShrink: 1,
-    width: "19vw",
+    width: "22vw",
     height: "100%",
     [theme.breakpoints.down("md")]: {
-      width: "25vw",
+      width: "27vw",
     },
     [theme.breakpoints.down("sm")]: {
       margin: 10,
@@ -34,7 +34,7 @@ const styles = makeStyles((theme) => ({
     fontFamily: theme.typography.fontFamilySecondary,
     textTransform: "uppercase",
     fontWeight: 550,
-    fontSize: 22,
+    fontSize: 20,
     [theme.breakpoints.down("md")]: {
       fontSize: 16,
     },
@@ -60,6 +60,20 @@ const styles = makeStyles((theme) => ({
     display: "flex",
     paddingLeft: "15px",
     color: "#ED2939",
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    fontSize: 16,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 14,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+  },
+  cardOngoing: {
+    display: "flex",
+    paddingLeft: "15px",
+    color: "#32CD32",
     fontFamily: "Raleway",
     fontWeight: 500,
     fontSize: 16,
@@ -113,11 +127,13 @@ const GroupBuyCard = (props) => {
     warning = (
       <Typography className={classes.cardWarning}>Quantity Reached!</Typography>
     );
+  } else {
+    warning = <Typography className={classes.cardOngoing}>Ongoing</Typography>;
   }
 
   return (
     <Card className={classes.root}>
-      <CardActionArea href="/viewdetails">
+      <CardActionArea component={Link} to={`/viewdetails/${groupbuy.gb_id}`}>
         <CardMedia
           className={classes.media}
           image={image}
@@ -146,8 +162,8 @@ const GroupBuyCard = (props) => {
             View Details
           </Button>
         </CardContent>
+        {warning}
       </CardActionArea>
-      {warning}
     </Card>
   );
 };

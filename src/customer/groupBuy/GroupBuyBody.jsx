@@ -14,7 +14,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import SearchBar from "material-ui-search-bar";
 import FuzzySearch from "fuzzy-search";
 import sortArray from "sort-array";
-import GroupBuyCard from "../../components/GroupBuyCard";
+import GroupBuyCard from "./GroupBuyCard";
 import Service from "../../AxiosService";
 
 const styles = (theme) => ({
@@ -44,12 +44,16 @@ const styles = (theme) => ({
     display: "block",
     margin: "auto",
   },
+  cardSection: {
+    paddingLeft: "20px",
+    paddingRight: "20px",
+  },
 });
 
 const GroupBuyBody = (props) => {
   const { classes } = props;
   const [groupbuys, setGroupbuys] = useState([]);
-  const itemsPerPage = 3;
+  const itemsPerPage = 6;
   const [page, setPage] = useState(1);
   const [noOfPages, setNumPages] = useState(
     Math.ceil(groupbuys.length / itemsPerPage)
@@ -68,7 +72,7 @@ const GroupBuyBody = (props) => {
   }, [groupbuys.length]);
 
   useEffect(() => {
-    Service.client.get("/orders/all_groupbuys").then((res) => {
+    Service.client.get("/groupbuys").then((res) => {
       setGroupbuys(res.data.results);
       console.log(res.data.results);
     });
@@ -76,7 +80,7 @@ const GroupBuyBody = (props) => {
 
   useEffect(() => {
     if (searchValue === "") {
-      Service.client.get("/orders/all_groupbuys").then((res) => {
+      Service.client.get("/groupbuys").then((res) => {
         setGroupbuys(res.data.results);
         console.log(res.data.results);
       });
@@ -231,7 +235,7 @@ const GroupBuyBody = (props) => {
                 />
               </div>
             </div>
-            <Grid container>
+            <Grid container className={classes.cardSection}>
               {groupbuys && groupbuys.length > 0 ? (
                 groupbuys
                   .slice((page - 1) * itemsPerPage, page * itemsPerPage)
@@ -239,9 +243,10 @@ const GroupBuyBody = (props) => {
                     <div
                       style={{
                         marginRight: "30px",
+                        marginBottom: "20px",
                       }}
                     >
-                      <Grid item xs>
+                      <Grid item xs={5} md={4} xl={3}>
                         <GroupBuyCard
                           key={groupbuy.gb_id}
                           groupbuyitem={groupbuy.recipe}

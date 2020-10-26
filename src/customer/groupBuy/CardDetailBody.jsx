@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Grid, ListItemText, Card } from "@material-ui/core";
+import { Grid, Card } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,6 +10,8 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link, useParams } from "react-router-dom";
+import moment from "moment";
+import Service from "../../AxiosService";
 
 import image from "../../assets/lamb.jpg";
 
@@ -83,11 +85,13 @@ const styles = makeStyles((theme) => ({
       paddingLeft: "0px",
     },
   },
-  cardDescription: {
+  ing: {
+    fontFamily: "Raleway",
     textAlign: "left",
     paddingLeft: "30px",
+    fontSize: 15,
     [theme.breakpoints.down("md")]: {
-      fontSize: 14,
+      fontSize: 12,
     },
     [theme.breakpoints.down("sm")]: {
       paddingLeft: "0px",
@@ -172,7 +176,6 @@ const BorderLinearProgress = withStyles((theme) => ({
       marginLeft: "0px",
     },
   },
-
   colorPrimary: {
     backgroundColor:
       theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
@@ -185,8 +188,33 @@ const BorderLinearProgress = withStyles((theme) => ({
 
 const CardDetailBody = () => {
   const classes = styles();
+  const [groupbuy, setGroupbuy] = useState("");
   const { id } = useParams();
   console.log(id);
+
+  useEffect(() => {
+    Service.client.get(`/groupbuys/${id}`).then((res) => {
+      setGroupbuy(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
+  // Set progress bar status
+  let fulfillment =
+    (groupbuy.current_order_quantity / groupbuy.minimum_order_quantity) * 100;
+
+  if (fulfillment >= 100) {
+    fulfillment = 100;
+  } else if (
+    fulfillment == null ||
+    groupbuy.minimum_order_quantity === undefined
+  ) {
+    fulfillment = 0;
+  }
+
+  // Format fulfillment date
+  let fulfillmentdate = groupbuy.fulfillment_date;
+  fulfillmentdate = moment().format("DD-MMM-YYYY");
 
   return (
     <Fragment>
@@ -208,54 +236,51 @@ const CardDetailBody = () => {
               </Grid>
               <Grid xs={12} md={7}>
                 <CardContent height="150" width="150">
-                  <Typography className={classes.cardHeader}>title</Typography>
-                  <Typography className={classes.cardBody}>$12.99</Typography>
+                  <Typography className={classes.cardHeader}>
+                    {groupbuy && groupbuy.recipe.recipe_name}
+                  </Typography>
+                  {groupbuy.final_price !== null ? (
+                    <Typography className={classes.cardBody}>
+                      ${groupbuy.final_price}
+                    </Typography>
+                  ) : (
+                    <Typography className={classes.cardBody}>
+                      ${groupbuy.recipe.estimated_price_start} - $
+                      {groupbuy.recipe.estimated_price_end}
+                    </Typography>
+                  )}
                   <p className={classes.progressHeader}>Order Fulfillment</p>
                   <div style={{ position: "relative" }}>
                     <BorderLinearProgress
                       className={classes.root}
                       variant="determinate"
                       color="secondary"
-                      value={50}
+                      value={fulfillment}
                     />
-                    <span className={classes.progressLabel}>10</span>
-                    <span className={classes.progressTotalLabel}>20</span>
+                    <span className={classes.progressLabel}>
+                      current orders: {groupbuy.current_order_quantity}
+                    </span>
+                    <span className={classes.progressTotalLabel}>
+                      {groupbuy.minimum_order_quantity}
+                    </span>
                   </div>
-                  <Typography
-                    style={{ marginTop: "10px" }}
-                    className={classes.cardBody}
-                  >
-                    Short Description
-                  </Typography>
-                  <Typography className={classes.cardDescription}>
-                    Really cute mehmeh before it got slaughtered. Now its
-                    delicious!
-                  </Typography>
                   <Typography
                     style={{ marginTop: "10px" }}
                     className={classes.cardBody}
                   >
                     Ingredient List
                   </Typography>
-                  <ListItemText>
-                    <Typography className={classes.cardDescription}>
-                      1 large garlic cloves
-                    </Typography>
-                    <Typography className={classes.cardDescription}>
-                      1/2 tablespoon fresh rosemary leaves
-                    </Typography>
-                    <Typography className={classes.cardDescription}>
-                      1/2 teaspoon fresh thyme leaves
-                    </Typography>
-                    <Typography className={classes.cardDescription}>
-                      2 lamb chops, about 3/4-inch thick
-                    </Typography>
-                  </ListItemText>
+                  {groupbuy &&
+                    groupbuy.recipe.ingredients.map((ingredient) => (
+                      <Typography className={classes.ing}>
+                        {ingredient.ing_name} , {ingredient.quantity}
+                      </Typography>
+                    ))}
                   <Typography
                     style={{ marginTop: "10px", fontWeight: "700" }}
                     className={classes.progressHeader}
                   >
-                    Fulfillment Date: 10 Dec 2020
+                    Fulfillment Date: {fulfillmentdate}
                   </Typography>
                 </CardContent>
               </Grid>
