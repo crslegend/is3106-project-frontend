@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -82,13 +83,11 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
     Service.client
       .post("/api/token/", loginDetails)
       .then((res1) => {
+        const userId = jwt_decode(res1.data.access).user_id
+
         // check if is vendor
         Service.baseClient
-          .get("/users", {
-            headers: {
-              Authorization: `Bearer ${res1.data.access}`,
-            },
-          })
+          .get(`/users/${userId}`)
           .then((res2) => {
             if (!res2.data.is_vendor) {
               setSnackbar({
