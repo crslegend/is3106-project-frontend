@@ -111,14 +111,9 @@ const styles = (theme) => ({
 });
 
 const IngredientsTabs = (props) => {
-  const {
-    classes,
-    updateIngredients,
-    chosenIngredients,
-    calculateTotalPrice,
-  } = props;
+  const { classes, updateIngredients, chosenIngredients, calculateTotalPrice } = props;
   const [value, setValue] = useState(0);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
   const [paginationInfo, setPaginationInfo] = useState();
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState([]);
@@ -144,9 +139,35 @@ const IngredientsTabs = (props) => {
   };
 
   // for changing between tabs
-  useEffect(() => {
+  // useEffect(() => {
+  //   console.log("change");
+  //   if (value !== 9) {
+  //     let listing = null;
+  //     setProducts([]);
+  //     setHasMore(true);
+  //     // setSearchValue("");
+  //     const getItems = async () => {
+  //       setPage(1);
+  //       // console.log(page);
+  //       listing = await ntuc.getListing(1, value, "");
+  //       setPage(1 + 1);
+  //       setSortMethod("");
+  //       setPaginationInfo(listing.pagination);
+  //       setProducts(listing.product);
+  //       console.log(`CHANGE TAB ${sortMethod}`);
+  //     };
+  //     getItems();
+  //   } else if (value === 9 && searchValue === "") {
+  //     setProducts([]);
+  //   } else if (value === 9 && searchValue !== "") {
+  //     getSearchResults();
+  //   }
+  // }, [value]);
+  // console.log(page);
+
+  const onTabChange = async (tabNo) => {
     console.log("change");
-    if (value !== 9) {
+    if (tabNo !== 9) {
       let listing = null;
       setProducts([]);
       setHasMore(true);
@@ -154,44 +175,42 @@ const IngredientsTabs = (props) => {
       const getItems = async () => {
         setPage(1);
         // console.log(page);
-        listing = await ntuc.getListing(1, value, "");
+        listing = await ntuc.getListing(1, tabNo, "");
         setPage(1 + 1);
         setSortMethod("");
         setPaginationInfo(listing.pagination);
         setProducts(listing.product);
-        console.log(`CHANGE TAB ${sortMethod}`);
+        console.log(`CHANGE TAB ${tabNo} ${sortMethod}`);
       };
-      getItems();
-    } else if (value === 9 && searchValue === "") {
+      await getItems();
+    } else if (tabNo === 9 && searchValue === "") {
       setProducts([]);
-    } else if (value === 9 && searchValue !== "") {
+    } else if (tabNo === 9 && searchValue !== "") {
       getSearchResults();
     }
-  }, [value]);
-  // console.log(page);
+  };
 
-  // for changing sort methods
-  useEffect(() => {
+  const onSortChange = (sort) => {
     let listing = null;
     setProducts([]);
     setHasMore(true);
     const getItems = async () => {
       setPage(1);
       // console.log(page);
-      listing = await ntuc.getListing(1, value, sortMethod);
+      listing = await ntuc.getListing(1, value, sort);
       setPage(1 + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
-      console.log(`CHANGE SORT ${sortMethod}`);
+      console.log(`CHANGE SORT ${sort}`);
     };
 
     const results = async () => {
       setPage(1);
-      listing = await ntuc.getSearchResults(1, searchValue, sortMethod);
+      listing = await ntuc.getSearchResults(1, searchValue, sort);
       setPage(1 + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
-      console.log(`CHANGE SORT ${sortMethod}`);
+      console.log(`CHANGE SORT ${sort}`);
     };
 
     if (searchValue === "") {
@@ -199,7 +218,50 @@ const IngredientsTabs = (props) => {
     } else {
       results();
     }
-  }, [sortMethod]);
+  };
+
+  useEffect(() => {
+    let listing = null;
+    const getItems = async () => {
+      // console.log(page);
+      listing = await ntuc.getListing(1, 0, "");
+      setPaginationInfo(listing.pagination);
+      setProducts(listing.product);
+      console.log(`Initial fetch`);
+    };
+    getItems();
+  }, []);
+
+  // // for changing sort methods
+  // useEffect(() => {
+  //   let listing = null;
+  //   setProducts([]);
+  //   setHasMore(true);
+  //   const getItems = async () => {
+  //     setPage(1);
+  //     // console.log(page);
+  //     listing = await ntuc.getListing(1, value, sortMethod);
+  //     setPage(1 + 1);
+  //     setPaginationInfo(listing.pagination);
+  //     setProducts(listing.product);
+  //     console.log(`CHANGE SORT ${sortMethod}`);
+  //   };
+
+  //   const results = async () => {
+  //     setPage(1);
+  //     listing = await ntuc.getSearchResults(1, searchValue, sortMethod);
+  //     setPage(1 + 1);
+  //     setPaginationInfo(listing.pagination);
+  //     setProducts(listing.product);
+  //     console.log(`CHANGE SORT ${sortMethod}`);
+  //   };
+
+  //   if (searchValue === "") {
+  //     getItems();
+  //   } else {
+  //     results();
+  //   }
+  // }, [sortMethod]);
 
   // for loading more pages of data
   // useEffect(() => {
@@ -331,7 +393,10 @@ const IngredientsTabs = (props) => {
             <Select
               label="Sort By"
               value={sortMethod}
-              onChange={handleSortChange}
+              onChange={(event) => {
+                handleSortChange(event);
+                onSortChange(event.target.value);
+              }}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -349,7 +414,10 @@ const IngredientsTabs = (props) => {
       <AppBar position="static" classes={{ root: classes.appBar }}>
         <Tabs
           value={value}
-          onChange={handleChange}
+          onChange={(event, newValue) => {
+            handleChange(event, newValue);
+            onTabChange(newValue);
+          }}
           TabIndicatorProps={{ style: { backgroundColor: "#ffffff" } }}
           TabScrollButtonProps={{ style: { color: "#ffffff" } }}
           classes={{ root: classes.tabText }}
@@ -422,9 +490,7 @@ const IngredientsTabs = (props) => {
                     <Typography variant="body1" style={{ fontSize: "18px" }}>
                       We could not find anything that matches your search
                     </Typography>
-                    <Typography variant="subtitle1">
-                      Try searching other keywords
-                    </Typography>
+                    <Typography variant="subtitle1">Try searching other keywords</Typography>
                   </div>
                 )}
               </Grid>
