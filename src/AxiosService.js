@@ -25,6 +25,10 @@ const removeCredentials = () => {
   Cookies.remove("t2");
 };
 
+const getJWT = () => {
+  return Cookies.get("t1");
+};
+
 // set request interceptor to use access token if exists
 client.interceptors.request.use(
   (config) => {
@@ -75,4 +79,5 @@ export default {
   ntucClient,
   storeCredentials,
   removeCredentials,
+  getJWT,
 };
