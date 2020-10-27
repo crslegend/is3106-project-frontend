@@ -34,9 +34,13 @@ const Routes = (props) => (
         sensitive
         render={(match) => <CardDetailPage match={match} />}
       />
-
       <Route path="/profile" render={() => <ProfilePage {...props} />} />
-      <Route path="/payment" render={() => <PaymentPage {...props} />} />
+      <Route
+        path="/payment/:id"
+        strict
+        sensitive
+        render={(match) => <PaymentPage match={match} />}
+      />
       <Route
         path="/editprofile"
         render={() => <EditProfilePage {...props} />}

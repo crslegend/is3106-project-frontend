@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -11,7 +11,9 @@ import {
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
+import { Link, useParams } from "react-router-dom";
 import PaymentForm from "./PaymentForm";
+import Service from "../../AxiosService";
 
 import image from "../../assets/lamb.jpg";
 
@@ -41,11 +43,14 @@ const styles = (theme) => ({
     },
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 700,
     textAlign: "left",
     paddingBottom: "10px",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
+    },
+    [theme.breakpoints.down("xs")]: {
       fontSize: 12,
     },
   },
@@ -93,7 +98,7 @@ const styles = (theme) => ({
     [theme.breakpoints.down("md")]: {
       marginRight: "5px",
       marginLeft: "5px",
-      fontSize: "15px",
+      fontSize: "16px",
     },
     [theme.breakpoints.down("sm")]: {
       marginRight: "3px",
@@ -101,7 +106,7 @@ const styles = (theme) => ({
     },
     [theme.breakpoints.down("xs")]: {
       marginLeft: "-10px",
-      fontSize: "12px",
+      fontSize: "13px",
     },
   },
   summaryRight: {
@@ -109,10 +114,11 @@ const styles = (theme) => ({
     float: "right",
     marginRight: "15px",
     marginLeft: "20px",
+    fontSize: "20px",
     [theme.breakpoints.down("md")]: {
       marginRight: "5px",
       marginLeft: "10px",
-      fontSize: "15px",
+      fontSize: "16px",
     },
     [theme.breakpoints.down("sm")]: {
       marginRight: "3px",
@@ -121,7 +127,7 @@ const styles = (theme) => ({
     [theme.breakpoints.down("xs")]: {
       marginLeft: "3px",
       marginRight: "0px",
-      fontSize: "12px",
+      fontSize: "13px",
     },
   },
   summaryDivide: {
@@ -141,17 +147,28 @@ const styles = (theme) => ({
 
 const PaymentBody = (props) => {
   const { classes } = props;
+  const [groupbuy, setGroupbuy] = useState("");
+  const [quantity, setQuantity] = useState(1);
+
+  const { id } = useParams();
+  console.log(id);
+
+  useEffect(() => {
+    Service.client.get(`/groupbuys/${id}`).then((res) => {
+      setGroupbuy(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
+  const finalprice = quantity * groupbuy.final_price;
 
   return (
     <Fragment>
       <Grid container spacing={2} className={classes.root}>
         <Grid item xs={2}>
-          <ArrowBackIcon
-            onClick={() => {
-              window.location.href = "viewdetails";
-            }}
-            className={classes.icon}
-          />
+          <Link to={`/viewdetails/${id}`}>
+            <ArrowBackIcon className={classes.icon} />
+          </Link>
         </Grid>
         <Grid item xs={10}>
           <Grid container spacing={3}>
@@ -161,7 +178,7 @@ const PaymentBody = (props) => {
                   Check Out Details
                 </CardContent>
                 <Divider classes={{ root: classes.divide }} />
-                <PaymentForm />
+                <PaymentForm quantity={quantity} setQuantity={setQuantity} />
               </Card>
             </Grid>
             <Grid item xs={10} md={4} className={classes.item2}>
@@ -181,17 +198,17 @@ const PaymentBody = (props) => {
                   <Grid xs={7} md={12}>
                     <CardContent>
                       <Typography
-                        variant="h6"
+                        variant="h5"
                         fontWeight="900"
                         className={classes.summaryLeft}
                       >
-                        Grilled Lamb Chop
+                        {groupbuy && groupbuy.recipe.recipe_name}
                       </Typography>
                       <Typography
                         variant="body1"
                         className={classes.summaryRight}
                       >
-                        $9.00
+                        ${finalprice}
                       </Typography>
                     </CardContent>
                     <CardContent>

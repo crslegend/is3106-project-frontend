@@ -19,7 +19,6 @@ const styles = (theme) => ({
     "& input": {
       backgroundColor: "white",
       borderRadius: "10px",
-
       textAlign: "center",
       fontSize: 18,
       padding: "8px 10px",
@@ -54,14 +53,17 @@ const styles = (theme) => ({
       padding: theme.spacing(0.5, 0.5),
     },
     "& label": {
-      fontSize: 18,
-      padding: "8px 10px",
+      fontSize: 20,
+      padding: "5px 10px",
       marginLeft: "10px",
       [theme.breakpoints.down("sm")]: {
-        fontSize: 15,
-        padding: "8px 1px",
+        fontSize: 16,
+        padding: "5px 1px",
         marginLeft: "5px",
       },
+    },
+    "& label.Mui-focused": {
+      color: "#5E4955",
     },
   },
   button: {
@@ -79,7 +81,6 @@ const initialValues = {
   addressOne: " ",
   addressTwo: " ",
   postal: " ",
-  quantity: "1",
   mobile: "+65 ",
 };
 
@@ -95,7 +96,7 @@ const payments = [
 ];
 
 const PaymentForm = (props) => {
-  const { classes } = props;
+  const { classes, quantity, setQuantity } = props;
   const { values, resetForm, handleInputChange } = useForm(initialValues);
 
   const [payment, setPayment] = React.useState("CARD");
@@ -103,6 +104,10 @@ const PaymentForm = (props) => {
 
   const handleChange = (event) => {
     setPayment(event.target.value);
+  };
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
   };
 
   const handleOpenDialog = () => {
@@ -187,8 +192,8 @@ const PaymentForm = (props) => {
               classes: { input: classes.root },
               disableUnderline: true,
             }}
-            value={values.quantity}
-            onChange={handleInputChange}
+            value={quantity}
+            onChange={handleQuantityChange}
           />
           <TextField
             fullWidth="true"

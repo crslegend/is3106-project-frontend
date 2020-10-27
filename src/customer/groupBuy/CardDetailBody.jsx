@@ -47,9 +47,9 @@ const styles = makeStyles((theme) => ({
     },
   },
   media: {
-    height: "365px",
+    height: "350px",
     width: "100%",
-    margin: " 0px 30px",
+    margin: " 0px 30px 40px",
     objectFit: "cover",
     [theme.breakpoints.down("sm")]: {
       height: "250px",
@@ -286,7 +286,11 @@ const CardDetailBody = () => {
               </Grid>
             </Grid>
           </Card>
-          <Button className={classes.buyButton} href="/payment">
+          <Button
+            className={classes.buyButton}
+            component={Link}
+            to={`/payment/${id}`}
+          >
             <ShoppingCartIcon className={classes.iconGroupBuy} />
             Enter Group Buy
           </Button>
