@@ -78,14 +78,18 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
   const handleSubmitProfile = (event) => {
     event.preventDefault();
 
+    // instantiate form-data
     const formData = new FormData();
+
+    // appending data to form-data
     Object.keys(profile).forEach((key) => formData.append(key, profile[key]));
     if (profilePhoto.length > 0) {
       formData.append("profile_photo", profilePhoto[0].file);
     }
 
+    // submit form-data as per usual
     Service.client
-      .put("/users/" + profile.id, formData)
+      .put(`/users/${profile.id}`, formData)
       .then((res) => {
         console.log(res);
         setSnackbar({
