@@ -111,7 +111,12 @@ const styles = (theme) => ({
 });
 
 const IngredientsTabs = (props) => {
-  const { classes, updateIngredients, chosenIngredients, calculateTotalPrice } = props;
+  const {
+    classes,
+    updateIngredients,
+    chosenIngredients,
+    calculateTotalPrice,
+  } = props;
   const [value, setValue] = useState(0);
   const [page, setPage] = useState(2);
   const [paginationInfo, setPaginationInfo] = useState();
@@ -444,7 +449,7 @@ const IngredientsTabs = (props) => {
             index={tab}
             id={tab.toString()}
             style={{
-              height: 500,
+              maxHeight: "70vh",
               overflow: "auto",
               borderBottom: "2px solid #e8e8e8",
               borderLeft: "2px solid #e8e8e8",
@@ -490,7 +495,9 @@ const IngredientsTabs = (props) => {
                     <Typography variant="body1" style={{ fontSize: "18px" }}>
                       We could not find anything that matches your search
                     </Typography>
-                    <Typography variant="subtitle1">Try searching other keywords</Typography>
+                    <Typography variant="subtitle1">
+                      Try searching other keywords
+                    </Typography>
                   </div>
                 )}
               </Grid>
