@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
@@ -41,8 +42,11 @@ const VendorSettings = () => {
 
   useEffect(() => {
     Service.client
-      .get("/users")
-      .then((res) => setProfile(res.data));
+      .get(`/users/${jwt_decode(Service.getJWT()).user_id}`)
+      .then((res) => {
+        setProfile(res.data);
+        console.log(res.data);
+      });
   }, []);
 
   const handleOnChange = (event) => {
