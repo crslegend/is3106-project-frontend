@@ -153,7 +153,7 @@ const VendorDashboard = (props) => {
           <Switch>
             <Route exact path={`/admin/dashboard`} render={() => <VendorGroupBuyList />} />
             <Route path={`/admin/dashboard/recipes`} render={() => <VendorRecipeList />} />
-            <Route path={`/admin/dashboard/settings`} render={() => <VendorSettings />} />
+            <Route path={`/admin/dashboard/settings`} render={() => <VendorSettings {...props} />} />
           </Switch>
         </div>
       </BrowserRouter>
