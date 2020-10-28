@@ -168,6 +168,11 @@ const IngredientListing = (props) => {
     console.log(recipeInfo);
     setConfirmSubmitModal(false);
 
+    // instantiate form-data
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(recipeInfo))
+    formData.append("display_photo", recipePhoto[0].file)
+
     Service.client
       .post("/api/token/", {
         email: "a@a.com",
@@ -177,7 +182,7 @@ const IngredientListing = (props) => {
         console.log(res);
         Service.storeCredentials(res.data); // store access and refresh tokens
 
-        Service.client.post("/recipes", recipeInfo).then((res) => console.log(res)); // get protected view
+        Service.client.post("/recipes", formData).then((res) => console.log(res)); // get protected view
       })
       .catch((error) => {
         console.log(error);
