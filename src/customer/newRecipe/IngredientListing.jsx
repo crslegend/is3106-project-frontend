@@ -60,6 +60,7 @@ const styles = (theme) => ({
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingTop: "15px",
+    alignItems: "center",
   },
   price: {
     lineHeight: 3,
@@ -309,11 +310,13 @@ const IngredientListing = (props) => {
                             secondary={`Quantity: ${value.quantity}`}
                           />
 
-                          <ListItemText
-                            style={{ marginLeft: "20px" }}
-                            id={value}
-                            primary={`$${value.estimated_price}`}
-                          />
+                          <div style={{ float: "right" }}>
+                            <ListItemText
+                              style={{ marginLeft: "20px" }}
+                              id={value}
+                              primary={`$${value.estimated_price}`}
+                            />
+                          </div>
 
                           <ListItemSecondaryAction>
                             <IconButton
