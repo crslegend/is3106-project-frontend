@@ -12,16 +12,20 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 import Button from "@material-ui/core/Button";
+import jwt_decode from "jwt-decode";
 import withRoot from "../../constants/withRoot";
 import Typography from "../../components/Typography";
 import Service from "../../AxiosService";
+import image from "../../assets/login.jpg";
+
+const backgroundImage = image;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(https://source.unsplash.com/random)",
+    backgroundImage: `url(${backgroundImage})`,
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -88,16 +92,15 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
     if (error) return;
 
     setLoading(true);
-    console.log(`login email - ${loginDetails.email}`);
-    console.log(`login password - ${loginDetails.password}`);
 
     // calling backend login api
     Service.client
       .post("/api/token/", loginDetails)
       .then((res1) => {
         // check if is vendor
+        const userid = jwt_decode(res1.data.access).user_id;
         Service.baseClient
-          .get("/users/5e4f9924-47ca-4daa-adc4-2eb27cfa1b5b", {
+          .get(`/users/${userid}`, {
             headers: {
               Authorization: `Bearer ${res1.data.access}`,
             },

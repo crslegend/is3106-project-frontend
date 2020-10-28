@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
-
-import Service from "../../AxiosService";
+import jwt_decode from "jwt-decode";
 import { Typography } from "@material-ui/core";
+import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   root: {
@@ -30,14 +30,60 @@ const styles = (theme) => ({
   },
 });
 
+function getTimeElapsed(startDate) {
+  const currentDateTime = new Date();
+  // milliseconds
+  let different = currentDateTime.getSeconds() - 0;
+
+  console.log("current time - " + currentDateTime);
+  console.log("start time - " + startDate);
+  console.log("different - " + different);
+
+  const secondsInMilli = 1000;
+  const minutesInMilli = secondsInMilli * 60;
+  const hoursInMilli = minutesInMilli * 60;
+  const daysInMilli = hoursInMilli * 24;
+
+  const elapsedDays = different / daysInMilli;
+  different %= daysInMilli;
+
+  const elapsedHours = different / hoursInMilli;
+  different %= hoursInMilli;
+
+  const elapsedMinutes = different / minutesInMilli;
+  different %= minutesInMilli;
+
+  const elapsedSeconds = different / secondsInMilli;
+
+  if (elapsedDays >= 1) {
+    return `${elapsedDays} days ago`;
+  }
+  if (elapsedHours >= 1) {
+    return `${elapsedHours} hours ago`;
+  }
+  if (elapsedMinutes >= 1) {
+    return `${elapsedMinutes} mins ago`;
+  }
+  return `${elapsedSeconds} secs ago -> to be debug`;
+}
+
 const ProfileBody = (props) => {
   const { classes } = props;
   const [profile, setProfile] = useState([]);
 
   useEffect(() => {
-    Service.client
-      .get("/auth/get_current_user")
-      .then((res) => setProfile(res.data));
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      let userid = jwt_decode(Service.getJWT()).user_id;
+      console.log(`profile useeffect userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}`)
+        .then((res) => setProfile(res.data))
+        .catch((err) => {
+          setProfile(null);
+        });
+      // console.log(profile.hasOwnProperty('name'));
+      userid = null;
+    }
   }, []);
 
   return (
@@ -46,14 +92,15 @@ const ProfileBody = (props) => {
         alt="J Sharp"
         // eslint-disable-next-line global-require
         src={require("../../assets/profilecircle.png")}
-        width="250px"
+        width="150px"
       />
 
       <Typography>
-        {profile.name}
+        xxNamexx{profile.name}
+        <br />
         {profile.email}
-        Joined: {profile.joinedDate}
-
+        <br />
+        Joined: {getTimeElapsed(profile.date_joined)}
       </Typography>
       <Button
         variant="contained"

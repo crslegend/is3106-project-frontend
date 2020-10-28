@@ -15,6 +15,7 @@ import Box from "@material-ui/core/Box";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import jwt_decode from "jwt-decode";
 import AppBar from "../components/AppBar";
 import Toolbar, { styles as toolbarStyles } from "../components/Toolbar";
 import Service from "../AxiosService";
@@ -100,13 +101,18 @@ const Navbar = ({ classes }) => {
   };
 
   useEffect(() => {
-    Service.client
-      .get("/users/5e4f9924-47ca-4daa-adc4-2eb27cfa1b5b")
-      .then((res) => setProfile(res.data))
-      .catch((err) => {
-        // console.log(err);
-        setProfile(null);
-      });
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      let userid = jwt_decode(Service.getJWT()).user_id;
+      console.log(`profile useeffect userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}`)
+        .then((res) => setProfile(res.data))
+        .catch((err) => {
+          setProfile(null);
+        });
+      // console.log(profile.hasOwnProperty('name'));
+      userid = null;
+    }
   }, []);
 
   // handle logout
@@ -116,7 +122,7 @@ const Navbar = ({ classes }) => {
     setProfile(null);
     setAnchorEl(null);
     setOpen(true);
-    // history.push("/");
+    history.push("/");
   };
 
   return (
@@ -134,7 +140,7 @@ const Navbar = ({ classes }) => {
             Sashimi
           </Link>
           <div className={classes.right}>
-            {profile === null && (
+            {profile === null ? (
               <div>
                 <IconButton
                   aria-label="account of current user"
@@ -147,8 +153,7 @@ const Navbar = ({ classes }) => {
                   SIGN IN
                 </IconButton>
               </div>
-            )}
-            {profile !== null && (
+            ) : (
               <div>
                 <IconButton
                   aria-label="account of current user"
@@ -158,10 +163,7 @@ const Navbar = ({ classes }) => {
                   onClick={handleClick}
                 >
                   <Avatar className={classes.orange}>
-                    {profile.name !== null &&
-                      profile.name.charAt(0).toUpperCase()}
-                    {profile.name === null &&
-                      profile.email.charAt(0).toUpperCase()}
+                    {profile.email.charAt(0).toUpperCase()}
                   </Avatar>
                 </IconButton>
 
@@ -182,10 +184,7 @@ const Navbar = ({ classes }) => {
                   <Card className={classes.root}>
                     <Box display="flex" justifyContent="center" m={1} p={1}>
                       <Avatar className={classes.large}>
-                        {profile.name !== null &&
-                          profile.name.charAt(0).toUpperCase()}
-                        {profile.name === null &&
-                          profile.email.charAt(0).toUpperCase()}
+                        {profile.email.charAt(0).toUpperCase()}
                       </Avatar>
                     </Box>
                     <Box display="flex" justifyContent="center">

@@ -8,6 +8,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import jwt_decode from "jwt-decode";
 import Typography from "../../components/Typography";
 import Button from "../../components/Button";
 
@@ -79,7 +80,6 @@ const ProfileBody = () => {
   const classes = styles();
   const [value, setValue] = React.useState(0);
   const [profile, setProfile] = useState();
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -101,9 +101,18 @@ const ProfileBody = () => {
   };
 
   useEffect(() => {
-    Service.client
-      .get("/auth/get_current_user")
-      .then((res) => setProfile(res.data));
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      let userid = jwt_decode(Service.getJWT()).user_id;
+      console.log(`profile useeffect userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}`)
+        .then((res) => setProfile(res.data))
+        .catch((err) => {
+          setProfile(null);
+        });
+      // console.log(profile.hasOwnProperty('name'));
+      userid = null;
+    }
   }, []);
 
   return (
@@ -131,7 +140,7 @@ const ProfileBody = () => {
                 alt="J Sharp"
                 // eslint-disable-next-line global-require
                 src={require("../../assets/profilecircle.png")}
-                width="200px"
+                width="150px"
               />
             </Grid>
             <Grid item xs={6}>
