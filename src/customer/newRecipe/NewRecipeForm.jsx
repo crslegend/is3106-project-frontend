@@ -46,8 +46,8 @@ const NewRecipeForm = (props) => {
     setOpen,
     editMode,
     setDateForDisplay,
-    profilePhoto,
-    setProfilePhoto,
+    recipePhoto,
+    setRecipePhoto,
   } = props;
   const [selectedDate, setSelectedDate] = useState(getTomorrowDate());
   const [recipeName, setName] = useState("");
@@ -131,15 +131,15 @@ const NewRecipeForm = (props) => {
               dropzoneText="Drag and drop an image or click here (Max 5mb)"
               acceptedFiles={["image/*"]}
               filesLimit={1}
-              fileObjects={profilePhoto}
+              fileObjects={recipePhoto}
               maxFileSize={5000000}
               onAdd={(newPhoto) => {
                 // console.log("onAdd", newPhoto);
-                setProfilePhoto([].concat(newPhoto));
+                setRecipePhoto([].concat(newPhoto));
               }}
               onDelete={(deletePhotoObj) => {
                 console.log("onDelete", deletePhotoObj);
-                setProfilePhoto([]);
+                setRecipePhoto([]);
               }}
               previewGridProps={{
                 item: {

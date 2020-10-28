@@ -9,6 +9,7 @@ const NewRecipePage = () => {
     recipe_name: "",
     fulfillment_date: null,
   });
+  const [recipePhoto, setRecipePhoto] = useState([]);
 
   const [dateForDisplay, setDateForDisplay] = useState(null);
   const [open, setOpen] = useState(true);
@@ -24,6 +25,8 @@ const NewRecipePage = () => {
         setOpen={setOpen}
         editMode={editMode}
         setDateForDisplay={setDateForDisplay}
+        recipePhoto={recipePhoto}
+        setRecipePhoto={setRecipePhoto}
       />
       <IngredientListing
         recipeInfo={recipeInfo}
@@ -32,6 +35,7 @@ const NewRecipePage = () => {
         setOpen={setOpen}
         setEditMode={setEditMode}
         dateForDisplay={dateForDisplay}
+        recipePhoto={recipePhoto}
       />
     </Fragment>
   );
