@@ -218,7 +218,7 @@ const IngredientListing = (props) => {
         </div>
       </Grid>
 
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={4} style={{ minHeight: "90vh" }}>
         <Paper className={classes.recipeList}>
           <div>
             <div className={classes.recipeListHeader}>
