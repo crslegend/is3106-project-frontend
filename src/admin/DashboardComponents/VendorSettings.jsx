@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
   topMargin: {
     margin: "5px 0 0px 0px",
   },
+  helperText: {
+    margin: "5px 0",
+    color: "error",
+  },
 }));
 
 const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
@@ -61,13 +65,19 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
     new_password2: "",
   });
 
+  const [oldPasswordError, setOldPasswordError] = useState(false);
+  const [newPassword1Error, setNewPassword1Error] = useState(false);
+  const [newPassword2Error, setNewPassword2Error] = useState(false);
+
   useEffect(() => {
-    Service.client.get(`/users/${jwt_decode(Service.getJWT()).user_id}`).then((res) => {
-      setProfile({
-        ...res.data.user,
-        vendor_name: res.data.vendor_name,
+    Service.client
+      .get(`/users/${jwt_decode(Service.getJWT()).user_id}`)
+      .then((res) => {
+        setProfile({
+          ...res.data.user,
+          vendor_name: res.data.vendor_name,
+        });
       });
-    });
   }, []);
 
   const handleOnChange = (event) => {
@@ -108,9 +118,52 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
 
   const handleSubmitPassword = (event) => {
     event.preventDefault();
+
+    // simple update password form validation
+    let error = false;
+    if (passwordDetails.old_password === "") {
+      setOldPasswordError(true);
+      error = true;
+    } else {
+      setOldPasswordError(false);
+    }
+    if (passwordDetails.new_password1 === "") {
+      setNewPassword1Error(true);
+      error = true;
+    } else {
+      setNewPassword1Error(false);
+    }
+    if (passwordDetails.new_password2 === "") {
+      setNewPassword2Error(true);
+      error = true;
+    } else {
+      setNewPassword2Error(false);
+    }
+    if (error) return;
+
     console.log(passwordDetails);
 
-    Service.client.patch("/users/" + profile.id, passwordDetails);
+    Service.client
+      .patch("/users/" + profile.id, passwordDetails)
+      .then((res) => {
+        console.log(res);
+        setSnackbar({
+          ...snackbar,
+          message: "Updated!",
+          severity: "success",
+        });
+        setSbOpen(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSnackbar({
+          ...snackbar,
+          message: "Something went wrong",
+          severity: "error",
+        });
+        setSbOpen(true);
+      });
+      event.target.reset();
   };
 
   return (
@@ -127,14 +180,23 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
                   item={true}
                   xs={6}
                   md={5}
-                  style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
                   <Avatar
                     classes={{
                       root: classes.avatarRoot,
                       colorDefault: classes.colorDefault,
                     }}
-                    src={profilePhoto.length <= 0 ? profile && profile.profile_photo_url : profilePhoto[0].data}
+                    src={
+                      profilePhoto.length <= 0
+                        ? profile && profile.profile_photo_url
+                        : profilePhoto[0].data
+                    }
                   />
                   <Button
                     variant="contained"
@@ -199,26 +261,67 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
         <Grid item={true} xs={12}>
           <form onSubmit={handleSubmitPassword}>
             <Card>
-              <Grid container justify="center" className={`${classes.root} ${classes.topMargin}`}>
-                <Grid item={true} container direction="column" xs={6} md={5} className={classes.topBottomMargin}>
+              <Grid
+                container
+                justify="center"
+                className={`${classes.root} ${classes.topMargin}`}
+              >
+                <Grid
+                  item={true}
+                  container
+                  direction="column"
+                  xs={6}
+                  md={5}
+                  className={classes.topBottomMargin}
+                >
                   <Typography variant="h5">Change Password</Typography>
                   <TextField
                     type="password"
                     name="old_password"
                     label="Enter current password"
-                    onChange={(event) => setPasswordDetails({ ...passwordDetails, old_password: event.target.value })}
+                    onChange={(event) =>
+                      setPasswordDetails({
+                        ...passwordDetails,
+                        old_password: event.target.value,
+                      })
+                    }
+                    error={oldPasswordError}
+                    helperText={oldPasswordError && "Enter your current password"}
+                    FormHelperTextProps={{
+                      classes: { root: classes.helperText },
+                    }}
                   />
                   <TextField
                     type="password"
                     name="new_password1"
                     label="Enter new password"
-                    onChange={(event) => setPasswordDetails({ ...passwordDetails, new_password1: event.target.value })}
+                    onChange={(event) =>
+                      setPasswordDetails({
+                        ...passwordDetails,
+                        new_password1: event.target.value,
+                      })
+                    }
+                    error={newPassword1Error}
+                    helperText={newPassword1Error && "Enter your new password"}
+                    FormHelperTextProps={{
+                      classes: { root: classes.helperText },
+                    }}
                   />
                   <TextField
                     type="password"
                     name="new_password2"
                     label="Retype new password"
-                    onChange={(event) => setPasswordDetails({ ...passwordDetails, new_password2: event.target.value })}
+                    onChange={(event) =>
+                      setPasswordDetails({
+                        ...passwordDetails,
+                        new_password2: event.target.value,
+                      })
+                    }
+                    error={newPassword2Error}
+                    helperText={newPassword2Error && "Retype your new password"}
+                    FormHelperTextProps={{
+                      classes: { root: classes.helperText },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -241,7 +344,10 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
       <Dialog onClose={() => setUploadOpen(false)} open={uploadOpen}>
         <DialogTitle>
           <span>Upload Photo (Max 5MB)</span>
-          <IconButton style={{ right: "12px", top: "8px", position: "absolute" }} onClick={() => setUploadOpen(false)}>
+          <IconButton
+            style={{ right: "12px", top: "8px", position: "absolute" }}
+            onClick={() => setUploadOpen(false)}
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
