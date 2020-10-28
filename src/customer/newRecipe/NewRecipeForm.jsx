@@ -143,7 +143,7 @@ const NewRecipeForm = (props) => {
               }}
               previewGridProps={{
                 item: {
-                  maxWidth: "100%",
+                  xs: "auto",
                 },
               }}
             />
