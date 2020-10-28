@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
@@ -73,27 +73,22 @@ const styles = (theme) => ({
 
 const LandingBody = (props) => {
   const { classes } = props;
+  const [profile, setProfile] = useState([]);
 
-  // example usage of Axios Service
   useEffect(() => {
-    // login to get JWT
-    Service.client
-      .post("/api/token/", {
-        email: "a@a.com",
-        password: "password",
-      })
+    /*Service.client
+      .get("/auth/get_current_user")
       .then((res) => {
-        console.log(res);
-        Service.storeCredentials(res.data); // store access and refresh tokens
-
+        if (!res.data) {
+          setProfile(res.data);
+        }
         Service.client
           .get("/recipes/get_recipes")
           .then((res) => console.log(res)); // get protected view
-        Service.removeCredentials(); // delete cookie storage when logged out
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((err) => {
+        console.log(err);
+      });*/
   });
 
   return (
