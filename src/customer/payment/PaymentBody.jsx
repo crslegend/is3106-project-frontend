@@ -94,38 +94,37 @@ const styles = (theme) => ({
     float: "left",
     marginRight: "20px",
     marginLeft: "18px",
-    textTransform: "none",
+    fontSize: "20px",
     [theme.breakpoints.down("md")]: {
       marginRight: "5px",
       marginLeft: "5px",
-      fontSize: "16px",
+      fontSize: "15px",
     },
     [theme.breakpoints.down("sm")]: {
       marginRight: "3px",
-      marginLeft: "5px",
+      marginLeft: "-15px",
     },
     [theme.breakpoints.down("xs")]: {
-      marginLeft: "-10px",
+      marginLeft: "-20px",
       fontSize: "13px",
     },
   },
   summaryRight: {
     display: "inline",
     float: "right",
-    marginRight: "15px",
-    marginLeft: "20px",
-    fontSize: "20px",
+    marginRight: "10px",
+    marginLeft: "15px",
+    fontSize: "17px",
     [theme.breakpoints.down("md")]: {
-      marginRight: "5px",
-      marginLeft: "10px",
-      fontSize: "16px",
+      marginRight: "4px",
+      marginLeft: "8px",
+      fontSize: "14px",
     },
     [theme.breakpoints.down("sm")]: {
       marginRight: "3px",
-      marginLeft: "5px",
+      marginLeft: "0px",
     },
     [theme.breakpoints.down("xs")]: {
-      marginLeft: "3px",
       marginRight: "0px",
       fontSize: "13px",
     },
@@ -138,9 +137,13 @@ const styles = (theme) => ({
     [theme.breakpoints.down("md")]: {
       width: "90%",
     },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "15px",
+      marginLeft: "10px",
+    },
     [theme.breakpoints.down("xs")]: {
       marginTop: "15px",
-      marginLeft: "4px",
+      marginLeft: "0px",
     },
   },
 });
@@ -153,6 +156,11 @@ const PaymentBody = (props) => {
   const { id } = useParams();
   console.log(id);
 
+  const [order, setOrder] = useState({
+    gb_id: id,
+    order_quantity: quantity,
+  });
+
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
@@ -160,7 +168,14 @@ const PaymentBody = (props) => {
     });
   }, []);
 
-  const finalprice = quantity * groupbuy.final_price;
+  const totalprice = Number(
+    quantity * parseFloat(groupbuy.final_price)
+  ).toFixed(2);
+
+  const finalamount = Number(
+    quantity * parseFloat(groupbuy.final_price) +
+      parseFloat(groupbuy.delivery_fee)
+  ).toFixed(2);
 
   return (
     <Fragment>
@@ -178,7 +193,12 @@ const PaymentBody = (props) => {
                   Check Out Details
                 </CardContent>
                 <Divider classes={{ root: classes.divide }} />
-                <PaymentForm quantity={quantity} setQuantity={setQuantity} />
+                <PaymentForm
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                  order={order}
+                  setOrder={setOrder}
+                />
               </Card>
             </Grid>
             <Grid item xs={10} md={4} className={classes.item2}>
@@ -198,8 +218,7 @@ const PaymentBody = (props) => {
                   <Grid xs={7} md={12}>
                     <CardContent>
                       <Typography
-                        variant="h5"
-                        fontWeight="900"
+                        variant="body1"
                         className={classes.summaryLeft}
                       >
                         {groupbuy && groupbuy.recipe.recipe_name}
@@ -208,7 +227,7 @@ const PaymentBody = (props) => {
                         variant="body1"
                         className={classes.summaryRight}
                       >
-                        ${finalprice}
+                        ${totalprice}
                       </Typography>
                     </CardContent>
                     <CardContent>
@@ -222,7 +241,7 @@ const PaymentBody = (props) => {
                         variant="body1"
                         className={classes.summaryRight}
                       >
-                        $2.00
+                        ${groupbuy.delivery_fee}
                       </Typography>
                     </CardContent>
                     <Divider
@@ -240,7 +259,7 @@ const PaymentBody = (props) => {
                         variant="body1"
                         className={classes.summaryRight}
                       >
-                        $11.00
+                        ${finalamount}
                       </Typography>
                     </CardContent>
                   </Grid>

@@ -88,13 +88,13 @@ const styles = makeStyles((theme) => ({
   ing: {
     fontFamily: "Raleway",
     textAlign: "left",
-    paddingLeft: "30px",
+    paddingLeft: "40px",
     fontSize: 15,
     [theme.breakpoints.down("md")]: {
-      fontSize: 12,
+      fontSize: 13,
     },
     [theme.breakpoints.down("sm")]: {
-      paddingLeft: "0px",
+      paddingLeft: "10px",
     },
   },
   progressHeader: {

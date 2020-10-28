@@ -96,7 +96,7 @@ const payments = [
 ];
 
 const PaymentForm = (props) => {
-  const { classes, quantity, setQuantity } = props;
+  const { classes, quantity, setQuantity, order, setOrder } = props;
   const { values, resetForm, handleInputChange } = useForm(initialValues);
 
   const [payment, setPayment] = React.useState("CARD");
@@ -108,6 +108,10 @@ const PaymentForm = (props) => {
 
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
+    setOrder({
+      ...order,
+      order_quantity: quantity,
+    });
   };
 
   const handleOpenDialog = () => {
