@@ -21,7 +21,13 @@ import {
   Snackbar,
   Typography,
 } from "@material-ui/core";
-import { Delete, Edit, AddShoppingCart, AssignmentTwoTone, DateRangeTwoTone } from "@material-ui/icons";
+import {
+  Delete,
+  Edit,
+  AddShoppingCart,
+  AssignmentTwoTone,
+  DateRangeTwoTone,
+} from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import IngredientsTabs from "./IngredientsTabs";
 import Service from "../../AxiosService";
@@ -88,12 +94,20 @@ const styles = (theme) => ({
   photoRoot: {
     width: "inherit",
     height: "10vw",
-    margin: "10px 0"
+    margin: "10px 0",
   },
 });
 
 const IngredientListing = (props) => {
-  const { classes, recipeInfo, setRecipeInfo, setOpen, setEditMode, dateForDisplay, recipePhoto } = props;
+  const {
+    classes,
+    recipeInfo,
+    setRecipeInfo,
+    setOpen,
+    setEditMode,
+    dateForDisplay,
+    recipePhoto,
+  } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
   const [priceRange, setPriceRange] = useState({
     estimated_price_start: 0,
@@ -170,8 +184,8 @@ const IngredientListing = (props) => {
 
     // instantiate form-data
     const formData = new FormData();
-    formData.append("data", JSON.stringify(recipeInfo))
-    formData.append("display_photo", recipePhoto[0].file)
+    formData.append("data", JSON.stringify(recipeInfo));
+    formData.append("display_photo", recipePhoto[0].file);
 
     Service.client
       .post("/api/token/", {
@@ -182,7 +196,9 @@ const IngredientListing = (props) => {
         console.log(res);
         Service.storeCredentials(res.data); // store access and refresh tokens
 
-        Service.client.post("/recipes", formData).then((res) => console.log(res)); // get protected view
+        Service.client
+          .post("/recipes", formData)
+          .then((res) => console.log(res)); // get protected view
       })
       .catch((error) => {
         console.log(error);
@@ -216,7 +232,13 @@ const IngredientListing = (props) => {
       <Grid item xs={12} sm={4} style={{ minHeight: "90vh" }}>
         <Paper className={classes.recipeList}>
           <div>
-            {recipePhoto.length > 0 && <img src={recipePhoto[0].data} className={classes.photoRoot} alt="Recipe " />}
+            {recipePhoto.length > 0 && (
+              <img
+                src={recipePhoto[0].data}
+                className={classes.photoRoot}
+                alt="Recipe "
+              />
+            )}
             <div className={classes.recipeListHeader}>
               <div
                 style={{
@@ -242,7 +264,9 @@ const IngredientListing = (props) => {
                       marginLeft: "10px",
                     }}
                   >
-                    {recipeInfo.recipe_name && recipeInfo.recipe_name ? ` ${recipeInfo.recipe_name}` : "-"}
+                    {recipeInfo.recipe_name && recipeInfo.recipe_name
+                      ? ` ${recipeInfo.recipe_name}`
+                      : "-"}
                   </Typography>
                 </div>
                 <div
@@ -260,7 +284,9 @@ const IngredientListing = (props) => {
                       marginLeft: "10px",
                     }}
                   >
-                    {dateForDisplay && dateForDisplay ? ` ${dateForDisplay.toDateString()}` : "-"}
+                    {dateForDisplay && dateForDisplay
+                      ? ` ${dateForDisplay.toDateString()}`
+                      : "-"}
                   </Typography>
                 </div>
               </div>
@@ -310,7 +336,11 @@ const IngredientListing = (props) => {
                           </div>
 
                           <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="delete" onClick={() => deleteIngredient(value)}>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => deleteIngredient(value)}
+                            >
                               <Delete />
                             </IconButton>
                           </ListItemSecondaryAction>
@@ -322,8 +352,13 @@ const IngredientListing = (props) => {
                 ) : (
                   <div style={{ paddingTop: "150px" }}>
                     <Fragment>
-                      <AddShoppingCart style={{ fontSize: 50 }} color="disabled" />
-                      <Typography variant="subtitle1">No Ingredients Yet</Typography>
+                      <AddShoppingCart
+                        style={{ fontSize: 50 }}
+                        color="disabled"
+                      />
+                      <Typography variant="subtitle1">
+                        No Ingredients Yet
+                      </Typography>
                     </Fragment>
                   </div>
                 )}
@@ -341,19 +376,30 @@ const IngredientListing = (props) => {
           >
             <div className={classes.separator} />
             <Typography variant="h5" className={classes.price}>
-              Estimated Price: ${priceRange.estimated_price_start.toFixed(2)} - $
-              {priceRange.estimated_price_end.toFixed(2)}
+              Estimated Price: ${priceRange.estimated_price_start.toFixed(2)} -
+              ${priceRange.estimated_price_end.toFixed(2)}
             </Typography>
-            <Button onClick={handleSubmit} color="inherit" variant="outlined" className={classes.submitButton}>
+            <Button
+              onClick={handleSubmit}
+              color="inherit"
+              variant="outlined"
+              className={classes.submitButton}
+            >
               Enter Group Buy
             </Button>
           </div>
         </Paper>
       </Grid>
 
-      <Snackbar open={alertOpen} autoHideDuration={4000} onClose={handleAlertClose}>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={handleAlertClose}
+      >
         <Alert onClose={handleAlertClose} elevation={6} severity="error">
-          <Typography variant="body1">Please add some ingredients before submitting!</Typography>
+          <Typography variant="body1">
+            Please add some ingredients before submitting!
+          </Typography>
         </Alert>
       </Snackbar>
 
@@ -369,15 +415,24 @@ const IngredientListing = (props) => {
         <DialogContent>
           <DialogContentText>
             <Typography variant="body1">
-              You cannot make any more changes once you have submitted for approval. Continue to submit?
+              You cannot make any more changes once you have submitted for
+              approval. Continue to submit?
             </Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button color="secondary" className={classes.submitModalButton} onClick={() => setConfirmSubmitModal(false)}>
+          <Button
+            color="secondary"
+            className={classes.submitModalButton}
+            onClick={() => setConfirmSubmitModal(false)}
+          >
             Cancel
           </Button>
-          <Button color="secondary" className={classes.submitModalButton} onClick={submitRecipe}>
+          <Button
+            color="secondary"
+            className={classes.submitModalButton}
+            onClick={submitRecipe}
+          >
             Submit
           </Button>
         </DialogActions>

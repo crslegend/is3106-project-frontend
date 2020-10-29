@@ -2,8 +2,19 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { DropzoneAreaBase } from "material-ui-dropzone";
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@material-ui/core";
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 
@@ -62,7 +73,11 @@ const NewRecipeForm = (props) => {
 
   const formatDate = (date) => {
     if (date !== null) {
-      const newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+      const newDate = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
       return newDate;
     }
     return null;
@@ -92,7 +107,12 @@ const NewRecipeForm = (props) => {
 
   return (
     <div>
-      <Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={handleClose}>
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        open={open}
+        onClose={handleClose}
+      >
         <DialogTitle className={classes.root}>
           <Typography variant="h5">Give your recipe a name!</Typography>
         </DialogTitle>
@@ -151,15 +171,27 @@ const NewRecipeForm = (props) => {
 
           <DialogActions>
             {editMode ? (
-              <Button className={classes.button} onClick={handleSubmit} color="secondary">
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
                 Update Recipe
               </Button>
             ) : recipeName.length > 0 ? (
-              <Button className={classes.button} onClick={handleSubmit} color="secondary">
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
                 Create Recipe
               </Button>
             ) : (
-              <Button className={classes.button} onClick={handleClose} color="secondary">
+              <Button
+                className={classes.button}
+                onClick={handleClose}
+                color="secondary"
+              >
                 Skip For Now
               </Button>
             )}
