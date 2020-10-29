@@ -112,6 +112,12 @@ const NewRecipeForm = (props) => {
         disableEscapeKeyDown
         open={open}
         onClose={handleClose}
+        PaperProps={{
+          style: {
+            minWidth: "300px",
+            maxWidth: "300px",
+          },
+        }}
       >
         <DialogTitle className={classes.root}>
           <Typography variant="h5">Give your recipe a name!</Typography>
