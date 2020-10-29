@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import jwtdecode from "jwt-decode";
 import { Grid, Card } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -189,6 +190,7 @@ const BorderLinearProgress = withStyles((theme) => ({
 const CardDetailBody = () => {
   const classes = styles();
   const [groupbuy, setGroupbuy] = useState("");
+  const [customer, setCustomer] = useState("");
   const { id } = useParams();
   console.log(id);
 
@@ -197,6 +199,19 @@ const CardDetailBody = () => {
       setGroupbuy(res.data);
       console.log(res.data);
     });
+  }, []);
+
+  useEffect(() => {
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      const userid = jwtdecode(Service.getJWT()).user_id;
+      console.log(`userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}`)
+        .then((res) => setCustomer(res.data))
+        .catch((err) => {
+          setCustomer(null);
+        });
+    }
   }, []);
 
   // Set progress bar status

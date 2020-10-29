@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -7,18 +8,24 @@ import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
 import Button from "@material-ui/core/Button";
+import jwt_decode from "jwt-decode";
 import withRoot from "../../constants/withRoot";
 import Typography from "../../components/Typography";
+import Service from "../../AxiosService";
+import image from "../../assets/login.jpg";
+
+const backgroundImage = image;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(https://source.unsplash.com/random)",
+    backgroundImage: `url(${backgroundImage})`,
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -48,9 +55,167 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AltLogin() {
+const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
   const classes = useStyles();
   let flippyHorizontal;
+
+  const [loginDetails, setLoginDetails] = useState({
+    email: "",
+    password: "",
+  });
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // react router dom history
+  const history = useHistory();
+
+  // handle form submit
+  const handleSubmitLogin = (e) => {
+    e.preventDefault(); // prevent html form refresh
+
+    // simple login form validation
+    let error = false;
+    if (loginDetails.email === "" || !loginDetails.email.includes("@")) {
+      setEmailError(true);
+      error = true;
+    } else {
+      setEmailError(false);
+    }
+    // simple password validation
+    if (loginDetails.password === "") {
+      setPasswordError(true);
+      error = true;
+    } else {
+      setPasswordError(false);
+    }
+    if (error) return;
+
+    setLoading(true);
+
+    // calling backend login api
+    Service.client
+      .post("/api/token/", loginDetails)
+      .then((res1) => {
+        // check if is vendor
+        const userid = jwt_decode(res1.data.access).user_id;
+        Service.baseClient
+          .get(`/users/${userid}`, {
+            headers: {
+              Authorization: `Bearer ${res1.data.access}`,
+            },
+          })
+          .then((res2) => {
+            if (res2.data.is_vendor) {
+              setSnackbar({
+                ...snackbar,
+                message: "Invalid login",
+                severity: "error",
+              });
+              setSbOpen(true);
+              setLoading(false);
+              console.log("Invalid login");
+            } else {
+              Service.storeCredentials(res1.data);
+              setSnackbar({
+                ...snackbar,
+                message: "Login Successful",
+                severity: "success",
+              });
+              setSbOpen(true);
+              setLoading(false);
+
+              // redirect to dashboard
+              console.log("Log in successfully");
+              history.push("/");
+            }
+          });
+      })
+      .catch((err) => {
+        console.log(`${err} - invalid credentials`);
+        setSnackbar({
+          ...snackbar,
+          message: "Invalid credentials. Please try again.",
+          severity: "error",
+        });
+        setSbOpen(true);
+        setLoading(false);
+      });
+  };
+
+  const [registerDetails, setRegisterDetails] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [nameError, setNameError] = useState(false);
+
+  // handle form submit
+  const handleSubmitRegister = (e) => {
+    e.preventDefault(); // prevent html form refresh
+
+    // simple login form validation
+    let error = false;
+
+    if (registerDetails.name === "") {
+      setNameError(true);
+      error = true;
+    } else {
+      setNameError(false);
+    }
+    if (registerDetails.email === "" || !registerDetails.email.includes("@")) {
+      setEmailError(true);
+      error = true;
+    } else {
+      setEmailError(false);
+    }
+    // simple password validation
+    if (registerDetails.password === "") {
+      setPasswordError(true);
+      error = true;
+    } else {
+      setPasswordError(false);
+    }
+    if (error) return;
+
+    setLoading(true);
+    console.log(`register name - ${registerDetails.name}`);
+    console.log(`register email - ${registerDetails.email}`);
+    console.log(`register password - ${registerDetails.password}`);
+
+    // calling backend register api
+    Service.client
+      .post("/users", registerDetails)
+      .then(() => {
+        Service.client.post("/api/token/", registerDetails).then((res2) => {
+          Service.storeCredentials(res2.data);
+
+          setSnackbar({
+            ...snackbar,
+            message: "Registration Successful",
+            severity: "success",
+          });
+          setSbOpen(true);
+          setLoading(false);
+          setRegisterDetails(null);
+
+          // redirect to dashboard
+          history.push("/");
+        });
+      })
+      .catch((err) => {
+        setSnackbar({
+          ...snackbar,
+          message: "Email has been registered before. Please use a new email.",
+          severity: "error",
+        });
+        setSbOpen(true);
+        setLoading(false);
+        setRegisterDetails(null);
+        console.log(`${err} - something went wrong`);
+      });
+  };
 
   return (
     <div className={classes.image}>
@@ -82,35 +247,63 @@ function AltLogin() {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate>
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={handleSubmitLogin}
+              >
                 <TextField
                   variant="outlined"
                   margin="normal"
-                  // required
                   fullWidth
-                  id="email"
+                  id="registeremail"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  required
+                  value={loginDetails.email}
+                  onChange={(event) =>
+                    setLoginDetails({
+                      ...loginDetails,
+                      email: event.target.value,
+                    })
+                  }
+                  error={emailError}
+                  helperText={emailError && "Enter a valid email"}
+                  FormHelperTextProps={{
+                    classes: { root: classes.helperText },
+                  }}
                 />
                 <TextField
                   variant="outlined"
                   margin="normal"
-                  // required
                   fullWidth
                   name="password"
                   label="Password"
                   type="password"
-                  id="password"
+                  id="registerpassword"
                   autoComplete="current-password"
+                  required
+                  value={loginDetails.password}
+                  onChange={(event) =>
+                    setLoginDetails({
+                      ...loginDetails,
+                      password: event.target.value,
+                    })
+                  }
+                  error={passwordError}
+                  helperText={passwordError && "Enter a password"}
+                  FormHelperTextProps={{
+                    classes: { root: classes.helperText },
+                  }}
                 />
-                <Grid container justify="flex">
+                <Grid container>
                   <Grid item>
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       control={<Checkbox value="remember" color="primary" />}
                       label="Remember me"
-                    />
+                    /> */}
                   </Grid>
                 </Grid>
 
@@ -120,15 +313,19 @@ function AltLogin() {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  href="/profile"
+                  onClick={handleSubmitLogin}
                 >
-                  Sign In
+                  {loading ? (
+                    <CircularProgress size={30} color="secondary" />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="\forgetpassword" variant="body2">
+                    {/* <Link href="\forgetpassword" variant="body2">
                       Forgot password?
-                    </Link>
+                    </Link> */}
                   </Grid>
                   <Grid item>
                     <Link
@@ -142,6 +339,7 @@ function AltLogin() {
               </form>
             </div>
           </FrontSide>
+
           <BackSide
             style={{
               height: "100%",
@@ -156,7 +354,11 @@ function AltLogin() {
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
-              <form className={classes.form} noValidate>
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={handleSubmitRegister}
+              >
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <TextField
@@ -168,6 +370,17 @@ function AltLogin() {
                       id="name"
                       label="Name"
                       autoFocus
+                      onChange={(event) =>
+                        setRegisterDetails({
+                          ...registerDetails,
+                          name: event.target.value,
+                        })
+                      }
+                      error={nameError}
+                      helperText={emailError && "Enter a name"}
+                      FormHelperTextProps={{
+                        classes: { root: classes.helperText },
+                      }}
                     />
                   </Grid>
 
@@ -180,6 +393,17 @@ function AltLogin() {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
+                      onChange={(event) =>
+                        setRegisterDetails({
+                          ...registerDetails,
+                          email: event.target.value,
+                        })
+                      }
+                      error={emailError}
+                      helperText={emailError && "Enter a valid email"}
+                      FormHelperTextProps={{
+                        classes: { root: classes.helperText },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -192,6 +416,17 @@ function AltLogin() {
                       type="password"
                       id="password"
                       autoComplete="current-password"
+                      onChange={(event) =>
+                        setRegisterDetails({
+                          ...registerDetails,
+                          password: event.target.value,
+                        })
+                      }
+                      error={passwordError}
+                      helperText={passwordError && "Enter a password"}
+                      FormHelperTextProps={{
+                        classes: { root: classes.helperText },
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -201,8 +436,13 @@ function AltLogin() {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  onClick={handleSubmitRegister}
                 >
-                  Sign Up
+                  {loading ? (
+                    <CircularProgress size={30} color="secondary" />
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
                 <Grid container justify="flex-end">
                   <Grid item>
@@ -221,6 +461,6 @@ function AltLogin() {
       </Box>
     </div>
   );
-}
+};
 
-export default withRoot(AltLogin);
+export default withRoot(Authentication);

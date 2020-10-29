@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import jwtdecode from "jwt-decode";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -12,6 +13,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import useForm from "./UseForm";
+import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   root: {
@@ -81,7 +83,6 @@ const initialValues = {
   addressOne: " ",
   addressTwo: " ",
   postal: " ",
-  mobile: "+65 ",
 };
 
 const payments = [
@@ -98,9 +99,28 @@ const payments = [
 const PaymentForm = (props) => {
   const { classes, quantity, setQuantity, order, setOrder } = props;
   const { values, resetForm, handleInputChange } = useForm(initialValues);
+  const [customer, setCustomer] = useState("");
+  const [contact, setContact] = useState("");
 
   const [payment, setPayment] = React.useState("CARD");
   const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      const userid = jwtdecode(Service.getJWT()).user_id;
+      console.log(`userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}`)
+        .then((res) => {
+          setCustomer(res.data);
+          setContact(res.data.contact_number);
+          console.log(res.data.contact_number);
+        })
+        .catch((err) => {
+          setCustomer(null);
+        });
+    }
+  }, []);
 
   const handleChange = (event) => {
     setPayment(event.target.value);
@@ -111,6 +131,20 @@ const PaymentForm = (props) => {
     setOrder({
       ...order,
       order_quantity: quantity,
+    });
+  };
+
+  const handleContactChange = (event) => {
+    setContact(event.target.value);
+    if (event === null || event === undefined) {
+      setOrder({
+        ...order,
+        contact_number: customer.contact_number, // change to session user contact
+      });
+    }
+    setOrder({
+      ...order,
+      contact_number: contact,
     });
   };
 
@@ -209,8 +243,8 @@ const PaymentForm = (props) => {
               classes: { input: classes.root },
               disableUnderline: true,
             }}
-            value={values.mobile}
-            onChange={handleInputChange}
+            value={contact}
+            onChange={handleContactChange}
           />
           <TextField
             select
