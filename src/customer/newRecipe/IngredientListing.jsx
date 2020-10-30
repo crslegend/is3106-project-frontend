@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -29,6 +30,7 @@ import {
   DateRangeTwoTone,
 } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
+import Cookies from "js-cookie";
 import IngredientsTabs from "./IngredientsTabs";
 import Service from "../../AxiosService";
 
@@ -192,6 +194,9 @@ const IngredientListing = (props) => {
     // console.log(recipeInfo);
   };
 
+  // react router dom history hooks
+  const history = useHistory();
+
   const submitRecipe = () => {
     console.log(recipeInfo);
     setConfirmSubmitModal(false);
@@ -201,22 +206,27 @@ const IngredientListing = (props) => {
     formData.append("data", JSON.stringify(recipeInfo));
     formData.append("display_photo", recipePhoto[0].file);
 
-    Service.client
-      .post("/api/token/", {
-        email: "a@a.com",
-        password: "password",
-      })
-      .then((res) => {
-        console.log(res);
-        Service.storeCredentials(res.data); // store access and refresh tokens
-
-        Service.client
-          .post("/recipes", formData)
-          .then((res) => console.log(res)); // get protected view
-      })
-      .catch((error) => {
-        console.log(error);
+    // to check if user is logged in from cookies
+    if (!Cookies.get("t1") && !Cookies.get("t2")) {
+      // direct user to login/register page
+      history.push({
+        pathname: "/auth",
+        state: { recipe: recipeInfo, recipePhoto: recipePhoto[0] },
       });
+    } else {
+      // if user is logged in, direct to the view recipe detailed page
+      // upon successful submission of recipe
+
+      Service.client
+        .post("/recipes", formData)
+        .then((res) => {
+          console.log(res);
+          history.push(`/viewdetails/${res.data.gb_id}`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const editRecipeNameAndDate = () => {
