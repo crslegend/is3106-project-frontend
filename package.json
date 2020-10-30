@@ -17,6 +17,7 @@
     "js-cookie": "^2.2.1",
     "material-ui-dropzone": "^3.5.0",
     "material-ui-search-bar": "^2.0.0-alpha.1",
+    "jwt-decode": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-flippy": "^0.1.5",

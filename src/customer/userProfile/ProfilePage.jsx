@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import withRoot from "../../constants/withRoot";
 import Navbar from "../Navbar";
-import ProfilePage from "./ProfileBody";
+import ProfileBody from "./ProfileBody";
 
 const Profile = () => (
   <Fragment>
     <Navbar />
-    <ProfilePage />
+    <ProfileBody />
   </Fragment>
 );
 

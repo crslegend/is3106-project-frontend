@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
@@ -11,9 +12,13 @@ import CardActions from "@material-ui/core/CardActions";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Avatar } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import { grey, deepOrange, deepPurple } from "@material-ui/core/colors";
+import { deepOrange, deepPurple } from "@material-ui/core/colors";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import jwt_decode from "jwt-decode";
 import AppBar from "../components/AppBar";
 import Toolbar, { styles as toolbarStyles } from "../components/Toolbar";
+import Service from "../AxiosService";
 
 const styles = (theme) => ({
   title: {
@@ -24,7 +29,7 @@ const styles = (theme) => ({
   toolbar: {
     justifyContent: "space-between",
     backgroundColor: "transparent",
-    color: "black",
+    color: "#000000",
     background: "transparent",
   },
   left: {
@@ -64,8 +69,19 @@ const styles = (theme) => ({
   },
 });
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const Navbar = ({ classes }) => {
+  const [profile, setProfile] = useState(null);
+  // react router dom history
+  const history = useHistory();
+
+  // to open popup
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const openp = Boolean(anchorEl);
+  const id = openp ? "simple-popover" : undefined;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -75,8 +91,39 @@ const Navbar = ({ classes }) => {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const [open, setOpen] = useState(false);
+
+  const handleCloseSb = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      let userid = jwt_decode(Service.getJWT()).user_id;
+      console.log(`profile useeffect userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}`)
+        .then((res) => setProfile(res.data))
+        .catch((err) => {
+          setProfile(null);
+        });
+      // console.log(profile.hasOwnProperty('name'));
+      userid = null;
+    }
+  }, []);
+
+  // handle logout
+  const handleLogout = () => {
+    Service.removeCredentials();
+    console.log("Signed out successfully");
+    setProfile(null);
+    setAnchorEl(null);
+    setOpen(true);
+    history.push("/");
+  };
 
   return (
     <div>
@@ -86,90 +133,112 @@ const Navbar = ({ classes }) => {
           <Link
             variant="h6"
             underline="none"
-            color="black"
+            color="primary"
             className={classes.title}
             href="/"
           >
             Sashimi
           </Link>
           <div className={classes.right}>
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-                href="/login"
-              >
-                <AccountCircle />
-                Login
-              </IconButton>
+            {profile === null ? (
+              <div>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  href="/auth"
+                >
+                  <AccountCircle />
+                  SIGN IN
+                </IconButton>
+              </div>
+            ) : (
+              <div>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={handleClick}
+                >
+                  <Avatar className={classes.orange}>
+                    {profile.email.charAt(0).toUpperCase()}
+                  </Avatar>
+                </IconButton>
 
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-                onClick={handleClick}
-              >
-                <Avatar className={classes.orange}>J</Avatar>
-              </IconButton>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <Card className={classes.root}>
-                  <Box display="flex" justifyContent="center" m={1} p={1}>
-                    <Avatar className={classes.large}>J</Avatar>
-                  </Box>
-                  <Box display="flex" justifyContent="center">
-                    <Typography>Josh Fenendo Lin</Typography>
-                  </Box>
-                  <Box display="flex" justifyContent="center">
-                    <Typography color={grey[500]}>
-                      josh_lin@gmail.com
-                    </Typography>
-                  </Box>
-                  <CardActions>
-                    <div>
-                      <Box display="flex" justifyContent="center" m={1}>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="theme.palette.black"
-                          href="/profile"
-                        >
-                          Manage your account
-                        </Button>
-                      </Box>
-                      <Box display="flex" justifyContent="center" m={1}>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="theme.palette.black"
-                        >
-                          Sign Out
-                        </Button>
-                      </Box>
-                    </div>
-                  </CardActions>
-                </Card>
-              </Popover>
-            </div>
+                <Popover
+                  id={id}
+                  open={openp}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                >
+                  <Card className={classes.root}>
+                    <Box display="flex" justifyContent="center" m={1} p={1}>
+                      <Avatar className={classes.large}>
+                        {profile.email.charAt(0).toUpperCase()}
+                      </Avatar>
+                    </Box>
+                    <Box display="flex" justifyContent="center">
+                      <Typography>{profile.name}</Typography>
+                    </Box>
+                    <Box display="flex" justifyContent="center">
+                      <Typography>{profile.email}</Typography>
+                    </Box>
+                    <CardActions>
+                      <div>
+                        <Box display="flex" justifyContent="center" m={1}>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            href="/profile"
+                          >
+                            Manage your account
+                          </Button>
+                        </Box>
+                        <Box display="flex" justifyContent="center" m={1}>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={handleLogout}
+                          >
+                            Sign Out
+                          </Button>
+                          ;
+                        </Box>
+                      </div>
+                    </CardActions>
+                  </Card>
+                </Popover>
+              </div>
+            )}
           </div>
         </Toolbar>
       </AppBar>
       <div className={classes.placeholder} />
+
+      <Snackbar
+        message="Signed out successfully"
+        severity="success"
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={open}
+        autoHideDuration={3000}
+      >
+        <Alert onClose={handleCloseSb} severity="success">
+          Signed out successfully
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

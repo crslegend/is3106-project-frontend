@@ -114,13 +114,15 @@ const NewRecipeForm = (props) => {
         onClose={handleClose}
         PaperProps={{
           style: {
-            minWidth: "300px",
-            maxWidth: "300px",
+            minWidth: "400px",
+            maxWidth: "400px",
           },
         }}
       >
         <DialogTitle className={classes.root}>
-          <Typography variant="h5">Give your recipe a name!</Typography>
+          <Typography variant="h5">
+            Give your recipe a name and a picture!
+          </Typography>
         </DialogTitle>
         <form>
           <DialogContent>
@@ -145,9 +147,6 @@ const NewRecipeForm = (props) => {
                 label="Choose a Fulfillment Date"
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e)}
-                // InputProps={{
-                //   classes: { ".MuiButton-root": classes.button },
-                // }}
               />
             </MuiPickersUtilsProvider>
           </DialogContent>
