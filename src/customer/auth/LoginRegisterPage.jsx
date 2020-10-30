@@ -8,6 +8,7 @@ import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
@@ -66,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  avatar1: {
+    margin: theme.spacing(1.5),
+    backgroundColor: theme.palette.secondary.main,
+  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -73,6 +78,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     padding: "10px",
+  },
+  link: {
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
 }));
 
@@ -262,6 +272,10 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
+              <Link variant="h4" underline="none" color="inherit" href="/">
+                Sashimi
+              </Link>
+              <br />
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
               </Avatar>
@@ -288,7 +302,8 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                     setLoginDetails({
                       ...loginDetails,
                       email: event.target.value,
-                    })}
+                    })
+                  }
                   error={emailError}
                   helperText={emailError && "Enter a valid email"}
                   FormHelperTextProps={{
@@ -310,7 +325,8 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                     setLoginDetails({
                       ...loginDetails,
                       password: event.target.value,
-                    })}
+                    })
+                  }
                   error={passwordError}
                   helperText={passwordError && "Enter a password"}
                   FormHelperTextProps={{
@@ -349,7 +365,9 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                   <Grid item>
                     <Link
                       variant="body2"
+                      color="inherit"
                       onClick={() => flippyHorizontal.toggle()}
+                      className={classes.link}
                     >
                       Don't have an account? Sign Up
                     </Link>
@@ -367,8 +385,12 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
+              <Link variant="h4" underline="none" color="inherit" href="/">
+                Sashimi
+              </Link>
+              <br />
+              <Avatar className={classes.avatar1}>
+                <PersonAddIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Sign up
@@ -393,7 +415,8 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                         setRegisterDetails({
                           ...registerDetails,
                           name: event.target.value,
-                        })}
+                        })
+                      }
                       error={nameError}
                       helperText={emailError && "Enter a name"}
                       FormHelperTextProps={{
@@ -415,7 +438,8 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                         setRegisterDetails({
                           ...registerDetails,
                           email: event.target.value,
-                        })}
+                        })
+                      }
                       error={emailError}
                       helperText={emailError && "Enter a valid email"}
                       FormHelperTextProps={{
@@ -437,7 +461,8 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                         setRegisterDetails({
                           ...registerDetails,
                           password: event.target.value,
-                        })}
+                        })
+                      }
                       error={passwordError}
                       helperText={passwordError && "Enter a password"}
                       FormHelperTextProps={{
@@ -463,8 +488,10 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                 <Grid container justify="flex-end">
                   <Grid item>
                     <Link
+                      color="inherit"
                       onClick={() => flippyHorizontal.toggle()}
                       variant="body2"
+                      className={classes.link}
                     >
                       Already have an account? Sign in
                     </Link>
