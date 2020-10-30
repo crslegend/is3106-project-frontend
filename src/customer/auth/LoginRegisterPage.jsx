@@ -16,9 +16,30 @@ import jwt_decode from "jwt-decode";
 import withRoot from "../../constants/withRoot";
 import Typography from "../../components/Typography";
 import Service from "../../AxiosService";
-import image from "../../assets/login.jpg";
+import login1 from "../../assets/login1.jpg";
+import login2 from "../../assets/login2.jpg";
+import login3 from "../../assets/login3.jpg";
+import login4 from "../../assets/login4.jpg";
+import login5 from "../../assets/login5.jpg";
+import login6 from "../../assets/login6.jpg";
+import login7 from "../../assets/login7.jpg";
+import login8 from "../../assets/login8.jpg";
+import login9 from "../../assets/login9.jpg";
+import login10 from "../../assets/login10.jpg";
 
-const backgroundImage = image;
+const items = [
+  login1,
+  login2,
+  login3,
+  login4,
+  login5,
+  login6,
+  login7,
+  login8,
+  login9,
+  login10,
+];
+const backgroundImage = items[Math.floor(Math.random() * items.length)];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -267,8 +288,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                     setLoginDetails({
                       ...loginDetails,
                       email: event.target.value,
-                    })
-                  }
+                    })}
                   error={emailError}
                   helperText={emailError && "Enter a valid email"}
                   FormHelperTextProps={{
@@ -290,8 +310,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                     setLoginDetails({
                       ...loginDetails,
                       password: event.target.value,
-                    })
-                  }
+                    })}
                   error={passwordError}
                   helperText={passwordError && "Enter a password"}
                   FormHelperTextProps={{
@@ -374,8 +393,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                         setRegisterDetails({
                           ...registerDetails,
                           name: event.target.value,
-                        })
-                      }
+                        })}
                       error={nameError}
                       helperText={emailError && "Enter a name"}
                       FormHelperTextProps={{
@@ -397,8 +415,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                         setRegisterDetails({
                           ...registerDetails,
                           email: event.target.value,
-                        })
-                      }
+                        })}
                       error={emailError}
                       helperText={emailError && "Enter a valid email"}
                       FormHelperTextProps={{
@@ -420,8 +437,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                         setRegisterDetails({
                           ...registerDetails,
                           password: event.target.value,
-                        })
-                      }
+                        })}
                       error={passwordError}
                       helperText={passwordError && "Enter a password"}
                       FormHelperTextProps={{
