@@ -49,10 +49,7 @@ const Routes = (props) => {
           path="/groupbuy"
           render={() => <GroupBuyPage {...props} />}
         />
-        <PrivateRoute
-          path="/newrecipe"
-          render={() => <NewRecipePage {...props} />}
-        />
+        <Route path="/newrecipe" render={() => <NewRecipePage {...props} />} />
         <PrivateRoute
           path="/viewdetails"
           render={() => <CardDetailPage {...props} />}
