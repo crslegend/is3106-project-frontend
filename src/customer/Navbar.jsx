@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
@@ -25,6 +25,34 @@ const styles = (theme) => ({
     color: "#000000",
     fontSize: 24,
   },
+  title1: {
+    color: "#8a8a8a",
+    fontSize: 19,
+    marginRight: "30px",
+    "&:hover": {
+      color: "#1c1c1c",
+    },
+  },
+  title1Active: {
+    color: "#000000",
+    fontSize: 19,
+    marginRight: "30px",
+    pointerEvents: "none",
+  },
+  title2: {
+    color: "#8a8a8a",
+    fontSize: 19,
+    marginLeft: "30px",
+    "&:hover": {
+      color: "#1c1c1c",
+    },
+  },
+  title2Active: {
+    color: "#000000",
+    fontSize: 19,
+    marginLeft: "30px",
+    pointerEvents: "none",
+  },
   placeholder: toolbarStyles(theme).root,
   toolbar: {
     justifyContent: "space-between",
@@ -34,6 +62,8 @@ const styles = (theme) => ({
   },
   left: {
     flex: 1,
+    display: "flex",
+    marginLeft: "60px",
   },
   leftLinkActive: {
     color: theme.palette.common.white,
@@ -77,6 +107,8 @@ const Navbar = ({ classes }) => {
   const [profile, setProfile] = useState(null);
   // react router dom history
   const history = useHistory();
+  const location = useLocation();
+  console.log(location.pathname);
 
   // to open popup
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -129,16 +161,63 @@ const Navbar = ({ classes }) => {
     <div>
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
-          <div className={classes.left} />
-          <Link
-            variant="h6"
-            underline="none"
-            color="primary"
-            className={classes.title}
-            href="/"
-          >
-            Sashimi
-          </Link>
+          {location.pathname !== "/" ? (
+            <Fragment>
+              <div className={classes.left}>
+                <Link
+                  variant="h6"
+                  underline="none"
+                  color="primary"
+                  className={classes.title}
+                  href="/"
+                >
+                  Sashimi
+                </Link>
+              </div>
+              <div>
+                <Link
+                  variant="body1"
+                  underline="none"
+                  color="primary"
+                  className={
+                    location.pathname === "/newrecipe"
+                      ? classes.title1Active
+                      : classes.title1
+                  }
+                  href="/newrecipe"
+                >
+                  Create Recipe
+                </Link>
+                <Link
+                  variant="body1"
+                  underline="none"
+                  color="primary"
+                  className={
+                    location.pathname === "/groupbuy"
+                      ? classes.title2Active
+                      : classes.title2
+                  }
+                  href="/groupbuy"
+                >
+                  Group Buy
+                </Link>
+              </div>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <div className={classes.left} />
+              <Link
+                variant="h6"
+                underline="none"
+                color="primary"
+                className={classes.title}
+                href="/"
+              >
+                Sashimi
+              </Link>
+            </Fragment>
+          )}
+
           <div className={classes.right}>
             {profile === null ? (
               <div>
