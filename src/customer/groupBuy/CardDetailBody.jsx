@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import jwtdecode from "jwt-decode";
 import { Grid, Card } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -10,8 +9,9 @@ import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import moment from "moment";
+import Cookies from "js-cookie";
 import Service from "../../AxiosService";
 
 import image from "../../assets/lamb.jpg";
@@ -190,7 +190,6 @@ const BorderLinearProgress = withStyles((theme) => ({
 const CardDetailBody = () => {
   const classes = styles();
   const [groupbuy, setGroupbuy] = useState("");
-  const [customer, setCustomer] = useState("");
   const { id } = useParams();
   console.log(id);
 
@@ -201,18 +200,24 @@ const CardDetailBody = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
-      const userid = jwtdecode(Service.getJWT()).user_id;
-      console.log(`userid = ${userid}`);
-      Service.client
-        .get(`/users/${userid}`)
-        .then((res) => setCustomer(res.data))
-        .catch((err) => {
-          setCustomer(null);
-        });
+  // react router dom history hooks
+  const history = useHistory();
+
+  const handleRedirect = () => {
+    // to check if user is logged in from cookies
+    if (!Cookies.get("t1") && !Cookies.get("t2")) {
+      // direct user to login/register page
+      history.push({
+        pathname: "/auth",
+        state: { gbid: id },
+      });
+      console.log("not logged in");
+    } else {
+      // if user is logged in, direct to the groupbuy payment page
+      history.push(`/payment/${id}`);
+      console.log("logged in");
     }
-  }, []);
+  };
 
   // Set progress bar status
   let fulfillment =
@@ -301,11 +306,7 @@ const CardDetailBody = () => {
               </Grid>
             </Grid>
           </Card>
-          <Button
-            className={classes.buyButton}
-            component={Link}
-            to={`/payment/${id}`}
-          >
+          <Button className={classes.buyButton} onClick={handleRedirect}>
             <ShoppingCartIcon className={classes.iconGroupBuy} />
             Enter Group Buy
           </Button>

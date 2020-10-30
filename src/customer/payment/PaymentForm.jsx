@@ -79,7 +79,6 @@ const styles = (theme) => ({
 });
 
 const initialValues = {
-  deliveryaddress: " ",
   addressOne: " ",
   addressTwo: " ",
   postal: " ",
@@ -98,13 +97,15 @@ const payments = [
 
 const PaymentForm = (props) => {
   const { classes, quantity, setQuantity, order, setOrder } = props;
-  const { values, resetForm, handleInputChange } = useForm(initialValues);
+  const { values, resetNewAddress, handleInputChange } = useForm(initialValues);
   const [customer, setCustomer] = useState("");
-  const [contact, setContact] = useState("");
-
+  const [contact, setContact] = useState("+65");
+  const [addresses, setAddresses] = useState([""]);
+  const [address, setAddress] = useState("");
   const [payment, setPayment] = React.useState("CARD");
   const [open, setOpen] = React.useState(false);
 
+  // to set user's contact number
   useEffect(() => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
       const userid = jwtdecode(Service.getJWT()).user_id;
@@ -121,6 +122,28 @@ const PaymentForm = (props) => {
         });
     }
   }, []);
+
+  // to set user's delivery addresses
+  useEffect(() => {
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      const userid = jwtdecode(Service.getJWT()).user_id;
+      console.log(`userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}/delivery-address`)
+        .then((res) => {
+          setAddresses(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          setAddresses(null);
+        });
+    }
+  }, []);
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+
+    resetNewAddress();
+  };
 
   const handleChange = (event) => {
     setPayment(event.target.value);
@@ -159,7 +182,6 @@ const PaymentForm = (props) => {
   const handleSubmit = (event) => {
     setOpen(false);
     event.preventDefault();
-    resetForm();
   };
 
   return (
@@ -167,24 +189,41 @@ const PaymentForm = (props) => {
       <Grid container className={classes.root}>
         <Grid item xs={6}>
           <TextField
+            select
             fullWidth="true"
             margin="dense"
-            name="deliveryaddress"
             className={classes.field}
             label="Delivery Address"
             InputProps={{
               classes: { input: classes.root },
               disableUnderline: true,
             }}
-            value={values.deliveryaddress}
-            onChange={handleInputChange}
-          />
+            value={address.add_id}
+            onChange={handleAddressChange}
+            SelectProps={{
+              native: true,
+            }}
+          >
+            {addresses &&
+              addresses.map((option) => (
+                <option
+                  className={classes.root}
+                  key={option.add_id}
+                  value={option.add_id}
+                >
+                  {option.address_line1} {option.address_line2} S(
+                  {option.postal_code})
+                </option>
+              ))}
+            <option aria-label="None" value="" />
+          </TextField>
           <TextField
             fullWidth="true"
             margin="dense"
             name="addressOne"
             className={classes.field}
             label="Address Line 1"
+            disabled={address !== ""}
             InputProps={{
               classes: { input: classes.root },
               disableUnderline: true,
@@ -198,6 +237,7 @@ const PaymentForm = (props) => {
             name="addressTwo"
             className={classes.field}
             label="Address Line 2"
+            disabled={address !== ""}
             InputProps={{
               classes: { input: classes.root },
               disableUnderline: true,
@@ -211,6 +251,7 @@ const PaymentForm = (props) => {
             name="postal"
             className={classes.field}
             label="Postal Code"
+            disabled={address !== ""}
             InputProps={{
               classes: { input: classes.root },
               disableUnderline: true,

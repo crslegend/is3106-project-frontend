@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router";
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
@@ -55,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
+const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
+  const { state } = location;
   const classes = useStyles();
   let flippyHorizontal;
 
@@ -125,9 +127,34 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
               setSbOpen(true);
               setLoading(false);
 
-              // redirect to dashboard
-              console.log("Log in successfully");
-              history.push("/");
+              // submit recipe after successful login
+              // and redirect to recipe detailed page
+              if (state !== undefined) {
+                if (state.recipe && state.recipePhoto) {
+                  // coming from create recipe
+                  // instantiate form-data
+                  const formData = new FormData();
+                  formData.append("data", JSON.stringify(state.recipe));
+                  formData.append("display_photo", state.recipePhoto.file);
+
+                  Service.client
+                    .post("/recipes", formData)
+                    .then((res) => {
+                      console.log(res);
+                      history.push(`/viewdetails/${res.data.gb_id}`);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                } else {
+                  // coming from entering group buy
+                  history.push(`/payment/${state.gbid}`);
+                }
+              } else {
+                // redirect to dashboard
+                console.log("Log in successfully");
+                history.push("/");
+              }
             }
           });
       })
@@ -200,8 +227,30 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
           setLoading(false);
           setRegisterDetails(null);
 
-          // redirect to dashboard
-          history.push("/");
+          if (state !== undefined) {
+            if (state.recipe && state.recipePhoto) {
+              // coming from create recipe
+              // instantiate form-data
+              const formData = new FormData();
+              formData.append("data", JSON.stringify(state.recipe));
+              formData.append("display_photo", state.recipePhoto.file);
+
+              Service.client
+                .post("/recipes", formData)
+                .then((res) => {
+                  console.log(res);
+                  history.push(`/viewdetails/${res.data.gb_id}`);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              // coming from entering group buy
+            }
+          } else {
+            // redirect to dashboard
+            history.push("/");
+          }
         });
       })
       .catch((err) => {
@@ -463,4 +512,4 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
   );
 };
 
-export default withRoot(Authentication);
+export default withRoot(withRouter(Authentication));

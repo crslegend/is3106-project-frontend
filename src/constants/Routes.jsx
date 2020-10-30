@@ -47,7 +47,7 @@ const Routes = (props) => {
           render={() => <ForgetPasswordPage {...props} />}
         />
         <Route path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
-        <PrivateRoute
+        <Route
           path="/newrecipe"
           render={() => <NewRecipePage {...props} />}
         />

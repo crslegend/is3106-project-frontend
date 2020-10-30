@@ -9,10 +9,13 @@ const NewRecipePage = () => {
     recipe_name: "",
     fulfillment_date: null,
   });
+  const [recipePhoto, setRecipePhoto] = useState([]);
 
   const [dateForDisplay, setDateForDisplay] = useState(null);
   const [open, setOpen] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const [validateRecipeNameField, setValidateRecipeNameField] = useState(false);
+  const [validatePhoto, setValidatePhoto] = useState(false);
 
   return (
     <Fragment>
@@ -24,6 +27,12 @@ const NewRecipePage = () => {
         setOpen={setOpen}
         editMode={editMode}
         setDateForDisplay={setDateForDisplay}
+        recipePhoto={recipePhoto}
+        setRecipePhoto={setRecipePhoto}
+        validateRecipeNameField={validateRecipeNameField}
+        setValidateRecipeNameField={setValidateRecipeNameField}
+        validatePhoto={validatePhoto}
+        setValidatePhoto={setValidatePhoto}
       />
       <IngredientListing
         recipeInfo={recipeInfo}
@@ -32,6 +41,9 @@ const NewRecipePage = () => {
         setOpen={setOpen}
         setEditMode={setEditMode}
         dateForDisplay={dateForDisplay}
+        recipePhoto={recipePhoto}
+        setValidateRecipeNameField={setValidateRecipeNameField}
+        setValidatePhoto={setValidatePhoto}
       />
     </Fragment>
   );
