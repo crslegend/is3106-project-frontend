@@ -92,8 +92,8 @@ const styles = (theme) => ({
     },
   },
   photoRoot: {
-    width: "inherit",
-    height: "10vw",
+    // width: "2.1875em",
+    // height: "2.1875em",
     margin: "10px 0",
   },
 });
@@ -107,6 +107,8 @@ const IngredientListing = (props) => {
     setEditMode,
     dateForDisplay,
     recipePhoto,
+    setValidateRecipeNameField,
+    setValidatePhoto,
   } = props;
   const [chosenIngredients, updateIngredients] = useState([]);
   const [priceRange, setPriceRange] = useState({
@@ -160,7 +162,19 @@ const IngredientListing = (props) => {
   };
 
   const handleSubmit = () => {
-    if (recipeInfo.recipe_name === "" || recipeInfo.fulfillment_date === null) {
+    if (
+      recipeInfo.recipe_name === "" ||
+      recipeInfo.fulfillment_date === null ||
+      recipePhoto[0] === undefined
+    ) {
+      if (recipeInfo.recipe_name === "") {
+        setValidateRecipeNameField(true);
+      }
+
+      if (recipePhoto[0] === undefined) {
+        setValidatePhoto(true);
+      }
+
       setEditMode(true);
       setOpen(true);
     } else if (chosenIngredients.length === 0) {
@@ -232,13 +246,6 @@ const IngredientListing = (props) => {
       <Grid item xs={12} sm={4} style={{ minHeight: "90vh" }}>
         <Paper className={classes.recipeList}>
           <div>
-            {recipePhoto.length > 0 && (
-              <img
-                src={recipePhoto[0].data}
-                className={classes.photoRoot}
-                alt="Recipe "
-              />
-            )}
             <div className={classes.recipeListHeader}>
               <div
                 style={{
@@ -254,7 +261,15 @@ const IngredientListing = (props) => {
                     alignItems: "center",
                   }}
                 >
-                  <AssignmentTwoTone fontSize="large" />
+                  {recipePhoto.length > 0 ? (
+                    <Avatar
+                      alt="Recipe"
+                      src={recipePhoto[0].data}
+                      className={classes.photoRoot}
+                    />
+                  ) : (
+                    <AssignmentTwoTone fontSize="large" />
+                  )}
 
                   <Typography
                     variant="h5"
