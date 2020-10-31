@@ -15,8 +15,6 @@ import { Link, useParams } from "react-router-dom";
 import PaymentForm from "./PaymentForm";
 import Service from "../../AxiosService";
 
-import image from "../../assets/lamb.jpg";
-
 const styles = (theme) => ({
   root: {
     marginTop: "40px",
@@ -152,6 +150,7 @@ const PaymentBody = (props) => {
   const { classes } = props;
   const [groupbuy, setGroupbuy] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [contact, setContact] = useState("+ 65");
 
   const { id } = useParams();
   console.log(id);
@@ -159,6 +158,7 @@ const PaymentBody = (props) => {
   const [order, setOrder] = useState({
     gb_id: id,
     order_quantity: quantity,
+    contact_number: contact,
   });
 
   useEffect(() => {
@@ -198,6 +198,8 @@ const PaymentBody = (props) => {
                   setQuantity={setQuantity}
                   order={order}
                   setOrder={setOrder}
+                  contact={contact}
+                  setContact={setContact}
                 />
               </Card>
             </Grid>
@@ -211,8 +213,8 @@ const PaymentBody = (props) => {
                   <Grid xs={5} md={12}>
                     <CardMedia
                       className={classes.media}
-                      image={image}
-                      title="Grilled Lamb Chop"
+                      image={groupbuy && groupbuy.recipe.photo_url}
+                      title={groupbuy && groupbuy.recipe.recipe_name}
                     />
                   </Grid>
                   <Grid xs={7} md={12}>

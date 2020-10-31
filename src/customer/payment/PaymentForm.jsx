@@ -79,9 +79,9 @@ const styles = (theme) => ({
 });
 
 const initialValues = {
-  addressOne: " ",
-  addressTwo: " ",
-  postal: " ",
+  addressOne: "",
+  addressTwo: "",
+  postal: "",
 };
 
 const payments = [
@@ -96,14 +96,24 @@ const payments = [
 ];
 
 const PaymentForm = (props) => {
-  const { classes, quantity, setQuantity, order, setOrder } = props;
+  const {
+    classes,
+    quantity,
+    setQuantity,
+    order,
+    setOrder,
+    contact,
+    setContact,
+  } = props;
   const { values, resetNewAddress, handleInputChange } = useForm(initialValues);
   const [customer, setCustomer] = useState("");
-  const [contact, setContact] = useState("+65");
+  const [payment, setPayment] = React.useState("CARD");
+
   const [addresses, setAddresses] = useState([""]);
   const [address, setAddress] = useState("");
-  const [payment, setPayment] = React.useState("CARD");
-  const [open, setOpen] = React.useState(false);
+  const [newaddress, setNewaddress] = useState("");
+
+  const [openConfirmSubmitModal, setConfirmSubmitModal] = useState(false);
 
   // to set user's contact number
   useEffect(() => {
@@ -115,9 +125,13 @@ const PaymentForm = (props) => {
         .then((res) => {
           setCustomer(res.data);
           setContact(res.data.contact_number);
-          console.log(res.data.contact_number);
+          setOrder({
+            ...order,
+            contact_number: res.data.contact_number,
+          });
+          console.log(res.data);
         })
-        .catch((err) => {
+        .catch((error) => {
           setCustomer(null);
         });
     }
@@ -125,23 +139,22 @@ const PaymentForm = (props) => {
 
   // to set user's delivery addresses
   useEffect(() => {
-    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
-      const userid = jwtdecode(Service.getJWT()).user_id;
-      console.log(`userid = ${userid}`);
-      Service.client
-        .get(`/users/${userid}/delivery-address`)
-        .then((res) => {
-          setAddresses(res.data);
-          console.log(res.data);
-        })
-        .catch((err) => {
-          setAddresses(null);
-        });
-    }
+    Service.client
+      .get(`/users/${customer.id}/delivery-address`)
+      .then((res) => {
+        setAddresses(res.data);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        setAddresses(null);
+      });
   }, []);
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
-
+    setOrder({
+      ...order,
+      add_id: event.target.value,
+    });
     resetNewAddress();
   };
 
@@ -153,35 +166,54 @@ const PaymentForm = (props) => {
     setQuantity(event.target.value);
     setOrder({
       ...order,
-      order_quantity: quantity,
+      order_quantity: event.target.value,
     });
   };
 
   const handleContactChange = (event) => {
     setContact(event.target.value);
-    if (event === null || event === undefined) {
-      setOrder({
-        ...order,
-        contact_number: customer.contact_number, // change to session user contact
-      });
-    }
     setOrder({
       ...order,
-      contact_number: contact,
+      contact_number: event.target.value,
     });
   };
 
-  const handleOpenDialog = () => {
-    setOpen(true);
+  const handleSubmit = () => {
+    console.log(values);
+    if (values !== null || values !== undefined || values.addressOne !== "") {
+      setNewaddress({
+        address_line1: values.addressOne,
+        address_line2: values.addressTwo,
+        postal_code: values.postal,
+      });
+      console.log(newaddress);
+      //      Service.client
+      //        .post(`/users/${customer.id}/delivery-address`, newaddress)
+      //       .then((res) => {
+      //         console.log(res);
+      //         console.log("new address");
+      //       });
+    }
+    setConfirmSubmitModal(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const submitOrder = () => {
+    console.log(order);
+    setConfirmSubmitModal(false);
 
-  const handleSubmit = (event) => {
-    setOpen(false);
-    event.preventDefault();
+    // instantiate form-data
+    // const formData = new FormData();
+    // formData.append("data", JSON.stringify(order));
+
+    Service.client
+      .post(`/groupbuys/${order.gb_id}/orders`, order)
+      .then((res) => {
+        console.log(res);
+        // push to view past orders
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -277,7 +309,7 @@ const PaymentForm = (props) => {
           <TextField
             fullWidth="true"
             margin="dense"
-            name="mobile"
+            name="contact"
             className={classes.field}
             label="Mobile Number"
             InputProps={{
@@ -318,12 +350,12 @@ const PaymentForm = (props) => {
       <Box textAlign="right">
         <Button
           className={classes.button}
-          onClick={handleOpenDialog}
+          onClick={handleSubmit}
           variant="outlined"
         >
           Confirm
         </Button>
-        <Dialog open={open} onCancel={handleClose}>
+        <Dialog open={openConfirmSubmitModal}>
           <DialogTitle className={classes.dialog}>
             Do you want to submit?
           </DialogTitle>
@@ -331,12 +363,8 @@ const PaymentForm = (props) => {
             Please confirm your order form and click okay.
           </DialogContent>
           <DialogActions>
-            <Button type="button" onclick={handleSubmit}>
-              Okay
-            </Button>
-            <Button type="button" onClick={handleClose}>
-              Cancel
-            </Button>
+            <Button onClick={() => setConfirmSubmitModal(false)}>Cancel</Button>
+            <Button onClick={submitOrder}>Okay</Button>
           </DialogActions>
         </Dialog>
       </Box>

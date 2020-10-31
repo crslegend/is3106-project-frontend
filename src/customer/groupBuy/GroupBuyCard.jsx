@@ -9,8 +9,6 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
-import image from "../../assets/lamb.jpg";
-
 const styles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
@@ -136,7 +134,7 @@ const GroupBuyCard = (props) => {
       <CardActionArea component={Link} to={`/viewdetails/${groupbuy.gb_id}`}>
         <CardMedia
           className={classes.media}
-          image={image}
+          image={groupbuy && groupbuyitem.photo_url}
           title={groupbuyitem.recipe_name}
         />
         <CardContent height="150" width="150">

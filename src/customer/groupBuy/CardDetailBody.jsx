@@ -14,8 +14,6 @@ import moment from "moment";
 import Cookies from "js-cookie";
 import Service from "../../AxiosService";
 
-import image from "../../assets/lamb.jpg";
-
 const styles = makeStyles((theme) => ({
   root: {
     marginTop: "40px",
@@ -250,8 +248,8 @@ const CardDetailBody = () => {
               <Grid xs={12} md={5}>
                 <CardMedia
                   className={classes.media}
-                  image={image}
-                  title="title"
+                  image={groupbuy && groupbuy.recipe.photo_url}
+                  title={groupbuy && groupbuy.recipe.recipe_name}
                 />
               </Grid>
               <Grid xs={12} md={7}>
