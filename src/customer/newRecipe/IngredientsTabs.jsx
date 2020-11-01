@@ -423,7 +423,7 @@ const IngredientsTabs = (props) => {
             handleChange(event, newValue);
             onTabChange(newValue);
           }}
-          TabIndicatorProps={{ style: { backgroundColor: "#ffffff" } }}
+          TabIndicatorProps={{ style: { backgroundColor: "#E6BEAE" } }}
           TabScrollButtonProps={{ style: { color: "#ffffff" } }}
           classes={{ root: classes.tabText }}
           variant="scrollable"
@@ -445,6 +445,7 @@ const IngredientsTabs = (props) => {
       {tabs.map((tab) => {
         return (
           <TabPanel
+            key={tab.toString()}
             value={value}
             index={tab}
             id={tab.toString()}

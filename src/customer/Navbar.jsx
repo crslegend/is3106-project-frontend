@@ -108,7 +108,7 @@ const Navbar = ({ classes }) => {
   // react router dom history
   const history = useHistory();
   const location = useLocation();
-  console.log(location.pathname);
+  // console.log(location.pathname);
 
   // to open popup
   const [anchorEl, setAnchorEl] = React.useState(null);
