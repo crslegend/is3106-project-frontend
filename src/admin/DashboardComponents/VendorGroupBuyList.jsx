@@ -10,13 +10,17 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import CardHeader from "@material-ui/core/CardHeader";
+import Avatar from "@material-ui/core/Avatar";
 
 import Auth from "../../AxiosService";
+import { getDateString } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     marginTop: "10px",
+    textAlign: "left",
   },
   card: {
     padding: theme.spacing(2),
@@ -46,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
   search: {
     maxWidth: 180,
   },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
 }));
 
 const VendorGroupBuyList = () => {
@@ -53,13 +61,12 @@ const VendorGroupBuyList = () => {
 
   const [searchParams, setSearchParams] = useState({
     search: null,
-    approved: "",
     page: 1,
-    pageSize: 6,
+    pagesize: 6,
     upcoming: 1,
   });
 
-  const [groupbuys, setGroupbuys] = useState([1, 2, 3, 4, 5]);
+  const [groupbuys, setGroupbuys] = useState();
   const [loading, setLoading] = useState(false);
 
   // initial fetch
@@ -69,7 +76,7 @@ const VendorGroupBuyList = () => {
       .get("/groupbuys", {
         params: {
           upcoming: 1,
-          pageSize: 6,
+          pagesize: 6,
         },
       })
       .then((res) => {
@@ -88,7 +95,8 @@ const VendorGroupBuyList = () => {
           params: searchParams,
         })
         .then((res) => {
-          
+          console.log(res);
+          setLoading(false);
         });
     }, 500),
     []
@@ -133,10 +141,11 @@ const VendorGroupBuyList = () => {
               id="sort"
               label="Sort"
               value={searchParams.approved}
+              defaultValue=""
               onChange={(event) => handleSort(event.target.value)}
             >
               <MenuItem value="">
-                <em>None</em>
+                <em>select a value</em>
               </MenuItem>
               <MenuItem value={1}>Approved</MenuItem>
               <MenuItem value={-1}>Pending Approval</MenuItem>
@@ -151,11 +160,22 @@ const VendorGroupBuyList = () => {
         </div>
       ) : (
         <Grid className={classes.root} container spacing={3} justify="space-evenly">
-          {groupbuys.map((gb) => (
-            <Grid key={gb.gb_id} item xs={12} sm={8} md={6} lg={4}>
-              <Card>{gb.gb_id}</Card>
-            </Grid>
-          ))}
+          {groupbuys &&
+            groupbuys.flatMap((gb) => (
+              <Grid key={gb.gb_id} item xs={12} sm={8} md={6} lg={4}>
+                <Card>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="recipe" className={classes.avatar}>
+                        R
+                      </Avatar>
+                    }
+                    title={gb.recipe.recipe_name}
+                    subheader={getDateString(gb.recipe.date_created)}
+                  />
+                </Card>
+              </Grid>
+            ))}
         </Grid>
       )}
     </Fragment>
