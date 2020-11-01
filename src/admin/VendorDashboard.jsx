@@ -19,6 +19,7 @@ import Service from "../AxiosService";
 import VendorGroupBuyList from "./DashboardComponents/VendorGroupBuyList";
 import VendorRecipeList from "./DashboardComponents/VendorRecipeList";
 import VendorSettings from "./DashboardComponents/VendorSettings";
+import VendorGroupBuyDetails from "./DashboardComponents/VendorGroupBuyDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -154,6 +155,7 @@ const VendorDashboard = (props) => {
             <Route exact path={`/admin/dashboard`} render={() => <VendorGroupBuyList />} />
             <Route path={`/admin/dashboard/recipes`} render={() => <VendorRecipeList />} />
             <Route path={`/admin/dashboard/settings`} render={() => <VendorSettings {...props} />} />
+            <Route path="/admin/dashboard/groupbuy/:id" render={() => <VendorGroupBuyDetails />} />
           </Switch>
         </div>
       </BrowserRouter>

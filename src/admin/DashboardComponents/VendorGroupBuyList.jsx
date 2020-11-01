@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
@@ -201,7 +202,14 @@ const VendorGroupBuyList = () => {
                     </Typography>
                   </CardContent>
                   <CardActions disableSpacing>
-                    <Button variant="contained" color="primary" disableElevation fullWidth>
+                    <Button
+                      component={Link}
+                      to={`dashboard/groupbuy/${gb.gb_id}`}
+                      variant="contained"
+                      color="primary"
+                      disableElevation
+                      fullWidth
+                    >
                       View Details
                     </Button>
                   </CardActions>
@@ -212,7 +220,7 @@ const VendorGroupBuyList = () => {
       ) : (
         <div className={classes.loading} style={{ alignItems: "flex-start" }}>
           <Typography variant="body2" color="textSecondary" component="p">
-            No Results Found. 
+            No Results Found.
           </Typography>
         </div>
       )}
