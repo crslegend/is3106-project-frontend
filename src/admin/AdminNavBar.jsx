@@ -5,8 +5,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
-import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
-import { capitalizeFirstLetter } from "../utils";
 
 const drawerWidth = 200;
 
@@ -37,10 +35,6 @@ const useStyles = makeStyles((theme) => ({
 const AdminNavBar = ({ handleDrawerToggle, width }) => {
   const classes = useStyles();
 
-  const currPath = capitalizeFirstLetter(
-    window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]
-  );
-  
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -48,11 +42,11 @@ const AdminNavBar = ({ handleDrawerToggle, width }) => {
           <MenuIcon />
         </IconButton>
         <Link variant="h6" underline="none" className={classes.title} href="/admin">
-          Sashimi <sub className={classes.subscript}>{isWidthUp("md", width) ? "Vendor" : currPath}</sub>
+          Sashimi <sub className={classes.subscript}>Vendor</sub>
         </Link>
       </Toolbar>
     </AppBar>
   );
 };
 
-export default withWidth()(AdminNavBar);
+export default AdminNavBar;
