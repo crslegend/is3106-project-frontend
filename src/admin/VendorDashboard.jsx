@@ -73,21 +73,9 @@ const VendorDashboard = (props) => {
         <List>
           <ListItem button component={NavLink} exact to={"/admin/dashboard"} activeClassName={classes.activeMenuItem}>
             <ListItemIcon className={classes.icon}>
-              <ShoppingBasketIcon />
-            </ListItemIcon>
-            <ListItemText primary="Groupbuys" />
-          </ListItem>
-          <ListItem
-            button
-            component={NavLink}
-            exact
-            to={"/admin/dashboard/recipes"}
-            activeClassName={classes.activeMenuItem}
-          >
-            <ListItemIcon className={classes.icon}>
               <FastfoodIcon />
             </ListItemIcon>
-            <ListItemText primary="Recipes" />
+            <ListItemText primary="Groupbuys" />
           </ListItem>
           <ListItem
             button
