@@ -41,10 +41,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "transparent",
   },
   topBottomMargin: {
-    margin: "15px 0 30px 0px",
+    margin: "15px 0 30px 0",
   },
   topMargin: {
-    margin: "5px 0 0px 0px",
+    margin: "5px 0 0 0",
+  },
+  bottomMargin: {
+    margin: "0 0 8px 0",
   },
   helperText: {
     margin: "5px 0",
@@ -329,17 +332,17 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
                   />
                 </Grid>
               </Grid>
-            </Card>
-            <Button
-              className={classes.topMargin}
+              <Button
+              className={classes.bottomMargin}
               variant="contained"
               color="primary"
               size="large"
               startIcon={<SaveIcon />}
               type="submit"
-            >
-              Save
-            </Button>
+              >
+                Save
+              </Button>
+            </Card>
           </form>
         </Grid>
       </Grid>
