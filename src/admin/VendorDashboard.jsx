@@ -17,7 +17,6 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AdminNavBar from "./AdminNavBar";
 import Service from "../AxiosService";
 import VendorGroupBuyList from "./DashboardComponents/VendorGroupBuyList";
-import VendorRecipeList from "./DashboardComponents/VendorRecipeList";
 import VendorSettings from "./DashboardComponents/VendorSettings";
 import VendorGroupBuyDetails from "./DashboardComponents/VendorGroupBuyDetails";
 
@@ -153,7 +152,6 @@ const VendorDashboard = (props) => {
         <div className={classes.root}>
           <Switch>
             <Route exact path={`/admin/dashboard`} render={() => <VendorGroupBuyList />} />
-            <Route path={`/admin/dashboard/recipes`} render={() => <VendorRecipeList />} />
             <Route path={`/admin/dashboard/settings`} render={() => <VendorSettings {...props} />} />
             <Route path="/admin/dashboard/groupbuy/:id" render={() => <VendorGroupBuyDetails />} />
           </Switch>
