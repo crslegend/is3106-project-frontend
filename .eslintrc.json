@@ -26,6 +26,9 @@
     "no-console": "off",
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
+    "no-restricted-globals": ["error", "event"],
+    "react/jsx-no-duplicate-props": "off",
+    "no-nested-ternary": "off",
     "jsx-a11y/anchor-is-valid": "off"
   }
 }
