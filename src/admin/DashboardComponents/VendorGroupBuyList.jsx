@@ -12,7 +12,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import CardHeader from "@material-ui/core/CardHeader";
-import Avatar from "@material-ui/core/Avatar";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -194,11 +193,6 @@ const VendorGroupBuyList = () => {
               <Grid key={gb.gb_id} item xs={12} sm={6} lg={4}>
                 <Card>
                   <CardHeader
-                    avatar={
-                      <Avatar className={classes.avatar} src={gb.recipe.owner.profile_photo_url}>
-                        R
-                      </Avatar>
-                    }
                     title={gb.recipe.recipe_name}
                     subheader={"Submitted " + getDateString(gb.recipe.date_created)}
                   />

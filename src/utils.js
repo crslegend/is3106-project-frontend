@@ -20,6 +20,11 @@ export function capitalizeFirstLetter(string) {
 
 export function getDateString(string) {
   if (typeof string !== "string") return string;
-  const date = new Date(string);
-  return `${monthNames[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`;
+  const currDate = new Date(string);
+  return `${monthNames[currDate.getMonth()]} ${currDate.getDate()}, ${currDate.getFullYear()}`;
+}
+
+export function formatDateForBackend(date) {
+  console.log(date);
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
