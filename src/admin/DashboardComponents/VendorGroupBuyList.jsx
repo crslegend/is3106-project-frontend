@@ -61,6 +61,15 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: "45.25%", // 16:9
   },
+  error: {
+    color: "#e81a1a",
+  },
+  progress: {
+    color: "#1aa3e8",
+  },
+  success: {
+    color: "#24e81a",
+  },
 }));
 
 const VendorGroupBuyList = () => {
@@ -195,6 +204,18 @@ const VendorGroupBuyList = () => {
                   />
                   <CardMedia className={classes.media} image={gb.recipe.photo_url} />
                   <CardContent>
+                    <Typography
+                      variant="h5"
+                      className={
+                        gb.status === "GROUPBUY_EXPIRED"
+                          ? classes.error
+                          : gb.status === "DELIVERED"
+                          ? classes.success
+                          : classes.progress
+                      }
+                    >
+                      {gb.status.replace("_", " ")}
+                    </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                       <b>Expected Fulfillment Date:</b> {getDateString(gb.fulfillment_date)}
                       <br />
