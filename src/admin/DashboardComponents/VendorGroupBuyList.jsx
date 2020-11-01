@@ -12,6 +12,10 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
 
 import Auth from "../../AxiosService";
 import { getDateString } from "../../utils";
@@ -33,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    flexGrow: 1,
+    marginTop: "10px",
   },
   title: {
     display: "flex",
@@ -52,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 0,
-    paddingTop: "56.25%", // 16:9
+    paddingTop: "45.25%", // 16:9
   },
 }));
 
@@ -62,7 +68,6 @@ const VendorGroupBuyList = () => {
   const [searchParams, setSearchParams] = useState({
     search: null,
     page: 1,
-    pagesize: 6,
     upcoming: 1,
   });
 
@@ -76,7 +81,6 @@ const VendorGroupBuyList = () => {
       .get("/groupbuys", {
         params: {
           upcoming: 1,
-          pagesize: 6,
         },
       })
       .then((res) => {
@@ -88,14 +92,14 @@ const VendorGroupBuyList = () => {
 
   // delay search by 500ms
   const debouncedSearch = useCallback(
-    debounce((searchTerm) => {
+    debounce((params) => {
       setLoading(true);
       Auth.client
         .get("/groupbuys", {
-          params: searchParams,
+          params: params,
         })
         .then((res) => {
-          console.log(res);
+          setGroupbuys(res.data.results);
           setLoading(false);
         });
     }, 500),
@@ -108,14 +112,29 @@ const VendorGroupBuyList = () => {
       ...searchParams,
       search: searchTerm,
     });
-    debouncedSearch(searchTerm);
+    debouncedSearch({
+      ...searchParams,
+      search: searchTerm,
+    });
   };
 
   const handleSort = (sortVal) => {
+    setLoading(true);
     setSearchParams({
       ...searchParams,
       approved: sortVal,
     });
+    Auth.client
+      .get("/groupbuys", {
+        params: {
+          ...searchParams,
+          approved: sortVal,
+        },
+      })
+      .then((res) => {
+        setGroupbuys(res.data.results);
+        setLoading(false);
+      });
   };
 
   return (
@@ -158,25 +177,44 @@ const VendorGroupBuyList = () => {
         <div className={classes.loading}>
           <CircularProgress />
         </div>
-      ) : (
-        <Grid className={classes.root} container spacing={3} justify="space-evenly">
+      ) : groupbuys && groupbuys.length > 0 ? (
+        <Grid className={classes.root} container spacing={3}>
           {groupbuys &&
             groupbuys.flatMap((gb) => (
-              <Grid key={gb.gb_id} item xs={12} sm={8} md={6} lg={4}>
+              <Grid key={gb.gb_id} item xs={12} sm={6} lg={4}>
                 <Card>
                   <CardHeader
                     avatar={
-                      <Avatar aria-label="recipe" className={classes.avatar}>
+                      <Avatar className={classes.avatar} src={gb.recipe.owner.profile_photo_url}>
                         R
                       </Avatar>
                     }
                     title={gb.recipe.recipe_name}
-                    subheader={getDateString(gb.recipe.date_created)}
+                    subheader={"Submitted " + getDateString(gb.recipe.date_created)}
                   />
+                  <CardMedia className={classes.media} image={gb.recipe.photo_url} />
+                  <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      <b>Expected Fulfillment Date:</b> {getDateString(gb.fulfillment_date)}
+                      <br />
+                      <b>Estimated Price:</b> ${gb.recipe.estimated_price_start} - {gb.recipe.estimated_price_end}
+                    </Typography>
+                  </CardContent>
+                  <CardActions disableSpacing>
+                    <Button variant="contained" color="primary" disableElevation fullWidth>
+                      View Details
+                    </Button>
+                  </CardActions>
                 </Card>
               </Grid>
             ))}
         </Grid>
+      ) : (
+        <div className={classes.loading} style={{ alignItems: "flex-start" }}>
+          <Typography variant="body2" color="textSecondary" component="p">
+            No Results Found. 
+          </Typography>
+        </div>
       )}
     </Fragment>
   );
