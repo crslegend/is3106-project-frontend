@@ -26,8 +26,12 @@
     "no-console": "off",
     "implicit-arrow-linebreak": "off",
     "function-paren-newline": "off",
+<<<<<<< HEAD
     "no-restricted-globals": ["error", "event"],
     "react/jsx-no-duplicate-props": "off",
     "no-nested-ternary": "off"
+=======
+    "jsx-a11y/anchor-is-valid": "off"
+>>>>>>> a8bcf8e59656510b6489fd8afbc3ab0e8fa4dd38
   }
 }

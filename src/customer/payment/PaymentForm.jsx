@@ -79,21 +79,10 @@ const styles = (theme) => ({
 });
 
 const initialValues = {
-  addressOne: "",
-  addressTwo: "",
-  postal: "",
+  addressOne: " ",
+  addressTwo: " ",
+  postal: " ",
 };
-
-const payments = [
-  {
-    value: "CARD",
-    label: "CARD",
-  },
-  {
-    value: "CASH",
-    label: "CASH",
-  },
-];
 
 const PaymentForm = (props) => {
   const {
@@ -105,13 +94,13 @@ const PaymentForm = (props) => {
     contact,
     setContact,
   } = props;
-  const { values, resetNewAddress, handleInputChange } = useForm(initialValues);
+  const { values, newaddress, resetNewAddress, handleInputChange } = useForm(
+    initialValues
+  );
   const [customer, setCustomer] = useState("");
-  const [payment, setPayment] = React.useState("CARD");
 
   const [addresses, setAddresses] = useState([""]);
   const [address, setAddress] = useState("");
-  const [newaddress, setNewaddress] = useState("");
 
   const [openConfirmSubmitModal, setConfirmSubmitModal] = useState(false);
 
@@ -149,6 +138,7 @@ const PaymentForm = (props) => {
         setAddresses(null);
       });
   }, []);
+
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
     setOrder({
@@ -156,10 +146,6 @@ const PaymentForm = (props) => {
       add_id: event.target.value,
     });
     resetNewAddress();
-  };
-
-  const handleChange = (event) => {
-    setPayment(event.target.value);
   };
 
   const handleQuantityChange = (event) => {
@@ -180,20 +166,21 @@ const PaymentForm = (props) => {
 
   const handleSubmit = () => {
     console.log(values);
-    if (values !== null || values !== undefined || values.addressOne !== "") {
-      setNewaddress({
-        address_line1: values.addressOne,
-        address_line2: values.addressTwo,
-        postal_code: values.postal,
-      });
+    console.log(newaddress);
+
+    if (newaddress !== null || newaddress !== undefined) {
       console.log(newaddress);
-      //      Service.client
-      //        .post(`/users/${customer.id}/delivery-address`, newaddress)
-      //       .then((res) => {
-      //         console.log(res);
-      //         console.log("new address");
-      //       });
+      Service.client
+        .post(`/users/${customer.id}/delivery-address`, newaddress)
+        .then((res) => {
+          console.log(res.data.add_id);
+          setOrder({
+            ...order,
+            add_id: res.data.add_id,
+          });
+        });
     }
+
     setConfirmSubmitModal(true);
   };
 
@@ -201,10 +188,7 @@ const PaymentForm = (props) => {
     console.log(order);
     setConfirmSubmitModal(false);
 
-    // instantiate form-data
-    // const formData = new FormData();
-    // formData.append("data", JSON.stringify(order));
-
+    console.log(order);
     Service.client
       .post(`/groupbuys/${order.gb_id}/orders`, order)
       .then((res) => {
@@ -319,32 +303,6 @@ const PaymentForm = (props) => {
             value={contact}
             onChange={handleContactChange}
           />
-          <TextField
-            select
-            fullWidth="true"
-            margin="dense"
-            className={classes.field}
-            label="Payment method"
-            InputProps={{
-              classes: { input: classes.root },
-              disableUnderline: true,
-            }}
-            value={payment}
-            onChange={handleChange}
-            SelectProps={{
-              native: true,
-            }}
-          >
-            {payments.map((option) => (
-              <option
-                className={classes.root}
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </option>
-            ))}
-          </TextField>
         </Grid>
       </Grid>
       <Box textAlign="right">
