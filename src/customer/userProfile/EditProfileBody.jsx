@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
@@ -7,8 +7,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import jwt_decode from "jwt-decode";
 import Typography from "../../components/Typography";
 import Button from "../../components/Button";
+
+import Service from "../../AxiosService";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -75,10 +79,41 @@ function a11yProps(index) {
 const ProfileBody = () => {
   const classes = styles();
   const [value, setValue] = React.useState(0);
-
+  const [profile, setProfile] = useState();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const [passwordDetails, setPasswordDetails] = useState({
+    old_password: "",
+    new_password1: "",
+    new_password2: "",
+  });
+
+  const handleSubmitPassword = (event) => {
+    event.preventDefault();
+    console.log(passwordDetails);
+
+    Service.client.post(
+      `/auth/change_user_password/${profile.id}`,
+      passwordDetails
+    );
+  };
+
+  useEffect(() => {
+    if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
+      let userid = jwt_decode(Service.getJWT()).user_id;
+      console.log(`profile useeffect userid = ${userid}`);
+      Service.client
+        .get(`/users/${userid}`)
+        .then((res) => setProfile(res.data))
+        .catch((err) => {
+          setProfile(null);
+        });
+      // console.log(profile.hasOwnProperty('name'));
+      userid = null;
+    }
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -96,12 +131,39 @@ const ProfileBody = () => {
       </Tabs>
       <TabPanel value={value} index={0}>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Profile
-          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <Typography component="h1" variant="h5">
+                Profile Photo
+              </Typography>
+              <img
+                alt="J Sharp"
+                // eslint-disable-next-line global-require
+                src={require("../../assets/profilecircle.png")}
+                width="150px"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <input
+                accept="image/*"
+                className={classes.input}
+                style={{ display: "none" }}
+                id="raised-button-file"
+                multiple
+                type="file"
+              />
+              <label htmlFor="raised-button-file">
+                <Button
+                  variant="raised"
+                  component="span"
+                  className={classes.button}
+                >
+                  Upload
+                </Button>
+              </label>
+            </Grid>
+          </Grid>
+
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
@@ -110,23 +172,8 @@ const ProfileBody = () => {
               id="name"
               label="Name"
               name="Name"
+              // value={profile.name || ""}
               autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              name="username"
-              label="Username"
-              id="username"
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              name="gender"
-              label="Gender"
-              id="gender"
             />
             <TextField
               variant="outlined"
@@ -135,6 +182,8 @@ const ProfileBody = () => {
               name="email"
               label="Email"
               id="email"
+              disabled="true"
+              // value={profile.email || ""}
             />
             <Button
               type="submit"

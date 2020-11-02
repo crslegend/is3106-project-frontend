@@ -55,7 +55,11 @@ client.interceptors.response.use(
     return new Promise((resolve, reject) => {
       const originReq = err.config;
       // console.log(originReq);
-      if (err.response.status === 401 && err.config && !err.config.isRetryRequest) {
+      if (
+        err.response.status === 401 &&
+        err.config &&
+        !err.config.isRetryRequest
+      ) {
         originReq.isRetryRequest = true;
 
         const q = axios

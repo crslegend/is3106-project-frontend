@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { DropzoneAreaBase } from "material-ui-dropzone";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -8,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -19,20 +21,55 @@ import DateFnsUtils from "@date-io/date-fns";
 const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
-    "& h2": {
+    "& p": {
       textTransform: "capitalize",
-      fontSize: 25,
+      textAlign: "center",
+      fontSize: "18px",
     },
   },
   calender: {
     postion: "fixed !important",
     right: "calc(100% - 479px) !important",
   },
+  button: {
+    "&:hover": {
+      backgroundColor: "#EEF1EF",
+    },
+  },
+  dropzoneInvalid: {
+    padding: "0 10px",
+    minHeight: "200px",
+    borderColor: "red",
+  },
+  dropzoneValid: {
+    padding: "0 10px",
+    minHeight: "200px",
+  },
 });
 
 const NewRecipeForm = (props) => {
-  const { classes, setRecipeInfo, open, setOpen } = props;
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const getTomorrowDate = () => {
+    const tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    return tmr;
+  };
+
+  const {
+    classes,
+    recipeInfo,
+    setRecipeInfo,
+    open,
+    setOpen,
+    editMode,
+    setDateForDisplay,
+    recipePhoto,
+    setRecipePhoto,
+    validateRecipeNameField,
+    setValidateRecipeNameField,
+    validatePhoto,
+    setValidatePhoto,
+  } = props;
+  const [selectedDate, setSelectedDate] = useState(getTomorrowDate());
   const [recipeName, setName] = useState("");
 
   const handleDateChange = (e) => {
@@ -43,18 +80,46 @@ const NewRecipeForm = (props) => {
     setName(e);
   };
 
+  const formatDate = (date) => {
+    if (date !== null) {
+      const newDate = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
+      return newDate;
+    }
+    return null;
+  };
+
   const handleClose = () => {
     setOpen(false);
+
+    setRecipeInfo({
+      ...recipeInfo,
+      recipe_name: recipeName,
+      fulfillment_date: formatDate(selectedDate),
+    });
+    setDateForDisplay(selectedDate);
+
+    if (recipeName !== "") {
+      setValidateRecipeNameField(false);
+    }
   };
 
   const handleSubmit = () => {
     setOpen(false);
-    const updatedInfo = {
-      name: recipeName,
-      date: selectedDate,
-    };
 
-    setRecipeInfo(updatedInfo);
+    setRecipeInfo({
+      ...recipeInfo,
+      recipe_name: recipeName,
+      fulfillment_date: formatDate(selectedDate),
+    });
+    setDateForDisplay(selectedDate);
+
+    if (recipeName !== "") {
+      setValidateRecipeNameField(false);
+    }
   };
 
   return (
@@ -64,9 +129,15 @@ const NewRecipeForm = (props) => {
         disableEscapeKeyDown
         open={open}
         onClose={handleClose}
+        PaperProps={{
+          style: {
+            minWidth: "400px",
+            maxWidth: "400px",
+          },
+        }}
       >
         <DialogTitle className={classes.root}>
-          Give your recipe a name!
+          <Typography>Give your recipe a name and a picture!</Typography>
         </DialogTitle>
         <form>
           <DialogContent>
@@ -76,9 +147,12 @@ const NewRecipeForm = (props) => {
               label="Recipe Name"
               type="text"
               placeholder="Grilled Lamb Chop"
-              required
               value={recipeName}
               onChange={(e) => handleNameChange(e.target.value)}
+              error={validateRecipeNameField}
+              helperText={
+                validateRecipeNameField ? "Recipe Name Cannot Be Empty" : ""
+              }
             />
           </DialogContent>
           <DialogContent>
@@ -88,20 +162,66 @@ const NewRecipeForm = (props) => {
                 variant="normal"
                 format="dd/MM/yyyy"
                 margin="normal"
-                minDate={new Date()}
+                minDate={getTomorrowDate()}
                 label="Choose a Fulfillment Date"
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e)}
               />
             </MuiPickersUtilsProvider>
           </DialogContent>
+          <DialogContent>
+            <DropzoneAreaBase
+              dropzoneClass={
+                validatePhoto ? classes.dropzoneInvalid : classes.dropzoneValid
+              }
+              dropzoneText="Drag and drop an image or click here (Max 5mb)"
+              acceptedFiles={["image/*"]}
+              filesLimit={1}
+              fileObjects={recipePhoto}
+              maxFileSize={5000000}
+              onAdd={(newPhoto) => {
+                // console.log("onAdd", newPhoto);
+                setRecipePhoto([].concat(newPhoto));
+                setValidatePhoto(false);
+              }}
+              onDelete={(deletePhotoObj) => {
+                console.log("onDelete", deletePhotoObj);
+                setRecipePhoto([]);
+              }}
+              previewGridProps={{
+                item: {
+                  xs: "auto",
+                },
+              }}
+            />
+          </DialogContent>
+
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} color="primary">
-              Create
-            </Button>
+            {editMode ? (
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
+                Update Recipe
+              </Button>
+            ) : recipeName.length > 0 ? (
+              <Button
+                className={classes.button}
+                onClick={handleSubmit}
+                color="secondary"
+              >
+                Create Recipe
+              </Button>
+            ) : (
+              <Button
+                className={classes.button}
+                onClick={handleClose}
+                color="secondary"
+              >
+                Skip For Now
+              </Button>
+            )}
           </DialogActions>
         </form>
       </Dialog>

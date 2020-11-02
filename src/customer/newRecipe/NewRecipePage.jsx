@@ -6,25 +6,44 @@ import IngredientListing from "./IngredientListing";
 
 const NewRecipePage = () => {
   const [recipeInfo, setRecipeInfo] = useState({
-    name: "",
-    date: null,
+    recipe_name: "",
+    fulfillment_date: null,
   });
+  const [recipePhoto, setRecipePhoto] = useState([]);
 
+  const [dateForDisplay, setDateForDisplay] = useState(null);
   const [open, setOpen] = useState(true);
+  const [editMode, setEditMode] = useState(false);
+  const [validateRecipeNameField, setValidateRecipeNameField] = useState(false);
+  const [validatePhoto, setValidatePhoto] = useState(false);
 
   return (
     <Fragment>
       <Navbar />
       <NewRecipeForm
+        recipeInfo={recipeInfo}
         setRecipeInfo={setRecipeInfo}
         open={open}
         setOpen={setOpen}
+        editMode={editMode}
+        setDateForDisplay={setDateForDisplay}
+        recipePhoto={recipePhoto}
+        setRecipePhoto={setRecipePhoto}
+        validateRecipeNameField={validateRecipeNameField}
+        setValidateRecipeNameField={setValidateRecipeNameField}
+        validatePhoto={validatePhoto}
+        setValidatePhoto={setValidatePhoto}
       />
       <IngredientListing
         recipeInfo={recipeInfo}
         setRecipeInfo={setRecipeInfo}
         open={open}
         setOpen={setOpen}
+        setEditMode={setEditMode}
+        dateForDisplay={dateForDisplay}
+        recipePhoto={recipePhoto}
+        setValidateRecipeNameField={setValidateRecipeNameField}
+        setValidatePhoto={setValidatePhoto}
       />
     </Fragment>
   );

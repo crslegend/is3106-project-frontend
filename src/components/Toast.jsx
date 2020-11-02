@@ -6,7 +6,14 @@ const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-const Toast = ({ open, setOpen, autoHideDuration, message, severity, anchorOrigin }) => {
+const Toast = ({
+  open,
+  setOpen,
+  autoHideDuration,
+  message,
+  severity,
+  anchorOrigin,
+}) => {
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -15,7 +22,12 @@ const Toast = ({ open, setOpen, autoHideDuration, message, severity, anchorOrigi
   };
 
   return (
-    <Snackbar open={open} autoHideDuration={autoHideDuration} anchorOrigin={anchorOrigin} onClose={handleClose}>
+    <Snackbar
+      open={open}
+      autoHideDuration={autoHideDuration}
+      anchorOrigin={anchorOrigin}
+      onClose={handleClose}
+    >
       <Alert onClose={handleClose} severity={severity}>
         {message}
       </Alert>
