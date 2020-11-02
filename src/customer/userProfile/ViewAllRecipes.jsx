@@ -92,7 +92,7 @@ const ViewAllRecipes = (props) => {
   const getUserData = () => {
     if (Cookies.get("t1") && Cookies.get("t2")) {
       Service.client.get(`/recipes`).then((res) => {
-        console.log(res);
+        // console.log(res);
         setListOfCreatedRecipes(res.data);
       });
     }
@@ -108,6 +108,7 @@ const ViewAllRecipes = (props) => {
     setNumPages(Math.ceil(listOfCreatedRecipes.length / itemsPerPage));
   }, [listOfCreatedRecipes.length]);
 
+  console.log(listOfCreatedRecipes);
   const handleSortChange = (event) => {
     const buttonValue = event.target.value;
     setSortMethod(buttonValue);
@@ -137,7 +138,7 @@ const ViewAllRecipes = (props) => {
     } else if (buttonValue === "PRICE_ASC") {
       let arr = listOfCreatedRecipes;
       arr = sortArray(arr, {
-        by: ["final_price", "estimated_price_start", "estimated_price_end"],
+        by: ["estimated_price_start", "estimated_price_end"],
         computed: {
           final_price: (row) => {
             if (row.recipe.final_price === null) {
@@ -155,7 +156,7 @@ const ViewAllRecipes = (props) => {
     } else if (buttonValue === "PRICE_DESC") {
       let arr = listOfCreatedRecipes;
       arr = sortArray(arr, {
-        by: ["estimated_price_start", "estimated_price_end", "final_price"],
+        by: ["estimated_price_start", "estimated_price_end"],
         order: "desc",
         computed: {
           final_price: (row) => {
