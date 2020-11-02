@@ -4,14 +4,14 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
 import jwt_decode from "jwt-decode";
-import { Typography } from "@material-ui/core";
+import { Card, CardContent, Grid, Typography } from "@material-ui/core";
 import Service from "../../AxiosService";
 
 const styles = (theme) => ({
   root: {
     display: "flex",
     "& > *": {
-      margin: theme.spacing(1),
+      margin: theme.spacing(3),
     },
     orange: {
       width: theme.spacing(7),
@@ -35,9 +35,9 @@ function getTimeElapsed(startDate) {
   // milliseconds
   let different = currentDateTime.getSeconds() - 0;
 
-  console.log("current time - " + currentDateTime);
-  console.log("start time - " + startDate);
-  console.log("different - " + different);
+  console.log(`current time - ${currentDateTime}`);
+  console.log(`start time - ${startDate}`);
+  console.log(`different - ${different}`);
 
   const secondsInMilli = 1000;
   const minutesInMilli = secondsInMilli * 60;
@@ -88,28 +88,47 @@ const ProfileBody = (props) => {
 
   return (
     <div className={classes.root}>
-      <img
-        alt="J Sharp"
-        // eslint-disable-next-line global-require
-        src={require("../../assets/profilecircle.png")}
-        width="150px"
-      />
-
-      <Typography>
-        xxNamexx{profile.name}
-        <br />
-        {profile.email}
-        <br />
-        Joined: {getTimeElapsed(profile.date_joined)}
-      </Typography>
-      <Button
-        variant="contained"
-        size="medium"
-        component="a"
-        href="/editprofile"
-      >
-        Edit Profile
-      </Button>
+      <Grid container spacing={1} justify="center">
+        <Grid item xs={3} style={{ marginTop: "30px" }}>
+          <img
+            alt="J Sharp"
+            // eslint-disable-next-line global-require
+            src={require("../../assets/profilecircle.png")}
+            width="150px"
+          />
+          <br />
+          <Button
+            variant="contained"
+            size="medium"
+            component="a"
+            href="/editprofile"
+          >
+            Edit Profile
+          </Button>
+        </Grid>
+        <Grid item xs={7} style={{ marginTop: "30px" }}>
+          <Card style={{ backgroundColor: "#FFE2DB" }}>
+            <CardContent>
+              <Typography>
+                xxNamexx{profile.name}
+                <br />
+                {profile.email}
+                <br />
+                Joined: {getTimeElapsed(profile.date_joined)}
+              </Typography>
+            </CardContent>
+          </Card>
+          <div style={{ marginTop: "50px", marginBottom: "50px" }} />
+          <Card style={{ backgroundColor: "#FFE2DB" }}>
+            <CardContent>
+              <Typography variant="h5">No. of Recipes</Typography>
+            </CardContent>
+            <Button component="a" href="/viewallpurchases">
+              View All Purchased Recipes
+            </Button>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 };
