@@ -20,6 +20,7 @@ import withRoot from "../../constants/withRoot";
 import Navbar from "../Navbar";
 import Service from "../../AxiosService";
 import GroupBuyCard from "../../components/GroupBuyCard";
+import KitchenIcon from '@material-ui/icons/Kitchen';
 
 const styles = (theme) => ({
   formControl: {
@@ -232,8 +233,8 @@ const ViewAllGroupbuys = (props) => {
           </div>
 
           <Grid container>
-            {listOfGroupbuys &&
-              listOfGroupbuys
+            {listOfGroupbuys && listOfGroupbuys.length > 0 ?
+             (listOfGroupbuys
                 .slice((page - 1) * itemsPerPage, page * itemsPerPage)
                 .map((groupbuy) => (
                   <div
@@ -249,8 +250,16 @@ const ViewAllGroupbuys = (props) => {
                       />
                     </Grid>
                   </div>
-                ))}
+                ))) : (
+                  <div style={{ margin: "auto" }}>
+                    <KitchenIcon style={{ fontSize: "50px" }} color="disabled"/>
+                    <Typography variant="subtitle1">
+                        No Groupbuys Entered Yet
+                    </Typography>
+                  </div>
+                )}
           </Grid>
+          {listOfGroupbuys && listOfGroupbuys.length > 0 && 
           <Pagination
             count={noOfPages}
             page={page}
@@ -261,7 +270,8 @@ const ViewAllGroupbuys = (props) => {
             showFirstButton
             showLastButton
             className={classes.pagination}
-          />
+          />}
+          
         </Grid>
       </Grid>
     </Fragment>

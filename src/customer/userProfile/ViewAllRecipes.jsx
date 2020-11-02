@@ -20,6 +20,7 @@ import Navbar from "../Navbar";
 import withRoot from "../../constants/withRoot";
 import Service from "../../AxiosService";
 import GroupBuyCard from "../../components/GroupBuyCard";
+import KitchenIcon from '@material-ui/icons/Kitchen';
 
 const styles = (theme) => ({
   formControl: {
@@ -64,7 +65,7 @@ const styles = (theme) => ({
     fontWeight: "normal",
     backgroundColor: theme.palette.primary.main,
     color: "black",
-    width: 150,
+    width: 180,
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
       color: "#48494B",
@@ -232,8 +233,8 @@ const ViewAllRecipes = (props) => {
           </div>
 
           <Grid container>
-            {listOfCreatedRecipes &&
-              listOfCreatedRecipes
+            {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 ?
+              (listOfCreatedRecipes
                 .slice((page - 1) * itemsPerPage, page * itemsPerPage)
                 .map((recipe) => (
                   <div
@@ -249,8 +250,17 @@ const ViewAllRecipes = (props) => {
                       />
                     </Grid>
                   </div>
-                ))}
+                ))) : (
+                  <div style={{ margin: "auto" }}>
+                    <KitchenIcon style={{ fontSize: "50px" }} color="disabled"/>
+                    <Typography variant="subtitle1">
+                        No Recipes Created Yet
+                    </Typography>
+                  </div>
+                  
+                )}
           </Grid>
+          {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 &&
           <Pagination
             count={noOfPages}
             page={page}
@@ -261,7 +271,7 @@ const ViewAllRecipes = (props) => {
             showFirstButton
             showLastButton
             className={classes.pagination}
-          />
+          />}
         </Grid>
       </Grid>
     </Fragment>
