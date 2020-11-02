@@ -7,7 +7,8 @@
     "prettier/prettier": [
       "warn",
       {
-        "endOfLine": "auto"
+        "endOfLine": "auto",
+        // "printWidth": 120
       }
     ],
     "quotes": "off",
@@ -16,6 +17,7 @@
     "react/forbid-prop-types": "off",
     "react/prop-types": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/jsx-curly-newline": "off",
     "linebreak-style": "off",
     "object-curly-newline": "off",
     "import/no-extraneous-dependencies": "off",
@@ -30,5 +32,6 @@
     "react/jsx-no-duplicate-props": "off",
     "no-nested-ternary": "off",
     "jsx-a11y/anchor-is-valid": "off"
+
   }
 }
