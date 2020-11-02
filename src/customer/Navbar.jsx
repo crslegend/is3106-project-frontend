@@ -110,7 +110,7 @@ const Navbar = ({ classes }) => {
         .catch((err) => {
           setProfile(null);
         });
-      // console.log(profile.hasOwnProperty('name'));
+      // console.log(profile.name);
       userid = null;
     }
   }, []);
