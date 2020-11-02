@@ -291,7 +291,6 @@ const Navbar = ({ classes }) => {
                           >
                             Sign Out
                           </Button>
-                          ;
                         </Box>
                       </div>
                     </CardActions>

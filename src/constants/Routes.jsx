@@ -11,6 +11,8 @@ import GroupBuyPage from "../customer/groupBuy/GroupBuyPage";
 import NewRecipePage from "../customer/newRecipe/NewRecipePage";
 import CardDetailPage from "../customer/groupBuy/CardDetailPage";
 import Toast from "../components/Toast";
+import ViewAllGroupbuys from "../customer/userProfile/ViewAllGroupbuys";
+import ViewAllRecipes from "../customer/userProfile/ViewAllRecipes";
 
 const Routes = (props) => {
   const [open, setOpen] = useState(false);
@@ -54,10 +56,24 @@ const Routes = (props) => {
           path="/viewdetails"
           render={() => <CardDetailPage {...props} />}
         />
-        <Route path="/profile" render={() => <ProfilePage {...props} />} />
+        <Route
+          exact
+          path="/profile"
+          render={() => <ProfilePage {...props} />}
+        />
         <Route
           path="/editprofile"
           render={() => <EditProfilePage {...props} />}
+        />
+        <Route
+          exact
+          path="/profile/viewallgroupbuys"
+          render={() => <ViewAllGroupbuys {...props} />}
+        />
+        <Route
+          exact
+          path="/profile/viewallrecipes"
+          render={() => <ViewAllRecipes {...props} />}
         />
       </Switch>
       <Toast open={open} setOpen={setOpen} {...snackbar} />

@@ -127,10 +127,19 @@ const ProfileBody = (props) => {
           <div style={{ marginTop: "50px", marginBottom: "50px" }} />
           <Card style={{ backgroundColor: "#FFE2DB" }}>
             <CardContent>
-              <Typography variant="h5">No. of Recipes</Typography>
+              <Typography variant="h5">No. of Groupbuys Entered</Typography>
             </CardContent>
-            <Button component="a" href="/viewallpurchases">
-              View All Purchased Recipes
+            <Button component="a" href="/profile/viewallgroupbuys">
+              View All Entered Groupbuys
+            </Button>
+          </Card>
+          <div style={{ marginTop: "50px", marginBottom: "50px" }} />
+          <Card style={{ backgroundColor: "#FFE2DB" }}>
+            <CardContent>
+              <Typography variant="h5">No. of Recipes Created</Typography>
+            </CardContent>
+            <Button component="a" href="/profile/viewallrecipes">
+              View All Created Recipes
             </Button>
           </Card>
         </Grid>
