@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 import Button from "@material-ui/core/Button";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
 import jwt_decode from "jwt-decode";
@@ -27,6 +28,19 @@ const styles = (theme) => ({
       width: "50px",
       height: "50px",
     },
+  },
+  button: {
+    fontWeight: "normal",
+    backgroundColor: theme.palette.primary.main,
+    color: "black",
+    // width: 150,
+    "&:hover": {
+      background: fade(theme.palette.primary.main, 0.8),
+      color: "#48494B",
+    },
+    marginTop: "25px",
+    textTransform: "capitalize",
+    fontSize: "19px",
   },
 });
 
@@ -124,24 +138,30 @@ const ProfileBody = (props) => {
               </Typography>
             </CardContent>
           </Card>
-          <div style={{ marginTop: "50px", marginBottom: "50px" }} />
-          <Card style={{ backgroundColor: "#FFE2DB" }}>
-            <CardContent>
-              <Typography variant="h5">No. of Groupbuys Entered</Typography>
-            </CardContent>
-            <Button component="a" href="/profile/viewallgroupbuys">
-              View All Entered Groupbuys
+          <div
+            style={{
+              marginTop: "50px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+            }}
+          >
+            <Button
+              component="a"
+              href="/profile/viewallgroupbuys"
+              className={classes.button}
+            >
+              View Entered Groupbuys
             </Button>
-          </Card>
-          <div style={{ marginTop: "50px", marginBottom: "50px" }} />
-          <Card style={{ backgroundColor: "#FFE2DB" }}>
-            <CardContent>
-              <Typography variant="h5">No. of Recipes Created</Typography>
-            </CardContent>
-            <Button component="a" href="/profile/viewallrecipes">
-              View All Created Recipes
+
+            <Button
+              component="a"
+              href="/profile/viewallrecipes"
+              className={classes.button}
+            >
+              View Created Recipes
             </Button>
-          </Card>
+          </div>
         </Grid>
       </Grid>
     </div>
