@@ -242,6 +242,7 @@ const VendorGroupBuyDetails = ({ setSbOpen, snackbar, setSnackbar }) => {
                       className={classes.textField}
                       label="Minimum Order Quantity"
                       type="number"
+                      disabled={groupbuy.approval_status}
                       error={approvalDetailsErrors.minimum_order_quantity}
                       value={(approvalDetails && approvalDetails.minimum_order_quantity) || ""}
                       onChange={(event) =>
@@ -255,6 +256,7 @@ const VendorGroupBuyDetails = ({ setSbOpen, snackbar, setSnackbar }) => {
                       className={classes.textField}
                       label="Final Price (SGD)"
                       type="number"
+                      disabled={groupbuy.approval_status}
                       error={approvalDetailsErrors.final_price}
                       value={(approvalDetails && approvalDetails.final_price) || ""}
                       onChange={(event) =>
@@ -268,6 +270,7 @@ const VendorGroupBuyDetails = ({ setSbOpen, snackbar, setSnackbar }) => {
                       className={classes.textField}
                       label="Delivery Fee (SGD)"
                       type="number"
+                      disabled={groupbuy.approval_status}
                       error={approvalDetailsErrors.delivery_fee}
                       value={(approvalDetails && approvalDetails.delivery_fee) || ""}
                       onChange={(event) =>
@@ -282,6 +285,7 @@ const VendorGroupBuyDetails = ({ setSbOpen, snackbar, setSnackbar }) => {
                       id="date-picker-dialog"
                       label="Order Deadline"
                       format="yyyy-MM-dd"
+                      disabled={groupbuy.approval_status}
                       error={approvalDetailsErrors.order_by}
                       value={approvalDetails.order_by}
                       onChange={(date) =>
@@ -302,7 +306,7 @@ const VendorGroupBuyDetails = ({ setSbOpen, snackbar, setSnackbar }) => {
                     variant="contained"
                     color="primary"
                     disableElevation
-                    disabled={groupbuy.status !== "PENDING_APPROVAL"}
+                    disabled={groupbuy.approval_status}
                     onClick={validateInput}
                     loading={loading}
                   >
