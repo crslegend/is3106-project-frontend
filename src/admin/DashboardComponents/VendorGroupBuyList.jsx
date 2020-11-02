@@ -121,23 +121,26 @@ const VendorGroupBuyList = () => {
       ...searchParams,
       search: searchTerm,
     });
-    debouncedSearch({
-      ...searchParams,
-      search: searchTerm,
-    });
+
+    if (searchTerm && searchTerm !== "") {
+      debouncedSearch({
+        ...searchParams,
+        search: searchTerm,
+      });
+    }
   };
 
   const handleSort = (sortVal) => {
     setLoading(true);
     setSearchParams({
       ...searchParams,
-      approved: sortVal,
+      approved: sortVal === "" ? 0 : sortVal,
     });
     Auth.client
       .get("/groupbuys", {
         params: {
           ...searchParams,
-          approved: sortVal,
+          approved: sortVal === "" ? 0 : sortVal,
         },
       })
       .then((res) => {
