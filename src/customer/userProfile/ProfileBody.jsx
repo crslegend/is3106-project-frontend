@@ -71,20 +71,26 @@ const ProfileBody = (props) => {
   const { classes } = props;
   const [profile, setProfile] = useState([]);
 
-  useEffect(() => {
+  const getUserData = () => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
-      let userid = jwt_decode(Service.getJWT()).user_id;
+      const userid = jwt_decode(Service.getJWT()).user_id;
       console.log(`profile useeffect userid = ${userid}`);
       Service.client
         .get(`/users/${userid}`)
-        .then((res) => setProfile(res.data))
+        .then((res) => {
+          setProfile(res.data);
+        })
         .catch((err) => {
           setProfile(null);
         });
       // console.log(profile.hasOwnProperty('name'));
-      userid = null;
     }
+  };
+  useEffect(() => {
+    getUserData();
   }, []);
+
+  console.log(profile);
 
   return (
     <div className={classes.root}>
@@ -110,7 +116,7 @@ const ProfileBody = (props) => {
           <Card style={{ backgroundColor: "#FFE2DB" }}>
             <CardContent>
               <Typography>
-                xxNamexx{profile.name}
+                {profile.name}
                 <br />
                 {profile.email}
                 <br />
