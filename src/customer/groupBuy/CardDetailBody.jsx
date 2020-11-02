@@ -70,6 +70,17 @@ const styles = makeStyles((theme) => ({
       paddingLeft: "0px",
     },
   },
+  upcoming: {
+    display: "flex",
+    paddingLeft: "30px",
+    paddingTop: "10px",
+    color: "#ED2939",
+    fontFamily: "Raleway",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 16,
+      paddingLeft: "0px",
+    },
+  },
   cardBody: {
     fontFamily: "Raleway",
     fontWeight: 500,
@@ -234,6 +245,15 @@ const CardDetailBody = () => {
   let fulfillmentdate = groupbuy.fulfillment_date;
   fulfillmentdate = moment().format("DD-MMM-YYYY");
 
+  let orderstatus;
+  if (groupbuy.approval_status === false) {
+    orderstatus = (
+      <Typography className={classes.upcoming}>
+        This order is currently under processing.
+      </Typography>
+    );
+  }
+
   return (
     <Fragment>
       <Grid container className={classes.root}>
@@ -300,11 +320,16 @@ const CardDetailBody = () => {
                   >
                     Fulfillment Date: {fulfillmentdate}
                   </Typography>
+                  {orderstatus}
                 </CardContent>
               </Grid>
             </Grid>
           </Card>
-          <Button className={classes.buyButton} onClick={handleRedirect}>
+          <Button
+            className={classes.buyButton}
+            onClick={handleRedirect}
+            disabled={!groupbuy.approval_status}
+          >
             <ShoppingCartIcon className={classes.iconGroupBuy} />
             Enter Group Buy
           </Button>

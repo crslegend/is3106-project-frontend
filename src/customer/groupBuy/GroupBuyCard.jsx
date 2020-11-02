@@ -82,6 +82,20 @@ const styles = makeStyles((theme) => ({
       fontSize: 10,
     },
   },
+  cardUpcoming: {
+    display: "flex",
+    paddingLeft: "15px",
+    color: "#F2AA4CFF",
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    fontSize: 16,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 14,
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+  },
   cardButton: {
     backgroundColor: fade(theme.palette.primary.main, 0.5),
     "&:hover": {
@@ -117,7 +131,11 @@ const GroupBuyCard = (props) => {
   const orderamount =
     (groupbuy.current_order_quantity / groupbuy.minimum_order_quantity) * 100;
 
-  if (orderamount >= 80 && orderamount < 100) {
+  if (groupbuy.approval_status === false) {
+    warning = (
+      <Typography className={classes.cardUpcoming}>Upcoming!</Typography>
+    );
+  } else if (orderamount >= 80 && orderamount < 100) {
     warning = (
       <Typography className={classes.cardWarning}>Selling Fast!</Typography>
     );
@@ -131,37 +149,35 @@ const GroupBuyCard = (props) => {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea component={Link} to={`/viewdetails/${groupbuy.gb_id}`}>
-        <CardMedia
-          className={classes.media}
-          image={groupbuy && groupbuyitem.photo_url}
-          title={groupbuyitem.recipe_name}
-        />
-        <CardContent height="150" width="150">
-          <Typography className={classes.cardHeader}>
-            {groupbuyitem.recipe_name}
+      <CardMedia
+        className={classes.media}
+        image={groupbuy && groupbuyitem.photo_url}
+        title={groupbuyitem.recipe_name}
+      />
+      <CardContent height="150" width="150">
+        <Typography className={classes.cardHeader}>
+          {groupbuyitem.recipe_name}
+        </Typography>
+        {groupbuy.final_price !== null ? (
+          <Typography className={classes.cardBody}>
+            ${groupbuy.final_price}
           </Typography>
-          {groupbuy.final_price !== null ? (
-            <Typography className={classes.cardBody}>
-              ${groupbuy.final_price}
-            </Typography>
-          ) : (
-            <Typography className={classes.cardBody}>
-              ${groupbuy.recipe.estimated_price_start} - $
-              {groupbuy.recipe.estimated_price_end}
-            </Typography>
-          )}
+        ) : (
+          <Typography className={classes.cardBody}>
+            ${groupbuy.recipe.estimated_price_start} - $
+            {groupbuy.recipe.estimated_price_end}
+          </Typography>
+        )}
 
-          <Button
-            className={classes.cardButton}
-            component={Link}
-            to={`/viewdetails/${groupbuy.gb_id}`}
-          >
-            View Details
-          </Button>
-        </CardContent>
-        {warning}
-      </CardActionArea>
+        <Button
+          className={classes.cardButton}
+          component={Link}
+          to={`/viewdetails/${groupbuy.gb_id}`}
+        >
+          View Details
+        </Button>
+      </CardContent>
+      {warning}
     </Card>
   );
 };
