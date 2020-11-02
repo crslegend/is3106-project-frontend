@@ -110,6 +110,10 @@ const VendorGroupBuyList = () => {
         .then((res) => {
           setGroupbuys(res.data.results);
           setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
         });
     }, 500),
     []
