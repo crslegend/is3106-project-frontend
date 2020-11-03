@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import useForm from "./UseForm";
 import Service from "../../AxiosService";
 
@@ -139,6 +140,9 @@ const PaymentForm = (props) => {
       });
   }, []);
 
+  // react router dom history hooks
+  const history = useHistory();
+
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
     setOrder({
@@ -194,6 +198,7 @@ const PaymentForm = (props) => {
       .then((res) => {
         console.log(res);
         // push to view past orders
+        history.push(`/profile/viewallgroupbuys`);
       })
       .catch((error) => {
         console.log(error);

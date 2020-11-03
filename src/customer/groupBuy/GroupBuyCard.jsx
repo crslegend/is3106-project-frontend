@@ -2,7 +2,6 @@ import React from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { Card } from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { fade } from "@material-ui/core/styles/colorManipulator";
@@ -129,9 +128,10 @@ const GroupBuyCard = (props) => {
   let warning;
 
   const orderamount =
+    groupbuy &&
     (groupbuy.current_order_quantity / groupbuy.minimum_order_quantity) * 100;
 
-  if (groupbuy.approval_status === false) {
+  if ((groupbuy && groupbuy.approval_status) === false) {
     warning = (
       <Typography className={classes.cardUpcoming}>Upcoming!</Typography>
     );
@@ -151,28 +151,28 @@ const GroupBuyCard = (props) => {
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={groupbuy && groupbuyitem.photo_url}
-        title={groupbuyitem.recipe_name}
+        image={groupbuyitem && groupbuyitem.photo_url}
+        title={groupbuyitem && groupbuyitem.recipe_name}
       />
       <CardContent height="150" width="150">
         <Typography className={classes.cardHeader}>
-          {groupbuyitem.recipe_name}
+          {groupbuyitem && groupbuyitem.recipe_name}
         </Typography>
-        {groupbuy.final_price !== null ? (
+        {(groupbuy && groupbuy.final_price) !== undefined ? (
           <Typography className={classes.cardBody}>
-            ${groupbuy.final_price}
+            ${groupbuy && groupbuy.final_price}
           </Typography>
         ) : (
           <Typography className={classes.cardBody}>
-            ${groupbuy.recipe.estimated_price_start} - $
-            {groupbuy.recipe.estimated_price_end}
+            ${groupbuyitem && groupbuyitem.estimated_price_start} - $
+            {groupbuyitem && groupbuyitem.estimated_price_end}
           </Typography>
         )}
 
         <Button
           className={classes.cardButton}
           component={Link}
-          to={`/viewdetails/${groupbuy.gb_id}`}
+          to={`/viewdetails/${groupbuy && groupbuy.gb_id}`}
         >
           View Details
         </Button>
