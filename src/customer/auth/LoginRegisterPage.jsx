@@ -179,6 +179,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                     });
                 } else {
                   // coming from entering group buy
+                  history.push(`/payment/${state.gbid}`);
                 }
               } else {
                 // redirect to dashboard
@@ -276,6 +277,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                 });
             } else {
               // coming from entering group buy
+              history.push(`/payment/${state.gbid}`);
             }
           } else {
             // redirect to dashboard

@@ -12,6 +12,9 @@ import NewRecipePage from "../customer/newRecipe/NewRecipePage";
 import CardDetailPage from "../customer/groupBuy/CardDetailPage";
 import AdminLandingPage from "../admin/AdminLandingPage";
 import Toast from "../components/Toast";
+import PaymentPage from "../customer/payment/PaymentPage";
+import ViewAllGroupbuys from "../customer/userProfile/ViewAllGroupbuys";
+import ViewAllRecipes from "../customer/userProfile/ViewAllRecipes";
 
 const Routes = (props) => {
   const [open, setOpen] = useState(false);
@@ -46,19 +49,38 @@ const Routes = (props) => {
           path="/forgetpassword"
           render={() => <ForgetPasswordPage {...props} />}
         />
-        <PrivateRoute
-          path="/groupbuy"
-          render={() => <GroupBuyPage {...props} />}
-        />
+        <Route path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
         <Route path="/newrecipe" render={() => <NewRecipePage {...props} />} />
-        <PrivateRoute
-          path="/viewdetails"
-          render={() => <CardDetailPage {...props} />}
+        <Route
+          path="/viewdetails/:id"
+          strict
+          sensitive
+          render={(match) => <CardDetailPage match={match} />}
         />
-        <Route path="/profile" render={() => <ProfilePage {...props} />} />
+        <Route
+          path="/payment/:id"
+          strict
+          sensitive
+          render={(match) => <PaymentPage match={match} />}
+        />
+        <Route
+          exact
+          path="/profile"
+          render={() => <ProfilePage {...props} />}
+        />
         <Route
           path="/editprofile"
           render={() => <EditProfilePage {...props} />}
+        />
+        <Route
+          exact
+          path="/profile/viewallgroupbuys"
+          render={() => <ViewAllGroupbuys {...props} />}
+        />
+        <Route
+          exact
+          path="/profile/viewallrecipes"
+          render={() => <ViewAllRecipes {...props} />}
         />
         <Route path="/admin" render={() => <AdminLandingPage {...props} />} />
       </Switch>
