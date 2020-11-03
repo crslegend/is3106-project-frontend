@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import withRoot from "../../constants/withRoot";
 import Navbar from "../Navbar";
 import LandingBody from "./LandingBody";

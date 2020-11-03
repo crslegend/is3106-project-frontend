@@ -55,6 +55,8 @@ const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
   } else if (
     sellingAmount.endsWith(" G") ||
     sellingAmount.endsWith("G") ||
+    sellingAmount.endsWith("g") ||
+    sellingAmount.endsWith(" g") ||
     sellingAmount.endsWith("gm") ||
     sellingAmount.endsWith("pc") ||
     sellingAmount.endsWith("S") ||

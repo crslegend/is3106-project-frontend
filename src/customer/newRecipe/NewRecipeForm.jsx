@@ -21,9 +21,10 @@ import DateFnsUtils from "@date-io/date-fns";
 const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
-    "& h5": {
+    "& p": {
       textTransform: "capitalize",
       textAlign: "center",
+      fontSize: "18px",
     },
   },
   calender: {
@@ -136,9 +137,7 @@ const NewRecipeForm = (props) => {
         }}
       >
         <DialogTitle className={classes.root}>
-          <Typography variant="h5">
-            Give your recipe a name and a picture!
-          </Typography>
+          <Typography>Give your recipe a name and a picture!</Typography>
         </DialogTitle>
         <form>
           <DialogContent>

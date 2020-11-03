@@ -10,6 +10,7 @@ import EditProfilePage from "../customer/userProfile/EditProfilePage";
 import GroupBuyPage from "../customer/groupBuy/GroupBuyPage";
 import NewRecipePage from "../customer/newRecipe/NewRecipePage";
 import CardDetailPage from "../customer/groupBuy/CardDetailPage";
+import AdminLandingPage from "../admin/AdminLandingPage";
 import Toast from "../components/Toast";
 import PaymentPage from "../customer/payment/PaymentPage";
 
@@ -68,6 +69,7 @@ const Routes = (props) => {
           path="/editprofile"
           render={() => <EditProfilePage {...props} />}
         />
+        <Route path="/admin" render={() => <AdminLandingPage {...props} />} />
       </Switch>
       <Toast open={open} setOpen={setOpen} {...snackbar} />
     </Router>
