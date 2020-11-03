@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router";
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
@@ -8,6 +9,7 @@ import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
@@ -16,9 +18,30 @@ import jwt_decode from "jwt-decode";
 import withRoot from "../../constants/withRoot";
 import Typography from "../../components/Typography";
 import Service from "../../AxiosService";
-import image from "../../assets/login.jpg";
+import login1 from "../../assets/login1.jpg";
+import login2 from "../../assets/login2.jpg";
+import login3 from "../../assets/login3.jpg";
+import login4 from "../../assets/login4.jpg";
+import login5 from "../../assets/login5.jpg";
+import login6 from "../../assets/login6.jpg";
+import login7 from "../../assets/login7.jpg";
+import login8 from "../../assets/login8.jpg";
+import login9 from "../../assets/login9.jpg";
+import login10 from "../../assets/login10.jpg";
 
-const backgroundImage = image;
+const items = [
+  login1,
+  login2,
+  login3,
+  login4,
+  login5,
+  login6,
+  login7,
+  login8,
+  login9,
+  login10,
+];
+const backgroundImage = items[Math.floor(Math.random() * items.length)];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +68,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  avatar1: {
+    margin: theme.spacing(1.5),
+    backgroundColor: theme.palette.secondary.main,
+  },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -53,9 +80,15 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     padding: "10px",
   },
+  link: {
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 }));
 
-const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
+const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
+  const { state } = location;
   const classes = useStyles();
   let flippyHorizontal;
 
@@ -125,9 +158,33 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
               setSbOpen(true);
               setLoading(false);
 
-              // redirect to dashboard
-              console.log("Log in successfully");
-              history.push("/");
+              // submit recipe after successful login
+              // and redirect to recipe detailed page
+              if (state !== undefined) {
+                if (state.recipe && state.recipePhoto) {
+                  // coming from create recipe
+                  // instantiate form-data
+                  const formData = new FormData();
+                  formData.append("data", JSON.stringify(state.recipe));
+                  formData.append("display_photo", state.recipePhoto.file);
+
+                  Service.client
+                    .post("/recipes", formData)
+                    .then((res) => {
+                      console.log(res);
+                      history.push(`/viewdetails/${res.data.gb_id}`);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                } else {
+                  // coming from entering group buy
+                }
+              } else {
+                // redirect to dashboard
+                console.log("Log in successfully");
+                history.push("/");
+              }
             }
           });
       })
@@ -200,8 +257,30 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
           setLoading(false);
           setRegisterDetails(null);
 
-          // redirect to dashboard
-          history.push("/");
+          if (state !== undefined) {
+            if (state.recipe && state.recipePhoto) {
+              // coming from create recipe
+              // instantiate form-data
+              const formData = new FormData();
+              formData.append("data", JSON.stringify(state.recipe));
+              formData.append("display_photo", state.recipePhoto.file);
+
+              Service.client
+                .post("/recipes", formData)
+                .then((res) => {
+                  console.log(res);
+                  history.push(`/viewdetails/${res.data.gb_id}`);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              // coming from entering group buy
+            }
+          } else {
+            // redirect to dashboard
+            history.push("/");
+          }
         });
       })
       .catch((err) => {
@@ -241,6 +320,10 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
+              <Link variant="h4" underline="none" color="inherit" href="/">
+                Sashimi
+              </Link>
+              <br />
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
               </Avatar>
@@ -330,7 +413,9 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                   <Grid item>
                     <Link
                       variant="body2"
+                      color="inherit"
                       onClick={() => flippyHorizontal.toggle()}
+                      className={classes.link}
                     >
                       Don't have an account? Sign Up
                     </Link>
@@ -348,8 +433,12 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
+              <Link variant="h4" underline="none" color="inherit" href="/">
+                Sashimi
+              </Link>
+              <br />
+              <Avatar className={classes.avatar1}>
+                <PersonAddIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Sign up
@@ -447,8 +536,10 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
                 <Grid container justify="flex-end">
                   <Grid item>
                     <Link
+                      color="inherit"
                       onClick={() => flippyHorizontal.toggle()}
                       variant="body2"
+                      className={classes.link}
                     >
                       Already have an account? Sign in
                     </Link>
@@ -463,4 +554,4 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar }) => {
   );
 };
 
-export default withRoot(Authentication);
+export default withRoot(withRouter(Authentication));

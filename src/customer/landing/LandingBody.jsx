@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
-import Service from "../../AxiosService";
+// import Service from "../../AxiosService";
 import Button from "../../components/Button";
 import Typography from "../../components/Typography";
 
@@ -73,23 +73,23 @@ const styles = (theme) => ({
 
 const LandingBody = (props) => {
   const { classes } = props;
-  const [profile, setProfile] = useState([]);
+  // const [profile, setProfile] = useState([]);
 
-  useEffect(() => {
-    /*Service.client
-      .get("/auth/get_current_user")
-      .then((res) => {
-        if (!res.data) {
-          setProfile(res.data);
-        }
-        Service.client
-          .get("/recipes/get_recipes")
-          .then((res) => console.log(res)); // get protected view
-      })
-      .catch((err) => {
-        console.log(err);
-      });*/
-  });
+  // useEffect(() => {
+  //   Service.client
+  //     .get("/auth/get_current_user")
+  //     .then((res) => {
+  //       if (!res.data) {
+  //         setProfile(res.data);
+  //       }
+  //       Service.client
+  //         .get("/recipes/get_recipes")
+  //         .then((res) => console.log(res)); // get protected view
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // });
 
   return (
     <section className={classes.root}>

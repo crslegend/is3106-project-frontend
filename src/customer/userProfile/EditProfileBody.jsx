@@ -13,6 +13,15 @@ import Container from "@material-ui/core/Container";
 import Typography from "../../components/Typography";
 import Button from "../../components/Button";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { DropzoneAreaBase } from "material-ui-dropzone";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+
 import Service from "../../AxiosService";
 
 const styles = makeStyles((theme) => ({
@@ -81,6 +90,9 @@ const ProfileBody = () => {
   const classes = styles();
   const [value, setValue] = React.useState(0);
   const [profile, setProfile] = useState(null);
+
+  const [profilePhoto, setProfilePhoto] = useState([]);
+  const [uploadOpen, setUploadOpen] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -167,6 +179,61 @@ const ProfileBody = () => {
             </label>
           </Grid>
         </Grid>
+
+        <Button
+          variant="contained"
+          color="primary"
+          size="medium"
+          startIcon={<CloudUploadIcon />}
+          style={{ marginTop: "10px" }}
+          onClick={() => setUploadOpen(true)}
+        >
+          Upload Photo
+        </Button>
+
+        {/* upload photo dialog here */}
+        <Dialog onClose={() => setUploadOpen(false)} open={uploadOpen}>
+          <DialogTitle>
+            <span>Upload Photo (Max 5MB)</span>
+            <IconButton
+              style={{ right: "12px", top: "8px", position: "absolute" }}
+              onClick={() => setUploadOpen(false)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+
+          <DialogContent>
+            <DropzoneAreaBase
+              dropzoneClass={classes.dropzone}
+              dropzoneText="Drag and drop a file or click here"
+              acceptedFiles={["image/*"]}
+              filesLimit={1}
+              fileObjects={profilePhoto}
+              maxFileSize={5000000}
+              onAdd={(newPhoto) => {
+                // console.log("onAdd", newPhoto);
+                setProfilePhoto([].concat(newPhoto));
+              }}
+              onDelete={(deletePhotoObj) => {
+                // console.log("onDelete", deletePhotoObj);
+                setProfilePhoto([]);
+              }}
+              showPreviews={true}
+              showPreviewsInDropzone={false}
+            />
+          </DialogContent>
+
+          <DialogActions>
+            <Button color="primary" onClick={() => setUploadOpen(false)}>
+              CANCEL
+            </Button>
+
+            <Button color="primary" onClick={() => setUploadOpen(false)}>
+              UPDATE
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <form className={classes.form} noValidate>
           <TextField

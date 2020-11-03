@@ -10,7 +10,10 @@ import EditProfilePage from "../customer/userProfile/EditProfilePage";
 import GroupBuyPage from "../customer/groupBuy/GroupBuyPage";
 import NewRecipePage from "../customer/newRecipe/NewRecipePage";
 import CardDetailPage from "../customer/groupBuy/CardDetailPage";
+import AdminLandingPage from "../admin/AdminLandingPage";
 import Toast from "../components/Toast";
+import ViewAllGroupbuys from "../customer/userProfile/ViewAllGroupbuys";
+import ViewAllRecipes from "../customer/userProfile/ViewAllRecipes";
 
 const Routes = (props) => {
   const [open, setOpen] = useState(false);
@@ -49,19 +52,34 @@ const Routes = (props) => {
           path="/groupbuy"
           render={() => <GroupBuyPage {...props} />}
         />
-        <PrivateRoute
-          path="/newrecipe"
-          render={() => <NewRecipePage {...props} />}
-        />
+        <Route path="/newrecipe" render={() => <NewRecipePage {...props} />} />
         <PrivateRoute
           path="/viewdetails"
           render={() => <CardDetailPage {...props} />}
         />
-        <Route path="/profile" render={() => <ProfilePage {...props} />} />
         <Route
-          path="/editprofile"
-          render={() => <EditProfilePage {...props} />}
+          exact
+          path="/profile"
+          render={() => (
+            <ProfilePage
+              {...props}
+              setSbOpen={setOpen}
+              snackbar={snackbar}
+              setSnackbar={setSnackbar}
+            />
+          )}
         />
+        <Route
+          exact
+          path="/profile/viewallgroupbuys"
+          render={() => <ViewAllGroupbuys {...props} />}
+        />
+        <Route
+          exact
+          path="/profile/viewallrecipes"
+          render={() => <ViewAllRecipes {...props} />}
+        />
+        <Route path="/admin" render={() => <AdminLandingPage {...props} />} />
       </Switch>
       <Toast open={open} setOpen={setOpen} {...snackbar} />
     </Router>
