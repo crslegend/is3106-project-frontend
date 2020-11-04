@@ -19,7 +19,7 @@ import sortArray from "sort-array";
 import Navbar from "../Navbar";
 import withRoot from "../../constants/withRoot";
 import Service from "../../AxiosService";
-import GroupBuyCard from "../groupBuy/GroupBuyCard";
+import UserRecipeCard from "./UserRecipeCard";
 import KitchenIcon from "@material-ui/icons/Kitchen";
 
 const styles = (theme) => ({
@@ -212,7 +212,7 @@ const ViewAllRecipes = (props) => {
                 fontSize: "30px",
               }}
             >
-              Created Recipes
+              Your Created Recipes
             </Typography>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel>Sort By</InputLabel>
@@ -236,17 +236,15 @@ const ViewAllRecipes = (props) => {
             {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 ? (
               listOfCreatedRecipes
                 .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                .map((recipe) => (
+                .map((recipe, index) => (
                   <div
                     style={{
                       marginRight: "30px",
                     }}
+                    key={index}
                   >
                     <Grid item xs>
-                      <GroupBuyCard
-                        key={recipe.recipe_id}
-                        groupbuyitem={recipe}
-                      />
+                      <UserRecipeCard key={index} recipe={recipe} />
                     </Grid>
                   </div>
                 ))
