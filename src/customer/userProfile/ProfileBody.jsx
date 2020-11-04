@@ -277,7 +277,7 @@ const ProfileBody = (props) => {
   return (
     <div style={{ marginTop: 40 }}>
       <Grid container justify="center" spacing={1}>
-        <Grid item xs={12} sm={12} md={6} spacing={3}>
+        <Grid item xs={12} sm={12} md={6}>
           <Card>
             <form onSubmit={handleSubmitProfile}>
               <CardHeader color="primary" align="left">
@@ -288,7 +288,7 @@ const ProfileBody = (props) => {
               </CardHeader>
               <CardBody>
                 <Container>
-                  <Grid xs={12} sm={12} md={12}>
+                  <Grid item xs={12} sm={12} md={12}>
                     <TextField
                       variant="outlined"
                       margin="normal"
@@ -302,7 +302,7 @@ const ProfileBody = (props) => {
                       autoFocus
                     />
                   </Grid>
-                  <Grid xs={12} sm={12} md={12}>
+                  <Grid item xs={12} sm={12} md={12}>
                     <TextField
                       variant="outlined"
                       margin="normal"
@@ -310,12 +310,12 @@ const ProfileBody = (props) => {
                       name="email"
                       label="Email"
                       id="email"
-                      disabled="true"
+                      disabled
                       value={(profile && profile.email) || ""}
                       defaultValue={profile && profile.email}
                     />
                   </Grid>
-                  <Grid xs={12} sm={12} md={12}>
+                  <Grid item xs={12} sm={12} md={12}>
                     <TextField
                       variant="outlined"
                       margin="normal"
@@ -347,7 +347,7 @@ const ProfileBody = (props) => {
                 </CardHeader>
                 <CardBody>
                   <Container>
-                    <Grid xs={12} sm={12} md={12}>
+                    <Grid item xs={12} sm={12} md={12}>
                       <TextField
                         variant="outlined"
                         margin="normal"
@@ -370,7 +370,7 @@ const ProfileBody = (props) => {
                         }}
                       />
                     </Grid>
-                    <Grid xs={12} sm={12} md={12}>
+                    <Grid item xs={12} sm={12} md={12}>
                       <TextField
                         variant="outlined"
                         margin="normal"
@@ -394,7 +394,7 @@ const ProfileBody = (props) => {
                         }}
                       />
                     </Grid>
-                    <Grid xs={12} sm={12} md={12}>
+                    <Grid item xs={12} sm={12} md={12}>
                       <TextField
                         variant="outlined"
                         margin="normal"
@@ -430,7 +430,7 @@ const ProfileBody = (props) => {
           </div>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={3} spacing={3}>
+        <Grid item xs={12} sm={12} md={3}>
           <Card profile>
             <CardAvatar profile>
               <a href="#pablo" onClick={(e) => setUploadOpen(true)}>
@@ -451,10 +451,10 @@ const ProfileBody = (props) => {
                 <br />
                 Joined: {profile.date_joined}
               </p>
-              <Button color="primary" round href="/profile/viewallgroupbuys">
+              <Button color="primary" href="/profile/viewallgroupbuys">
                 View Entered Groupbuys
               </Button>
-              <Button color="primary" round href="/profile/viewallrecipes">
+              <Button color="primary" href="/profile/viewallrecipes">
                 View Created Recipes
               </Button>
             </CardBody>
