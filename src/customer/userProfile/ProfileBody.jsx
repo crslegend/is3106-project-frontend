@@ -468,7 +468,10 @@ const ProfileBody = (props) => {
           <span>Upload Photo (Max 5MB)</span>
           <IconButton
             style={{ right: "12px", top: "8px", position: "absolute" }}
-            onClick={() => setUploadOpen(false)}
+            onClick={() => {
+              setProfilePhoto([]);
+              setUploadOpen(false);
+            }}
           >
             <CloseIcon />
           </IconButton>
@@ -490,13 +493,18 @@ const ProfileBody = (props) => {
               // console.log("onDelete", deletePhotoObj);
               setProfilePhoto([]);
             }}
-            showPreviews={true}
-            showPreviewsInDropzone={false}
+            showPreviewsInDropzone={true}
           />
         </DialogContent>
 
         <DialogActions>
-          <Button color="primary" onClick={() => setUploadOpen(false)}>
+          <Button
+            color="primary"
+            onClick={() => {
+              setProfilePhoto([]);
+              setUploadOpen(false);
+            }}
+          >
             CANCEL
           </Button>
 

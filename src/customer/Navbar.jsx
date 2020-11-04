@@ -244,15 +244,14 @@ const Navbar = ({ classes }) => {
                   color="inherit"
                   onClick={handleClick}
                 >
-                  <Avatar className={classes.orange}>
-                    <img
-                      src={
-                        profilePhoto.length <= 0
-                          ? profile && profile.profile_photo_url
-                          : profilePhoto[0].data
-                      }
-                    />
-                  </Avatar>
+                  <Avatar
+                    className={classes.orange}
+                    src={
+                      profilePhoto.length <= 0
+                        ? profile && profile.profile_photo_url
+                        : profilePhoto[0].data
+                    }
+                  />
                 </IconButton>
 
                 <Popover
@@ -271,15 +270,14 @@ const Navbar = ({ classes }) => {
                 >
                   <Card className={classes.root}>
                     <Box display="flex" justifyContent="center" m={1} p={1}>
-                      <Avatar className={classes.large}>
-                        <img
-                          src={
-                            profilePhoto.length <= 0
-                              ? profile && profile.profile_photo_url
-                              : profilePhoto[0].data
-                          }
-                        />
-                      </Avatar>
+                      <Avatar
+                        className={classes.large}
+                        src={
+                          profilePhoto.length <= 0
+                            ? profile && profile.profile_photo_url
+                            : profilePhoto[0].data
+                        }
+                      ></Avatar>
                     </Box>
                     <Box display="flex" justifyContent="center">
                       <Typography>{profile.name}</Typography>
