@@ -197,7 +197,10 @@ const ItemListingCard = (props) => {
             image={product && product.images ? product.images[0] : Chef}
           />
           <br />
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>
+          <Typography
+            variant="body1"
+            style={{ fontWeight: "bold", fontSize: "19px" }}
+          >
             $
             {(
               parseFloat(product.storeSpecificData[0].mrp) -

@@ -89,8 +89,9 @@ const styles = (theme) => ({
   },
   dialog: {
     backgroundColor: theme.palette.primary.main,
-    "& h5": {
+    "& h2": {
       textTransform: "capitalize",
+      fontSize: "21px",
     },
   },
   photoRoot: {
@@ -326,11 +327,11 @@ const IngredientListing = (props) => {
             <Grid container justify="center">
               <List>
                 {chosenIngredients && chosenIngredients.length > 0 ? (
-                  chosenIngredients.map((value) => {
+                  chosenIngredients.map((value, index) => {
                     return (
                       <Fragment>
                         <ListItem
-                          key={value}
+                          key={index}
                           style={{
                             display: "flex",
                             flexDirection: "row",
@@ -434,15 +435,11 @@ const IngredientListing = (props) => {
         open={openConfirmSubmitModal}
         PaperProps={{ style: { minWidth: "400px", maxWidth: "400px" } }}
       >
-        <DialogTitle className={classes.dialog}>
-          <Typography variant="h5">Confirm Submission</Typography>
-        </DialogTitle>
+        <DialogTitle className={classes.dialog}>Confirm Submission</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <Typography variant="body1">
-              You cannot make any more changes once you have submitted for
-              approval. Continue to submit?
-            </Typography>
+            You cannot make any more changes once you have submitted for
+            approval. Continue to submit?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

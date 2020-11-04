@@ -32,6 +32,5 @@
     "react/jsx-no-duplicate-props": "off",
     "no-nested-ternary": "off",
     "jsx-a11y/anchor-is-valid": "off"
-
   }
 }

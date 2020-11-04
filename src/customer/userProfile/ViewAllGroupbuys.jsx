@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import withRoot from "../../constants/withRoot";
 import Navbar from "../Navbar";
 import Service from "../../AxiosService";
-import GroupBuyCard from "../../components/GroupBuyCard";
+import GroupBuyCard from "../groupBuy/GroupBuyCard";
 import KitchenIcon from "@material-ui/icons/Kitchen";
 
 const styles = (theme) => ({
@@ -244,9 +244,9 @@ const ViewAllGroupbuys = (props) => {
                   >
                     <Grid item xs>
                       <GroupBuyCard
-                        key={groupbuy.gb_id}
-                        groupbuyitem={groupbuy.recipe}
-                        groupbuy={groupbuy}
+                        key={groupbuy.groupbuy.gb_id}
+                        groupbuyitem={groupbuy.groupbuy.recipe}
+                        groupbuy={groupbuy.groupbuy}
                       />
                     </Grid>
                   </div>

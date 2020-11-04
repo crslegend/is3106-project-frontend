@@ -19,8 +19,8 @@ import sortArray from "sort-array";
 import Navbar from "../Navbar";
 import withRoot from "../../constants/withRoot";
 import Service from "../../AxiosService";
-import GroupBuyCard from "../../components/GroupBuyCard";
-import KitchenIcon from '@material-ui/icons/Kitchen';
+import GroupBuyCard from "../groupBuy/GroupBuyCard";
+import KitchenIcon from "@material-ui/icons/Kitchen";
 
 const styles = (theme) => ({
   formControl: {
@@ -233,8 +233,8 @@ const ViewAllRecipes = (props) => {
           </div>
 
           <Grid container>
-            {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 ?
-              (listOfCreatedRecipes
+            {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 ? (
+              listOfCreatedRecipes
                 .slice((page - 1) * itemsPerPage, page * itemsPerPage)
                 .map((recipe) => (
                   <div
@@ -244,34 +244,34 @@ const ViewAllRecipes = (props) => {
                   >
                     <Grid item xs>
                       <GroupBuyCard
-                        key={recipe.gb_id}
-                        groupbuyitem={recipe.recipe}
-                        groupbuy={recipe}
+                        key={recipe.recipe_id}
+                        groupbuyitem={recipe}
                       />
                     </Grid>
                   </div>
-                ))) : (
-                  <div style={{ margin: "auto" }}>
-                    <KitchenIcon style={{ fontSize: "50px" }} color="disabled"/>
-                    <Typography variant="subtitle1">
-                        No Recipes Created Yet
-                    </Typography>
-                  </div>
-                  
-                )}
+                ))
+            ) : (
+              <div style={{ margin: "auto" }}>
+                <KitchenIcon style={{ fontSize: "50px" }} color="disabled" />
+                <Typography variant="subtitle1">
+                  No Recipes Created Yet
+                </Typography>
+              </div>
+            )}
           </Grid>
-          {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 &&
-          <Pagination
-            count={noOfPages}
-            page={page}
-            onChange={handleChange}
-            defaultPage={1}
-            color="primary"
-            size="medium"
-            showFirstButton
-            showLastButton
-            className={classes.pagination}
-          />}
+          {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 && (
+            <Pagination
+              count={noOfPages}
+              page={page}
+              onChange={handleChange}
+              defaultPage={1}
+              color="primary"
+              size="medium"
+              showFirstButton
+              showLastButton
+              className={classes.pagination}
+            />
+          )}
         </Grid>
       </Grid>
     </Fragment>

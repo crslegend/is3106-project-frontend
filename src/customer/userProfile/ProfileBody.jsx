@@ -449,7 +449,7 @@ const ProfileBody = (props) => {
               <p className={classes.description}>
                 {profile.email}
                 <br />
-                Joined: (profile.date_joined)
+                Joined: {profile.date_joined}
               </p>
               <Button color="primary" round href="/profile/viewallgroupbuys">
                 View Entered Groupbuys
