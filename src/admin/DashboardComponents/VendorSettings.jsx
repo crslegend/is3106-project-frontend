@@ -170,7 +170,7 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
         });
         setSbOpen(true);
       });
-      event.target.reset();
+    event.target.reset();
   };
 
   return (
@@ -293,7 +293,9 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
                       })
                     }
                     error={oldPasswordError}
-                    helperText={oldPasswordError && "Enter your current password"}
+                    helperText={
+                      oldPasswordError && "Enter your current password"
+                    }
                     FormHelperTextProps={{
                       classes: { root: classes.helperText },
                     }}
@@ -333,12 +335,12 @@ const VendorSettings = ({ setSbOpen, snackbar, setSnackbar }) => {
                 </Grid>
               </Grid>
               <Button
-              className={classes.bottomMargin}
-              variant="contained"
-              color="primary"
-              size="large"
-              startIcon={<SaveIcon />}
-              type="submit"
+                className={classes.bottomMargin}
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={<SaveIcon />}
+                type="submit"
               >
                 Save
               </Button>

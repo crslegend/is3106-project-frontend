@@ -115,6 +115,9 @@ const Navbar = ({ classes }) => {
   const openp = Boolean(anchorEl);
   const id = openp ? "simple-popover" : undefined;
 
+  //profile image in navbar
+  const [profilePhoto, setProfilePhoto] = useState([]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -142,7 +145,7 @@ const Navbar = ({ classes }) => {
         .catch((err) => {
           setProfile(null);
         });
-      // console.log(profile.hasOwnProperty('name'));
+      // console.log(profile.name);
       userid = null;
     }
   }, []);
@@ -242,7 +245,13 @@ const Navbar = ({ classes }) => {
                   onClick={handleClick}
                 >
                   <Avatar className={classes.orange}>
-                    {profile.email.charAt(0).toUpperCase()}
+                    <img
+                      src={
+                        profilePhoto.length <= 0
+                          ? profile && profile.profile_photo_url
+                          : profilePhoto[0].data
+                      }
+                    />
                   </Avatar>
                 </IconButton>
 
@@ -263,7 +272,13 @@ const Navbar = ({ classes }) => {
                   <Card className={classes.root}>
                     <Box display="flex" justifyContent="center" m={1} p={1}>
                       <Avatar className={classes.large}>
-                        {profile.email.charAt(0).toUpperCase()}
+                        <img
+                          src={
+                            profilePhoto.length <= 0
+                              ? profile && profile.profile_photo_url
+                              : profilePhoto[0].data
+                          }
+                        />
                       </Avatar>
                     </Box>
                     <Box display="flex" justifyContent="center">

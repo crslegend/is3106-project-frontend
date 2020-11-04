@@ -66,11 +66,14 @@ const Routes = (props) => {
         <Route
           exact
           path="/profile"
-          render={() => <ProfilePage {...props} />}
-        />
-        <Route
-          path="/editprofile"
-          render={() => <EditProfilePage {...props} />}
+          render={() => (
+            <ProfilePage
+              {...props}
+              setSbOpen={setOpen}
+              snackbar={snackbar}
+              setSnackbar={setSnackbar}
+            />
+          )}
         />
         <Route
           exact
