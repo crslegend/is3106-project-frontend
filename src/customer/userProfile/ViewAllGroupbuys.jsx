@@ -247,6 +247,7 @@ const ViewAllGroupbuys = (props) => {
               </div>
             )}
           </Grid>
+          <br />
           {listOfGroupbuys && listOfGroupbuys.length > 0 && (
             <Pagination
               count={noOfPages}

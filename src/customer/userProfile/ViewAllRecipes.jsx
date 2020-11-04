@@ -227,6 +227,7 @@ const ViewAllRecipes = (props) => {
               </div>
             )}
           </Grid>
+          <br />
           {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 && (
             <Pagination
               count={noOfPages}

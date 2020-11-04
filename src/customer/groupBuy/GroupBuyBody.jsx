@@ -16,7 +16,7 @@ import FuzzySearch from "fuzzy-search";
 import sortArray from "sort-array";
 import GroupBuyCard from "./GroupBuyCard";
 import Service from "../../AxiosService";
-import image from "../../assets/December9_2-1280x879.jpg";
+import image from "../../assets/login9.jpg";
 
 const styles = (theme) => ({
   root: {
@@ -73,9 +73,19 @@ const styles = (theme) => ({
     backgroundPosition: "center",
     backgroundImage: `url(${image})`,
     zIndex: -2,
-    backgroundColor: theme.palette.common.black,
-    opacity: 0.8,
+    // backgroundColor: theme.palette.common.black,
+    opacity: 0.7,
     // height: "100%",
+  },
+  backdrop: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    zIndex: -1,
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.3,
   },
 });
 

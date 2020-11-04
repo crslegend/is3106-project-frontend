@@ -12,7 +12,7 @@ const styles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     flexShrink: 1,
-    width: "22vw",
+    width: "20vw",
     height: "100%",
     [theme.breakpoints.down("md")]: {
       width: "27vw",
