@@ -25,6 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import Service from "../../AxiosService";
+import { Typography } from "@material-ui/core";
 
 const styles = (theme) => ({
   root: {
@@ -69,12 +70,6 @@ const styles = (theme) => ({
   },
   cardTitleWhite: {
     color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
   },
 });
 
@@ -274,17 +269,38 @@ const ProfileBody = (props) => {
     event.target.reset();
   };
 
+  const formatDate = (date) => {
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+
+    if (date !== null) {
+      const newDate = new Date(date).toLocaleDateString(undefined, options);
+      // console.log(newDate);
+      return newDate;
+    }
+    return "";
+  };
+
   return (
     <div style={{ marginTop: 40 }}>
       <Grid container justify="center">
         <Grid item xs={12} sm={12} md={6} style={{ marginRight: "20px" }}>
           <Card>
             <form onSubmit={handleSubmitProfile}>
-              <CardHeader color="primary" align="left">
-                <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-                <p className={classes.cardCategoryWhite}>
+              <CardHeader color="warning" align="left">
+                <Typography variant="body1" className={classes.cardTitleWhite}>
+                  Edit Profile
+                </Typography>
+                <Typography
+                  variant="body2"
+                  className={classes.cardCategoryWhite}
+                >
                   Complete your profile
-                </p>
+                </Typography>
               </CardHeader>
               <CardBody>
                 <Container>
@@ -342,8 +358,13 @@ const ProfileBody = (props) => {
           <div style={{ marginTop: 0 }}>
             <Card>
               <form onSubmit={handleSubmitPassword}>
-                <CardHeader color="primary" align="left">
-                  <h4 className={classes.cardTitleWhite}>Change Password</h4>
+                <CardHeader color="warning" align="left">
+                  <Typography
+                    variant="body1"
+                    className={classes.cardTitleWhite}
+                  >
+                    Change Password
+                  </Typography>
                 </CardHeader>
                 <CardBody>
                   <Container>
@@ -444,12 +465,13 @@ const ProfileBody = (props) => {
                 />
               </a>
             </CardAvatar>
+
             <CardBody profile>
               <h4 className={classes.cardTitle}>{profile.name}</h4>
               <p className={classes.description}>
                 {profile.email}
                 <br />
-                Joined: {profile.date_joined}
+                Joined: {profile && formatDate(profile.date_joined)}
               </p>
               <Button color="primary" href="/profile/viewallgroupbuys">
                 View Entered Groupbuys
