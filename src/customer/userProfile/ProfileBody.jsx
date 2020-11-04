@@ -71,37 +71,12 @@ const styles = (theme) => ({
   cardTitleWhite: {
     color: "#FFFFFF",
   },
+  button: {
+    "&:hover": {
+      backgroundColor: "#EEF1EF",
+    },
+  },
 });
-
-function getTimeElapsed(startDate) {
-  // const currentDateTime = new Date();
-  // // milliseconds
-  // let different = currentDateTime.getSeconds() - 0;
-  // console.log(`current time - ${currentDateTime}`);
-  // console.log(`start time - ${startDate}`);
-  // console.log(`different - ${different}`);
-  // const secondsInMilli = 1000;
-  // const minutesInMilli = secondsInMilli * 60;
-  // const hoursInMilli = minutesInMilli * 60;
-  // const daysInMilli = hoursInMilli * 24;
-  // const elapsedDays = different / daysInMilli;
-  // different %= daysInMilli;
-  // const elapsedHours = different / hoursInMilli;
-  // different %= hoursInMilli;
-  // const elapsedMinutes = different / minutesInMilli;
-  // different %= minutesInMilli;
-  // const elapsedSeconds = different / secondsInMilli;
-  // if (elapsedDays >= 1) {
-  //   return `${elapsedDays} days ago`;
-  // }
-  // if (elapsedHours >= 1) {
-  //   return `${elapsedHours} hours ago`;
-  // }
-  // if (elapsedMinutes >= 1) {
-  //   return `${elapsedMinutes} mins ago`;
-  // }
-  // return `${elapsedSeconds} secs ago -> to be debug`;
-}
 
 const formatDate = (date) => {
   if (date !== null) {
@@ -348,7 +323,11 @@ const ProfileBody = (props) => {
                 </Container>
               </CardBody>
               <CardFooter>
-                <Button color="primary" type="submit">
+                <Button
+                  color="secondary"
+                  type="submit"
+                  className={classes.button}
+                >
                   Update Profile
                 </Button>
               </CardFooter>
@@ -442,7 +421,11 @@ const ProfileBody = (props) => {
                   </Container>
                 </CardBody>
                 <CardFooter>
-                  <Button color="primary" type="submit">
+                  <Button
+                    color="secondary"
+                    type="submit"
+                    className={classes.button}
+                  >
                     Save Password
                   </Button>
                 </CardFooter>
@@ -467,16 +450,27 @@ const ProfileBody = (props) => {
             </CardAvatar>
 
             <CardBody profile>
-              <h4 className={classes.cardTitle}>{profile.name}</h4>
-              <p className={classes.description}>
-                {profile.email}
-                <br />
+              <Typography variant="h5" style={{ textTransform: "none" }}>
+                {profile && profile.name}
+              </Typography>
+              <br />
+              <Typography variant="subtitle1">{profile.email}</Typography>
+              <Typography variant="subtitle1">
                 Joined: {profile && formatDate(profile.date_joined)}
-              </p>
-              <Button color="primary" href="/profile/viewallgroupbuys">
+              </Typography>
+              <br />
+              <Button
+                color="secondary"
+                href="/profile/viewallgroupbuys"
+                className={classes.button}
+              >
                 View Entered Groupbuys
               </Button>
-              <Button color="primary" href="/profile/viewallrecipes">
+              <Button
+                color="secondary"
+                href="/profile/viewallrecipes"
+                className={classes.button}
+              >
                 View Created Recipes
               </Button>
             </CardBody>
@@ -521,7 +515,8 @@ const ProfileBody = (props) => {
 
         <DialogActions>
           <Button
-            color="primary"
+            className={classes.button}
+            color="secondary"
             onClick={() => {
               setProfilePhoto([]);
               setUploadOpen(false);
@@ -531,7 +526,8 @@ const ProfileBody = (props) => {
           </Button>
 
           <Button
-            color="primary"
+            className={classes.button}
+            color="secondary"
             onClick={() => {
               setUploadOpen(false);
               handleUploadProfileImage();
