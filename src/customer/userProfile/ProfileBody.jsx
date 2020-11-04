@@ -276,8 +276,8 @@ const ProfileBody = (props) => {
 
   return (
     <div style={{ marginTop: 40 }}>
-      <Grid container justify="center" spacing={1}>
-        <Grid item xs={12} sm={12} md={6}>
+      <Grid container justify="center">
+        <Grid item xs={12} sm={12} md={6} style={{ marginRight: "20px" }}>
           <Card>
             <form onSubmit={handleSubmitProfile}>
               <CardHeader color="primary" align="left">
@@ -430,7 +430,7 @@ const ProfileBody = (props) => {
           </div>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={3}>
+        <Grid item xs={12} sm={12} md={3} style={{ marginTop: "30px" }}>
           <Card profile>
             <CardAvatar profile>
               <a href="#pablo" onClick={(e) => setUploadOpen(true)}>
