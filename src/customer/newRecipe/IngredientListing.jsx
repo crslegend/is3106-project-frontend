@@ -50,9 +50,9 @@ const styles = (theme) => ({
   recipeList: {
     display: "flex",
     flexDirection: "column",
-    marginTop: "15px",
+    marginTop: "10px",
     height: "98%",
-    borderRadius: 10,
+    // borderRadius: 10,
     width: "90%",
     margin: "auto",
     backgroundColor: "#EEE2DF",

@@ -51,7 +51,7 @@ const styles = (theme) => ({
     flexGrow: 1,
     width: "100%",
     margin: "auto",
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
   },
   card: {
     maxWidth: 345,
@@ -350,38 +350,6 @@ const IngredientsTabs = (props) => {
         }}
       >
         <Fragment>
-          {/* <FuzzySearch
-            width="85%"
-            placeholder="Search from the Selected Category below"
-            list={products}
-            keys={["name"]}
-            distance={80}
-            listWrapperStyle={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-            inputWrapperStyle={{
-              borderRadius: 10,
-            }}
-            inputStyle={{ border: 0 }}
-            resultsTemplate={(props, state) => {
-              return state.results.map((product) => {
-                return (
-                  <Grid container>
-                    <ItemListingCard
-                      key={product.id}
-                      product={product && product}
-                      updateIngredients={updateIngredients}
-                      chosenIngredients={chosenIngredients}
-                      calculateTotalPrice={calculateTotalPrice}
-                    />
-                  </Grid>
-                );
-              });
-            }}
-          /> */}
-
           <SearchBar
             style={{
               width: "80%",
@@ -453,7 +421,7 @@ const IngredientsTabs = (props) => {
               maxHeight: "70vh",
               overflow: "auto",
               borderBottom: "2px solid #e8e8e8",
-              borderLeft: "2px solid #e8e8e8",
+              borderLeft: "10px solid #e8e8e8",
             }}
           >
             <InfiniteScroll
