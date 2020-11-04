@@ -65,7 +65,7 @@ const styles = (theme) => ({
   side: {
     position: "absolute",
     left: 0,
-    right: 1200,
+    right: "78%",
     top: 0,
     bottom: 0,
     backgroundSize: "cover",
