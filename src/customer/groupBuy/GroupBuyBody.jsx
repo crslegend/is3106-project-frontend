@@ -75,13 +75,14 @@ const styles = (theme) => ({
     zIndex: -2,
     backgroundColor: theme.palette.common.black,
     opacity: 0.8,
+    // height: "100%",
   },
 });
 
 const GroupBuyBody = (props) => {
   const { classes } = props;
   const [groupbuys, setGroupbuys] = useState([]);
-  const itemsPerPage = 6;
+  const itemsPerPage = 3;
   const [page, setPage] = useState(1);
   const [noOfPages, setNumPages] = useState(
     Math.ceil(groupbuys.length / itemsPerPage)
@@ -119,7 +120,7 @@ const GroupBuyBody = (props) => {
     const buttonValue = event.target.value;
     setSortMethod(buttonValue);
     if (buttonValue === "" || buttonValue === undefined) {
-      Service.client.get("/orders/all_groupbuys").then((res) => {
+      Service.client.get("/groupbuys").then((res) => {
         setGroupbuys(res.data.results);
       });
     } else if (buttonValue === "A-Z") {
@@ -144,37 +145,29 @@ const GroupBuyBody = (props) => {
     } else if (buttonValue === "PRICE_ASC") {
       let arr = groupbuys;
       arr = sortArray(arr, {
-        by: ["final_price", "estimated_price_start", "estimated_price_end"],
+        by: ["price"],
         computed: {
-          final_price: (row) => {
-            if (row.recipe.final_price === null) {
-              return parseFloat(0);
+          price: (row) => {
+            if (row.final_price === null) {
+              return parseFloat(row.recipe.estimated_price_start);
             }
-            return parseFloat(row.recipe.final_price);
+            return parseFloat(row.final_price);
           },
-          estimated_price_start: (row) =>
-            parseFloat(row.recipe.estimated_price_start),
-          estimated_price_end: (row) =>
-            parseFloat(row.recipe.estimated_price_end),
         },
       });
       setGroupbuys(arr);
     } else if (buttonValue === "PRICE_DESC") {
       let arr = groupbuys;
       arr = sortArray(arr, {
-        by: ["estimated_price_start", "estimated_price_end", "final_price"],
+        by: ["price"],
         order: "desc",
         computed: {
-          final_price: (row) => {
-            if (row.recipe.final_price === null) {
-              return parseFloat(0);
+          price: (row) => {
+            if (row.final_price === null) {
+              return parseFloat(row.recipe.estimated_price_start);
             }
-            return parseFloat(row.recipe.final_price);
+            return parseFloat(row.final_price);
           },
-          estimated_price_start: (row) =>
-            parseFloat(row.recipe.estimated_price_start),
-          estimated_price_end: (row) =>
-            parseFloat(row.recipe.estimated_price_end),
         },
       });
       console.log(arr);

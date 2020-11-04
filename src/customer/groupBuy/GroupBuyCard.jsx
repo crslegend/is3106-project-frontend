@@ -12,7 +12,7 @@ const styles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     flexShrink: 1,
-    width: "22vw",
+    width: "20vw",
     height: "100%",
     [theme.breakpoints.down("md")]: {
       width: "27vw",
@@ -158,7 +158,7 @@ const GroupBuyCard = (props) => {
         <Typography className={classes.cardHeader}>
           {groupbuyitem && groupbuyitem.recipe_name}
         </Typography>
-        {(groupbuy && groupbuy.final_price) !== undefined ? (
+        {groupbuy && groupbuy.final_price ? (
           <Typography className={classes.cardBody}>
             ${groupbuy && groupbuy.final_price}
           </Typography>

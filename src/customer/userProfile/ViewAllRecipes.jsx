@@ -121,56 +121,26 @@ const ViewAllRecipes = (props) => {
       let arr = listOfCreatedRecipes;
       arr = sortArray(arr, {
         by: "recipe_name",
-        computed: {
-          recipe_name: (row) => row.recipe.recipe_name,
-        },
       });
       setListOfCreatedRecipes(arr);
     } else if (buttonValue === "Z-A") {
       let arr = listOfCreatedRecipes;
       arr = sortArray(arr, {
         by: "recipe_name",
-        computed: {
-          recipe_name: (row) => row.recipe.recipe_name,
-        },
         order: "desc",
       });
       setListOfCreatedRecipes(arr);
     } else if (buttonValue === "PRICE_ASC") {
       let arr = listOfCreatedRecipes;
       arr = sortArray(arr, {
-        by: ["estimated_price_start", "estimated_price_end"],
-        computed: {
-          final_price: (row) => {
-            if (row.recipe.final_price === null) {
-              return parseFloat(0);
-            }
-            return parseFloat(row.recipe.final_price);
-          },
-          estimated_price_start: (row) =>
-            parseFloat(row.recipe.estimated_price_start),
-          estimated_price_end: (row) =>
-            parseFloat(row.recipe.estimated_price_end),
-        },
+        by: ["estimated_price_start"],
       });
       setListOfCreatedRecipes(arr);
     } else if (buttonValue === "PRICE_DESC") {
       let arr = listOfCreatedRecipes;
       arr = sortArray(arr, {
-        by: ["estimated_price_start", "estimated_price_end"],
+        by: ["estimated_price_start"],
         order: "desc",
-        computed: {
-          final_price: (row) => {
-            if (row.recipe.final_price === null) {
-              return parseFloat(0);
-            }
-            return parseFloat(row.recipe.final_price);
-          },
-          estimated_price_start: (row) =>
-            parseFloat(row.recipe.estimated_price_start),
-          estimated_price_end: (row) =>
-            parseFloat(row.recipe.estimated_price_end),
-        },
       });
       console.log(arr);
       setListOfCreatedRecipes(arr);
