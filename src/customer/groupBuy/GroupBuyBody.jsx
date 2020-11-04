@@ -16,11 +16,12 @@ import FuzzySearch from "fuzzy-search";
 import sortArray from "sort-array";
 import GroupBuyCard from "./GroupBuyCard";
 import Service from "../../AxiosService";
+import image from "../../assets/December9_2-1280x879.jpg";
 
 const styles = (theme) => ({
   root: {
     // flexGrow: 1,
-    marginTop: "30px",
+    // marginTop: "30px",
   },
   page: {
     "& > * + *": {
@@ -37,7 +38,8 @@ const styles = (theme) => ({
   formControl: {
     minWidth: 150,
     maxHeight: 50,
-    marginTop: "30px",
+    // marginTop: "20px",
+    marginLeft: "30px",
   },
   noResults: {
     marginTop: "100px",
@@ -47,6 +49,32 @@ const styles = (theme) => ({
   cardSection: {
     paddingLeft: "20px",
     paddingRight: "20px",
+  },
+  pagination: {
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+    display: "flex",
+    alignContent: "flex-end",
+    float: "right",
+    marginRight: "10vw",
+    [theme.breakpoints.down("sm")]: {
+      size: "small",
+    },
+  },
+  side: {
+    position: "absolute",
+    left: 0,
+    right: 1200,
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundImage: `url(${image})`,
+    zIndex: -2,
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.8,
   },
 });
 
@@ -164,7 +192,7 @@ const GroupBuyBody = (props) => {
     <Fragment>
       <Grid container className={classes.root} justify="center">
         <Grid item xs={3}>
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -175,6 +203,30 @@ const GroupBuyBody = (props) => {
             <Typography variant="h4" style={{ textTransform: "capitalize" }}>
               Available Group Buys
             </Typography>
+          </div> */}
+          <div className={classes.side} />
+        </Grid>
+        <Grid item xs={9} style={{ marginTop: "30px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
+            <SearchBar
+              style={{
+                width: "70%",
+                backgroundColor: "#e0e0e0",
+                marginLeft: "20px",
+              }}
+              placeholder="Search for Group Buys"
+              value={searchValue}
+              onChange={(newValue) => setSearchValue(newValue)}
+              onRequestSearch={getSearchResults}
+              onCancelSearch={() => setSearchValue("")}
+            />
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel>Sort By</InputLabel>
               <Select
@@ -192,83 +244,50 @@ const GroupBuyBody = (props) => {
               </Select>
             </FormControl>
           </div>
-        </Grid>
-
-        <Grid item xs={9}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                marginBottom: "30px",
-              }}
-            >
-              <SearchBar
-                style={{
-                  width: "70%",
-                  backgroundColor: "#e0e0e0",
-                }}
-                placeholder="Search for Group Buys"
-                value={searchValue}
-                onChange={(newValue) => setSearchValue(newValue)}
-                onRequestSearch={getSearchResults}
-                onCancelSearch={() => setSearchValue("")}
-              />
-
-              <div style={{ marginLeft: "30px" }}>
-                <Pagination
-                  count={noOfPages}
-                  page={page}
-                  onChange={handleChange}
-                  defaultPage={1}
-                  color="primary"
-                  size="medium"
-                  showFirstButton
-                  showLastButton
-                />
+          <Grid container className={classes.cardSection}>
+            {groupbuys && groupbuys.length > 0 ? (
+              groupbuys
+                .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                .map((groupbuy) => (
+                  <div
+                    style={{
+                      marginRight: "30px",
+                      marginBottom: "20px",
+                    }}
+                    key={groupbuy.gb_id}
+                  >
+                    <Grid item xs={5} md={4} xl={3}>
+                      <GroupBuyCard
+                        key={groupbuy.gb_id}
+                        groupbuyitem={groupbuy.recipe}
+                        groupbuy={groupbuy}
+                      />
+                    </Grid>
+                  </div>
+                ))
+            ) : (
+              <div className={classes.noResults}>
+                <SearchIcon style={{ fontSize: 50 }} color="disabled" />
+                <Typography variant="body1" style={{ fontSize: "18px" }}>
+                  We could not find anything that matches your search
+                </Typography>
+                <Typography variant="subtitle1">
+                  Try searching other keywords
+                </Typography>
               </div>
-            </div>
-            <Grid container className={classes.cardSection}>
-              {groupbuys && groupbuys.length > 0 ? (
-                groupbuys
-                  .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                  .map((groupbuy) => (
-                    <div
-                      style={{
-                        marginRight: "30px",
-                        marginBottom: "20px",
-                      }}
-                      key={groupbuy.gb_id}
-                    >
-                      <Grid item xs={5} md={4} xl={3}>
-                        <GroupBuyCard
-                          key={groupbuy.gb_id}
-                          groupbuyitem={groupbuy.recipe}
-                          groupbuy={groupbuy}
-                        />
-                      </Grid>
-                    </div>
-                  ))
-              ) : (
-                <div className={classes.noResults}>
-                  <SearchIcon style={{ fontSize: 50 }} color="disabled" />
-                  <Typography variant="body1" style={{ fontSize: "18px" }}>
-                    We could not find anything that matches your search
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    Try searching other keywords
-                  </Typography>
-                </div>
-              )}
-            </Grid>
-          </div>
+            )}
+          </Grid>
+          <Pagination
+            count={noOfPages}
+            page={page}
+            onChange={handleChange}
+            defaultPage={1}
+            color="primary"
+            size="medium"
+            showFirstButton
+            showLastButton
+            className={classes.pagination}
+          />
         </Grid>
       </Grid>
     </Fragment>
