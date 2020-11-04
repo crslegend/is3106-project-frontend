@@ -245,6 +245,7 @@ const GroupBuyBody = (props) => {
                         marginRight: "30px",
                         marginBottom: "20px",
                       }}
+                      key={groupbuy.gb_id}
                     >
                       <Grid item xs={5} md={4} xl={3}>
                         <GroupBuyCard
