@@ -162,7 +162,7 @@ const Navbar = ({ classes }) => {
 
   return (
     <div>
-      <AppBar position="fixed">
+      <AppBar position="fixed" elevation={5}>
         <Toolbar className={classes.toolbar}>
           {location.pathname !== "/" ? (
             <Fragment>
