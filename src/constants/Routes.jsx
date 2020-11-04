@@ -15,6 +15,8 @@ import Toast from "../components/Toast";
 import PaymentPage from "../customer/payment/PaymentPage";
 import ViewAllGroupbuys from "../customer/userProfile/ViewAllGroupbuys";
 import ViewAllRecipes from "../customer/userProfile/ViewAllRecipes";
+import ViewGroupbuyDetailed from "../customer/userProfile/ViewGroupbuyDetailed";
+import ViewRecipeDetailed from "../customer/userProfile/ViewRecipeDetailed";
 
 const Routes = (props) => {
   const [open, setOpen] = useState(false);
@@ -81,9 +83,21 @@ const Routes = (props) => {
           render={() => <ViewAllGroupbuys {...props} />}
         />
         <Route
+          path="/profile/viewallgroupbuys/:id"
+          strict
+          sensitive
+          render={(match) => <ViewGroupbuyDetailed match={match} {...props} />}
+        />
+        <Route
           exact
           path="/profile/viewallrecipes"
           render={() => <ViewAllRecipes {...props} />}
+        />
+        <Route
+          path="/profile/viewallrecipes/:id"
+          strict
+          sensitive
+          render={(match) => <ViewRecipeDetailed match={match} {...props} />}
         />
         <Route path="/admin" render={() => <AdminLandingPage {...props} />} />
       </Switch>
