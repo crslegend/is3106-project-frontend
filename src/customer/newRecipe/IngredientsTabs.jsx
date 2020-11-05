@@ -66,7 +66,7 @@ const styles = (theme) => ({
     width: "100%",
     display: "block",
     margin: `${theme.spacing(1)}px auto 0`,
-    backgroundColor: "#77625C",
+    // backgroundColor: "#ffcec2",
     // backgroundColor: theme.palette.secondary.main,
   },
   progress: {
@@ -87,11 +87,22 @@ const styles = (theme) => ({
     maxHeight: 50,
   },
   tabText: {
-    color: "#ffffff",
+    color: "#000000",
+
+    "@global": {
+      ".MuiTab-textColorInherit.Mui-selected": {
+        color: "#E55434",
+      },
+      ".MuiTab-textColorInherit": {
+        textTransform: "capitalize",
+        fontFamily: "Roboto",
+        fontSize: "18px",
+      },
+    },
   },
   appBar: {
     // backgroundColor: theme.palette.secondary.dark,
-    backgroundColor: "#77625C",
+    backgroundColor: "#ffe1d9",
   },
   search: {
     position: "relative",
@@ -391,8 +402,8 @@ const IngredientsTabs = (props) => {
             handleChange(event, newValue);
             onTabChange(newValue);
           }}
-          TabIndicatorProps={{ style: { backgroundColor: "#E6BEAE" } }}
-          TabScrollButtonProps={{ style: { color: "#ffffff" } }}
+          TabIndicatorProps={{ style: { backgroundColor: "#E55434" } }}
+          TabScrollButtonProps={{ style: { color: "#000000" } }}
           classes={{ root: classes.tabText }}
           variant="scrollable"
           scrollButtons="auto"

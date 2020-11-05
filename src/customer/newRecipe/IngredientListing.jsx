@@ -45,7 +45,7 @@ const styles = (theme) => ({
     width: "80%",
     display: "block",
     margin: `${theme.spacing(1)}px auto 0`,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#BABABA",
   },
   recipeList: {
     display: "flex",
@@ -55,7 +55,7 @@ const styles = (theme) => ({
     // borderRadius: 10,
     width: "90%",
     margin: "auto",
-    backgroundColor: "#EEE2DF",
+    backgroundColor: "#e0e0e0",
   },
   recipeListHeader: {
     display: "flex",
