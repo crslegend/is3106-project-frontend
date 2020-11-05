@@ -19,14 +19,20 @@ import jwt_decode from "jwt-decode";
 import AppBar from "../components/AppBar";
 import Toolbar, { styles as toolbarStyles } from "../components/Toolbar";
 import Service from "../AxiosService";
+import logo from "../assets/logo1.png";
 
 const styles = (theme) => ({
   title: {
-    color: "#000000",
+    color: "#FFFFFF",
     fontSize: 24,
+    textTransform: "capitalize",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   title1: {
-    color: "#8a8a8a",
+    color: "#FFFFFF",
     fontSize: 19,
     marginRight: "30px",
     "&:hover": {
@@ -34,13 +40,13 @@ const styles = (theme) => ({
     },
   },
   title1Active: {
-    color: "#000000",
+    color: "#FFFFFF",
     fontSize: 19,
     marginRight: "30px",
     pointerEvents: "none",
   },
   title2: {
-    color: "#8a8a8a",
+    color: "#FFFFFF",
     fontSize: 19,
     marginLeft: "30px",
     "&:hover": {
@@ -48,7 +54,7 @@ const styles = (theme) => ({
     },
   },
   title2Active: {
-    color: "#000000",
+    color: "#FFFFFF",
     fontSize: 19,
     marginLeft: "30px",
     pointerEvents: "none",
@@ -64,6 +70,15 @@ const styles = (theme) => ({
     flex: 1,
     display: "flex",
     marginLeft: "60px",
+  },
+  logo: {
+    // marginTop: "30px",
+    height: "45%",
+  },
+  center: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
   },
   leftLinkActive: {
     color: theme.palette.common.white,
@@ -96,6 +111,11 @@ const styles = (theme) => ({
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+  },
+  span: {
+    display: "inline-block",
+    borderBottom: "3px solid white",
+    paddingBottom: "3px",
   },
 });
 
@@ -174,7 +194,8 @@ const Navbar = ({ classes }) => {
                   className={classes.title}
                   href="/"
                 >
-                  Sashimi
+                  <img src={logo} className={classes.logo} />
+                  PrepTogether
                 </Link>
               </div>
               <div>
@@ -189,7 +210,15 @@ const Navbar = ({ classes }) => {
                   }
                   href="/newrecipe"
                 >
-                  Create Recipe
+                  <span
+                    className={
+                      location.pathname === "/newrecipe"
+                        ? classes.span
+                        : "classes.title1"
+                    }
+                  >
+                    Categories
+                  </span>
                 </Link>
                 <Link
                   variant="body1"
@@ -202,22 +231,33 @@ const Navbar = ({ classes }) => {
                   }
                   href="/groupbuy"
                 >
-                  Group Buy
+                  <span
+                    className={
+                      location.pathname === "/groupbuy"
+                        ? classes.span
+                        : "classes.title2"
+                    }
+                  >
+                    Group Buy
+                  </span>
                 </Link>
               </div>
             </Fragment>
           ) : (
             <Fragment>
               <div className={classes.left} />
-              <Link
-                variant="h6"
-                underline="none"
-                color="primary"
-                className={classes.title}
-                href="/"
-              >
-                Sashimi
-              </Link>
+              <div className={classes.center}>
+                <Link
+                  variant="h6"
+                  underline="none"
+                  color="primary"
+                  className={classes.title}
+                  href="/"
+                >
+                  <img src={logo} className={classes.logo} />
+                  PrepTogether
+                </Link>
+              </div>
             </Fragment>
           )}
 

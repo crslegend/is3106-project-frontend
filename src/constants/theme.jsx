@@ -4,12 +4,12 @@ import { orange, green, grey, red } from "@material-ui/core/colors";
 const rawTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "#edd0c5",
+      main: "#E55434",
     },
     secondary: {
-      main: "#B2967D",
-      light: "#E6BEAE",
-      dark: "#8f7054",
+      main: "#ff9800",
+      light: "#ffb25e",
+      dark: "#fb8c00",
     },
     warning: {
       main: orange[500],
@@ -28,13 +28,12 @@ const rawTheme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "Alegreya",
+    fontFamily: "Sen",
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
     fontWeightMedium: 300, // SeoulHangang CL
-    fontFamilySecondary: '-apple-system,system-ui,BlinkMacSystemFont,' +
-    '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+    fontFamilySecondary: "Sen",
   },
 });
 
