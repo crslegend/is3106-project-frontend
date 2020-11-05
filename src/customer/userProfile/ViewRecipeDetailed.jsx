@@ -33,10 +33,10 @@ const styles = (theme) => ({
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#48494B", 0.8),
+    color: fade("#ffffff", 0.8),
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
-      color: "#48494B",
+      color: "#ffffff",
     },
     [theme.breakpoints.down("md")]: {
       fontSize: "5vw",

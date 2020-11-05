@@ -104,7 +104,7 @@ const styles = makeStyles((theme) => ({
     margin: 6,
     textTransform: "none",
     fontFamily: "Raleway",
-    color: "#5E4955",
+    color: "#ffffff",
     fontSize: 18,
     [theme.breakpoints.down("md")]: {
       fontSize: 12,

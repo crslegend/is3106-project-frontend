@@ -24,7 +24,8 @@ const styles = (theme) => ({
     "& p": {
       textTransform: "capitalize",
       textAlign: "center",
-      fontSize: "18px",
+      fontSize: "20px",
+      color: "#ffffff",
     },
   },
   calender: {

@@ -47,10 +47,10 @@ const styles = (theme) => ({
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#48494B", 0.8),
+    color: fade("#ffffff", 0.8),
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
-      color: "#48494B",
+      color: "#ffffff",
       cursor: "pointer",
     },
     [theme.breakpoints.down("md")]: {
@@ -64,12 +64,12 @@ const styles = (theme) => ({
   },
   button: {
     fontWeight: "normal",
-    backgroundColor: theme.palette.primary.main,
-    color: "black",
+    backgroundColor: fade(theme.palette.primary.main, 0.5),
+    color: "#ffffff",
     width: 150,
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
-      color: "#48494B",
+      color: "#ffffff",
     },
     marginTop: "25px",
     textTransform: "capitalize",
@@ -197,6 +197,7 @@ const ViewAllGroupbuys = (props) => {
                 textTransform: "capitalize",
                 marginLeft: "20px",
                 fontSize: "30px",
+                color: "#E55434",
               }}
             >
               Your Entered Groupbuys
