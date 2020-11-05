@@ -29,7 +29,7 @@ const styles = makeStyles((theme) => ({
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
-    textTransform: "uppercase",
+    textTransform: "capitalize",
     fontWeight: 550,
     fontSize: 20,
     [theme.breakpoints.down("md")]: {
@@ -46,6 +46,7 @@ const styles = makeStyles((theme) => ({
     fontFamily: "Raleway",
     fontWeight: 500,
     fontSize: 20,
+    color: "#E55434",
     [theme.breakpoints.down("md")]: {
       fontSize: 15,
     },

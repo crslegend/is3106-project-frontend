@@ -50,6 +50,7 @@ const styles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     "& p": {
       textTransform: "capitalize",
+      color: "#ffffff",
     },
   },
   button: {
@@ -159,7 +160,19 @@ const ItemListingCard = (props) => {
             image={product && product.images ? product.images[0] : Chef}
           />
           <CardContent className={classes.cardContent}>
-            <Typography variant="h5" style={{ fontWeight: "bold" }}>
+            <Typography
+              variant="h5"
+              style={{
+                fontWeight: "bold",
+                textTransform: "capitalize",
+                fontSize: "15px",
+                textAlign: "left",
+              }}
+            >
+              {product && product.name}
+            </Typography>
+            <br />
+            <Typography variant="body1" style={{ color: "#E55434" }}>
               $
               {product &&
                 (
@@ -167,9 +180,7 @@ const ItemListingCard = (props) => {
                   parseFloat(product.storeSpecificData[0].discount)
                 ).toFixed(2)}
             </Typography>
-            <br />
-            <Typography variant="body1">{product && product.name}</Typography>
-            <Typography variant="body2">
+            {/* <Typography variant="body2">
               {product &&
               product.metaData["Unit Of Weight"] &&
               product.metaData["Unit Of Weight"] !== "EA" &&
@@ -179,7 +190,7 @@ const ItemListingCard = (props) => {
               !product.metaData.DisplayUnit.endsWith("per pack)")
                 ? product.metaData["Unit Of Weight"]
                 : product.metaData.DisplayUnit}
-            </Typography>
+            </Typography> */}
           </CardContent>
         </CardActionArea>
       </Card>
