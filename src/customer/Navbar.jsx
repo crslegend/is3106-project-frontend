@@ -217,7 +217,7 @@ const Navbar = ({ classes }) => {
                         : "classes.title1"
                     }
                   >
-                    Categories
+                    Create Recipe
                   </span>
                 </Link>
                 <Link
