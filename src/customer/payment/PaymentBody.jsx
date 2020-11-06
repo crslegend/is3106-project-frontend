@@ -69,6 +69,7 @@ const styles = (theme) => ({
     [theme.breakpoints.down("sm")]: {
       order: 2,
     },
+    marginRight: "30px",
   },
   payForm: {
     background: fade("#E6BEAE", 0.5),
@@ -179,14 +180,14 @@ const PaymentBody = (props) => {
 
   return (
     <Fragment>
-      <Grid container spacing={2} className={classes.root}>
+      <Grid container className={classes.root}>
         <Grid item xs={2}>
           <Link to={`/viewdetails/${id}`}>
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
         <Grid item xs={10}>
-          <Grid container spacing={3}>
+          <Grid container>
             <Grid item xs={10} md={6} className={classes.item1}>
               <Card className={classes.payForm}>
                 <CardContent className={classes.title}>
@@ -222,6 +223,7 @@ const PaymentBody = (props) => {
                       <Typography
                         variant="body1"
                         className={classes.summaryLeft}
+                        style={{ textTransform: "capitalize" }}
                       >
                         {groupbuy && groupbuy.recipe.recipe_name}
                       </Typography>
@@ -236,6 +238,7 @@ const PaymentBody = (props) => {
                       <Typography
                         variant="body1"
                         className={classes.summaryLeft}
+                        style={{ marginBottom: "10px" }}
                       >
                         Delivery Fee
                       </Typography>
@@ -254,6 +257,7 @@ const PaymentBody = (props) => {
                       <Typography
                         variant="body1"
                         className={classes.summaryLeft}
+                        style={{ marginBottom: "10px" }}
                       >
                         Total Amount:
                       </Typography>

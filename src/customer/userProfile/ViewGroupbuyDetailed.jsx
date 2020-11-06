@@ -60,6 +60,7 @@ const styles = (theme) => ({
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
+    textTransform: "capitalize",
     fontWeight: 550,
     fontSize: 30,
     textAlign: "left",
@@ -299,7 +300,7 @@ const ViewGroupbuyDetailed = (props) => {
                       value={fulfillment}
                     />
                     <span className={classes.progressLabel}>
-                      current orders: {groupbuy.current_order_quantity}
+                      Current Orders: {groupbuy.current_order_quantity}
                     </span>
                     <span className={classes.progressTotalLabel}>
                       {groupbuy.minimum_order_quantity}

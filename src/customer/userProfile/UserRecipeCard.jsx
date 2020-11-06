@@ -29,7 +29,7 @@ const styles = makeStyles((theme) => ({
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
-    textTransform: "uppercase",
+    textTransform: "capitalize",
     fontWeight: 550,
     fontSize: 20,
     [theme.breakpoints.down("md")]: {

@@ -60,6 +60,7 @@ const styles = (theme) => ({
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
+    textTransform: "capitalize",
     fontWeight: 550,
     fontSize: 30,
     textAlign: "left",

@@ -26,29 +26,29 @@ const styles = (theme) => ({
     fontSize: 24,
   },
   title1: {
-    color: "#8a8a8a",
+    color: "#5E4955",
     fontSize: 19,
     marginRight: "30px",
     "&:hover": {
-      color: "#1c1c1c",
+      color: "#8a8a8a",
     },
   },
   title1Active: {
-    color: "#000000",
+    color: "#5E4955",
     fontSize: 19,
     marginRight: "30px",
     pointerEvents: "none",
   },
   title2: {
-    color: "#8a8a8a",
+    color: "#5E4955",
     fontSize: 19,
     marginLeft: "30px",
     "&:hover": {
-      color: "#1c1c1c",
+      color: "#8a8a8a",
     },
   },
   title2Active: {
-    color: "#000000",
+    color: "#5E4955",
     fontSize: 19,
     marginLeft: "30px",
     pointerEvents: "none",
@@ -96,6 +96,11 @@ const styles = (theme) => ({
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+  },
+  span: {
+    display: "inline-block",
+    borderBottom: "3px solid #5E4955",
+    paddingBottom: "3px",
   },
 });
 
@@ -189,7 +194,15 @@ const Navbar = ({ classes }) => {
                   }
                   href="/newrecipe"
                 >
-                  Create Recipe
+                  <span
+                    className={
+                      location.pathname === "/newrecipe"
+                        ? classes.span
+                        : "classes.title1"
+                    }
+                  >
+                    Create Recipe
+                  </span>
                 </Link>
                 <Link
                   variant="body1"
@@ -202,7 +215,15 @@ const Navbar = ({ classes }) => {
                   }
                   href="/groupbuy"
                 >
-                  Group Buy
+                  <span
+                    className={
+                      location.pathname === "/groupbuy"
+                        ? classes.span
+                        : "classes.title2"
+                    }
+                  >
+                    Group Buy
+                  </span>
                 </Link>
               </div>
             </Fragment>
