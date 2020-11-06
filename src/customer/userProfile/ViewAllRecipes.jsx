@@ -21,6 +21,7 @@ import withRoot from "../../constants/withRoot";
 import Service from "../../AxiosService";
 import UserRecipeCard from "./UserRecipeCard";
 import KitchenIcon from "@material-ui/icons/Kitchen";
+import image from "../../assets/login10.jpg";
 
 const styles = (theme) => ({
   formControl: {
@@ -41,12 +42,12 @@ const styles = (theme) => ({
     },
   },
   icon: {
-    background: theme.palette.primary.main,
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#48494B", 0.8),
+    color: fade("#ffffff", 0.8),
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
       color: "#48494B",
@@ -63,16 +64,31 @@ const styles = (theme) => ({
   },
   button: {
     fontWeight: "normal",
-    backgroundColor: theme.palette.primary.main,
-    color: "black",
-    width: 180,
+    backgroundColor: fade(theme.palette.common.black, 0.6),
+    color: "white",
+    // width: 150,
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
-      color: "#48494B",
+      color: "#000000",
     },
     marginTop: "25px",
     textTransform: "capitalize",
     fontSize: "19px",
+  },
+  side: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundImage: `url(${image})`,
+    zIndex: -2,
+    // backgroundColor: theme.palette.common.black,
+    opacity: 0.7,
+    // height: "100%",
   },
 });
 
@@ -151,18 +167,21 @@ const ViewAllRecipes = (props) => {
     <Fragment>
       <Navbar />
       <Grid container justify="center">
-        <Grid item xs={2} style={{ marginTop: "30px" }}>
-          <Link to="/profile">
-            <ArrowBackIcon className={classes.icon} />
-          </Link>
-          <br />
-          <Button
-            component="a"
-            href="/profile/viewallgroupbuys"
-            className={classes.button}
-          >
-            Entered Groupbuys
-          </Button>
+        <Grid item xs={3}>
+          <div className={classes.side} />
+          <div style={{ marginTop: "10vh" }}>
+            <Link to="/profile">
+              <ArrowBackIcon className={classes.icon} />
+            </Link>
+            <br />
+            <Button
+              component="a"
+              href="/profile/viewallgroupbuys"
+              className={classes.button}
+            >
+              Entered Groupbuys
+            </Button>
+          </div>
         </Grid>
         <Grid item xs={9} style={{ marginTop: "20px" }}>
           <div
@@ -180,6 +199,7 @@ const ViewAllRecipes = (props) => {
                 textTransform: "capitalize",
                 marginLeft: "20px",
                 fontSize: "30px",
+                color: "#5E4955",
               }}
             >
               Your Created Recipes

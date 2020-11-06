@@ -14,6 +14,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { Link, useParams } from "react-router-dom";
 import PaymentForm from "./PaymentForm";
 import Service from "../../AxiosService";
+import image from "../../assets/login1.jpg";
 
 const styles = (theme) => ({
   root: {
@@ -21,12 +22,12 @@ const styles = (theme) => ({
     flexGrow: 1,
   },
   icon: {
-    background: fade(theme.palette.primary.main, 0.5),
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#48494B", 0.8),
+    color: fade("#ffffff", 0.8),
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
       color: "#48494B",
@@ -145,6 +146,21 @@ const styles = (theme) => ({
       marginLeft: "0px",
     },
   },
+  side: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundImage: `url(${image})`,
+    zIndex: -2,
+    // backgroundColor: theme.palette.common.black,
+    opacity: 0.7,
+    // height: "100%",
+  },
 });
 
 const PaymentBody = (props) => {
@@ -181,12 +197,13 @@ const PaymentBody = (props) => {
   return (
     <Fragment>
       <Grid container className={classes.root}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
+          <div className={classes.side} />
           <Link to={`/viewdetails/${id}`}>
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
           <Grid container>
             <Grid item xs={10} md={6} className={classes.item1}>
               <Card className={classes.payForm}>

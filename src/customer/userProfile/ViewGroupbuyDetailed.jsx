@@ -15,6 +15,7 @@ import Cookies from "js-cookie";
 import Service from "../../AxiosService";
 import withRoot from "../../constants/withRoot";
 import Navbar from "../Navbar";
+import image from "../../assets/login8.jpg";
 
 const styles = (theme) => ({
   root: {
@@ -28,12 +29,12 @@ const styles = (theme) => ({
     background: fade("#E6BEAE", 0.5),
   },
   icon: {
-    background: fade(theme.palette.primary.main, 0.5),
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#48494B", 0.8),
+    color: fade("#ffffff", 0.8),
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
       color: "#48494B",
@@ -174,6 +175,21 @@ const styles = (theme) => ({
       height: "20px",
     },
   },
+  side: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundImage: `url(${image})`,
+    zIndex: -2,
+    // backgroundColor: theme.palette.common.black,
+    opacity: 0.7,
+    // height: "100%",
+  },
 });
 
 const BorderLinearProgress = withStyles((theme) => ({
@@ -261,12 +277,13 @@ const ViewGroupbuyDetailed = (props) => {
     <Fragment>
       <Navbar />
       <Grid container className={classes.root}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
+          <div className={classes.side} />
           <Link to="/profile/viewallgroupbuys">
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
-        <Grid xs={9}>
+        <Grid item xs={8}>
           <Card className={classes.card}>
             <Grid container className={classes.root}>
               <Grid xs={12} md={5}>
