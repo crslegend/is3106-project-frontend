@@ -109,7 +109,7 @@ const PaymentForm = (props) => {
   useEffect(() => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
       const userid = jwtdecode(Service.getJWT()).user_id;
-      console.log(`userid = ${userid}`);
+      // console.log(`userid = ${userid}`);
       Service.client
         .get(`/users/${userid}`)
         .then((res) => {
@@ -119,7 +119,7 @@ const PaymentForm = (props) => {
             ...order,
             contact_number: res.data.contact_number,
           });
-          console.log(res.data);
+          // console.log(res.data);
         })
         .catch((error) => {
           setCustomer(null);
@@ -133,7 +133,7 @@ const PaymentForm = (props) => {
       .get(`/users/${customer.id}/delivery-address`)
       .then((res) => {
         setAddresses(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((error) => {
         setAddresses(null);
@@ -173,11 +173,11 @@ const PaymentForm = (props) => {
     console.log(newaddress);
 
     if (newaddress !== null || newaddress !== undefined) {
-      console.log(newaddress);
+      // console.log(newaddress);
       Service.client
         .post(`/users/${customer.id}/delivery-address`, newaddress)
         .then((res) => {
-          console.log(res.data.add_id);
+          // console.log(res.data.add_id);
           setOrder({
             ...order,
             add_id: res.data.add_id,
@@ -189,14 +189,14 @@ const PaymentForm = (props) => {
   };
 
   const submitOrder = () => {
-    console.log(order);
+    // console.log(order);
     setConfirmSubmitModal(false);
 
     console.log(order);
     Service.client
       .post(`/groupbuys/${order.gb_id}/orders`, order)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         // push to view past orders
         history.push(`/profile/viewallgroupbuys`);
       })

@@ -157,7 +157,7 @@ const IngredientListing = (props) => {
 
   useEffect(() => {
     calculateTotalPrice();
-    console.log(chosenIngredients);
+    // console.log(chosenIngredients);
   }, [chosenIngredients]);
 
   const deleteIngredient = (value) => {

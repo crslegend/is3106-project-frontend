@@ -110,7 +110,7 @@ const ViewAllGroupbuys = (props) => {
   const getUserData = () => {
     if (Cookies.get("t1") && Cookies.get("t2")) {
       Service.client.get(`/orders`).then((res) => {
-        console.log(res);
+        // console.log(res);
         setListOfGroupBuys(res.data);
       });
     }

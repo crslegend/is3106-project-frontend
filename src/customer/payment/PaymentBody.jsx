@@ -170,7 +170,7 @@ const PaymentBody = (props) => {
   const [contact, setContact] = useState("+ 65");
 
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   const [order, setOrder] = useState({
     gb_id: id,
@@ -181,7 +181,7 @@ const PaymentBody = (props) => {
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, []);
 

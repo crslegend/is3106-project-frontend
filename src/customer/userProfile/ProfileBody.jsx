@@ -85,16 +85,6 @@ const styles = (theme) => ({
   },
 });
 
-const formatDate = (date) => {
-  if (date !== null) {
-    const newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-      .toISOString()
-      .split("T")[0];
-    return newDate;
-  }
-  return null;
-};
-
 const ProfileBody = (props) => {
   const { setSbOpen, snackbar, setSnackbar } = props;
   const { classes } = props;

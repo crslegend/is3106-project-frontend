@@ -143,35 +143,8 @@ const IngredientsTabs = (props) => {
     results();
   };
 
-  // for changing between tabs
-  // useEffect(() => {
-  //   console.log("change");
-  //   if (value !== 9) {
-  //     let listing = null;
-  //     setProducts([]);
-  //     setHasMore(true);
-  //     // setSearchValue("");
-  //     const getItems = async () => {
-  //       setPage(1);
-  //       // console.log(page);
-  //       listing = await ntuc.getListing(1, value, "");
-  //       setPage(1 + 1);
-  //       setSortMethod("");
-  //       setPaginationInfo(listing.pagination);
-  //       setProducts(listing.product);
-  //       console.log(`CHANGE TAB ${sortMethod}`);
-  //     };
-  //     getItems();
-  //   } else if (value === 9 && searchValue === "") {
-  //     setProducts([]);
-  //   } else if (value === 9 && searchValue !== "") {
-  //     getSearchResults();
-  //   }
-  // }, [value]);
-  // console.log(page);
-
   const onTabChange = async (tabNo) => {
-    console.log("change");
+    // console.log("change");
     if (tabNo !== 9) {
       let listing = null;
       setProducts([]);
@@ -185,7 +158,7 @@ const IngredientsTabs = (props) => {
         setSortMethod("");
         setPaginationInfo(listing.pagination);
         setProducts(listing.product);
-        console.log(`CHANGE TAB ${tabNo} ${sortMethod}`);
+        // console.log(`CHANGE TAB ${tabNo} ${sortMethod}`);
       };
       await getItems();
     } else if (tabNo === 9 && searchValue === "") {
@@ -206,7 +179,7 @@ const IngredientsTabs = (props) => {
       setPage(1 + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
-      console.log(`CHANGE SORT ${sort}`);
+      // console.log(`CHANGE SORT ${sort}`);
     };
 
     const results = async () => {
@@ -215,7 +188,7 @@ const IngredientsTabs = (props) => {
       setPage(1 + 1);
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
-      console.log(`CHANGE SORT ${sort}`);
+      // console.log(`CHANGE SORT ${sort}`);
     };
 
     if (searchValue === "") {
@@ -232,69 +205,10 @@ const IngredientsTabs = (props) => {
       listing = await ntuc.getListing(1, 0, "");
       setPaginationInfo(listing.pagination);
       setProducts(listing.product);
-      console.log(`Initial fetch`);
+      // console.log(`Initial fetch`);
     };
     getItems();
   }, []);
-
-  // // for changing sort methods
-  // useEffect(() => {
-  //   let listing = null;
-  //   setProducts([]);
-  //   setHasMore(true);
-  //   const getItems = async () => {
-  //     setPage(1);
-  //     // console.log(page);
-  //     listing = await ntuc.getListing(1, value, sortMethod);
-  //     setPage(1 + 1);
-  //     setPaginationInfo(listing.pagination);
-  //     setProducts(listing.product);
-  //     console.log(`CHANGE SORT ${sortMethod}`);
-  //   };
-
-  //   const results = async () => {
-  //     setPage(1);
-  //     listing = await ntuc.getSearchResults(1, searchValue, sortMethod);
-  //     setPage(1 + 1);
-  //     setPaginationInfo(listing.pagination);
-  //     setProducts(listing.product);
-  //     console.log(`CHANGE SORT ${sortMethod}`);
-  //   };
-
-  //   if (searchValue === "") {
-  //     getItems();
-  //   } else {
-  //     results();
-  //   }
-  // }, [sortMethod]);
-
-  // for loading more pages of data
-  // useEffect(() => {
-  //   console.log("load more data");
-  //   let listing = null;
-  //   const getItems = async () => {
-  //     console.log(`USE EFFECT ${page}`);
-  //     listing = await ntuc.getListing(page, value, sortMethod);
-  //     setPage(page + 1);
-  //     setPaginationInfo(listing.pagination);
-  //     setProducts(listing.product);
-  //     console.log(`LOAD MORE DATA ${sortMethod}`);
-  //   };
-
-  //   const results = async () => {
-  //     listing = await ntuc.getSearchResults(page, searchValue, sortMethod);
-  //     setPage(page + 1);
-  //     setPaginationInfo(listing.pagination);
-  //     setProducts(listing.product);
-  //     console.log(`LOAD MORE DATA ${sortMethod}`);
-  //   };
-
-  //   if (searchValue === "") {
-  //     getItems();
-  //   } else {
-  //     results();
-  //   }
-  // }, []);
 
   const handleChange = (event, newValue) => {
     event.preventDefault();
@@ -309,7 +223,7 @@ const IngredientsTabs = (props) => {
 
     let listing = null;
     const getItems = async () => {
-      console.log(`FETCH MORE ${page}`);
+      // console.log(`FETCH MORE ${page}`);
       listing = await ntuc.getListing(page, value, sortMethod);
       setPage(page + 1);
       // console.log(listing);
@@ -317,7 +231,7 @@ const IngredientsTabs = (props) => {
     };
 
     const results = async () => {
-      console.log(`FETCH MORE ${page}`);
+      // console.log(`FETCH MORE ${page}`);
       listing = await ntuc.getSearchResults(page, searchValue, sortMethod);
       setPage(page + 1);
       setProducts(products.concat(listing.product));
@@ -331,7 +245,7 @@ const IngredientsTabs = (props) => {
 
     // console.log(page);
   };
-  console.log(products);
+  // console.log(products);
 
   const handleSortChange = (event) => {
     setSortMethod(event.target.value);

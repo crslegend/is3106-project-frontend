@@ -217,12 +217,12 @@ const CardDetailBody = () => {
   const classes = styles();
   const [groupbuy, setGroupbuy] = useState("");
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, []);
 
@@ -327,8 +327,8 @@ const CardDetailBody = () => {
                     Ingredient List
                   </Typography>
                   {groupbuy &&
-                    groupbuy.recipe.ingredients.map((ingredient) => (
-                      <Typography className={classes.ing}>
+                    groupbuy.recipe.ingredients.map((ingredient, index) => (
+                      <Typography key={index} className={classes.ing}>
                         {ingredient.ing_name} , {ingredient.quantity}
                       </Typography>
                     ))}

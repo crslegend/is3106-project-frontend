@@ -113,7 +113,7 @@ const GroupBuyBody = (props) => {
   useEffect(() => {
     Service.client.get("/groupbuys").then((res) => {
       setGroupbuys(res.data.results);
-      console.log(res.data.results);
+      // console.log(res.data.results);
     });
   }, []);
 
@@ -121,7 +121,7 @@ const GroupBuyBody = (props) => {
     if (searchValue === "") {
       Service.client.get("/groupbuys").then((res) => {
         setGroupbuys(res.data.results);
-        console.log(res.data.results);
+        // console.log(res.data.results);
       });
     }
   }, [searchValue]);
@@ -180,7 +180,7 @@ const GroupBuyBody = (props) => {
           },
         },
       });
-      console.log(arr);
+      // console.log(arr);
       setGroupbuys(arr);
     }
   };
