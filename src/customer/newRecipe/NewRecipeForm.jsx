@@ -40,10 +40,20 @@ const styles = (theme) => ({
     padding: "0 10px",
     minHeight: "200px",
     borderColor: "red",
+    "@global": {
+      ".MuiDropzoneArea-text.MuiTypography-h5": {
+        textTransform: "capitalize",
+      },
+    },
   },
   dropzoneValid: {
     padding: "0 10px",
     minHeight: "200px",
+    "@global": {
+      ".MuiDropzoneArea-text.MuiTypography-h5": {
+        textTransform: "capitalize",
+      },
+    },
   },
 });
 
@@ -153,6 +163,7 @@ const NewRecipeForm = (props) => {
               helperText={
                 validateRecipeNameField ? "Recipe Name Cannot Be Empty" : ""
               }
+              fullWidth
             />
           </DialogContent>
           <DialogContent>
@@ -166,6 +177,7 @@ const NewRecipeForm = (props) => {
                 label="Choose a Fulfillment Date"
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e)}
+                fullWidth
               />
             </MuiPickersUtilsProvider>
           </DialogContent>

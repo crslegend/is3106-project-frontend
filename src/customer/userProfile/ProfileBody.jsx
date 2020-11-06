@@ -76,6 +76,13 @@ const styles = (theme) => ({
       backgroundColor: "#EEF1EF",
     },
   },
+  dropzone: {
+    "@global": {
+      ".MuiDropzoneArea-text.MuiTypography-h5": {
+        textTransform: "capitalize",
+      },
+    },
+  },
 });
 
 const formatDate = (date) => {
@@ -481,7 +488,9 @@ const ProfileBody = (props) => {
       {/* upload photo dialog here */}
       <Dialog onClose={() => setUploadOpen(false)} open={uploadOpen}>
         <DialogTitle>
-          <span>Upload Photo (Max 5MB)</span>
+          <Typography style={{ textTransform: "capitalize", fontSize: "19px" }}>
+            Upload A Photo (Max 5MB)
+          </Typography>
           <IconButton
             style={{ right: "12px", top: "8px", position: "absolute" }}
             onClick={() => {
