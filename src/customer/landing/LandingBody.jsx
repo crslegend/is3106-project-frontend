@@ -73,23 +73,6 @@ const styles = (theme) => ({
 
 const LandingBody = (props) => {
   const { classes } = props;
-  // const [profile, setProfile] = useState([]);
-
-  // useEffect(() => {
-  //   Service.client
-  //     .get("/auth/get_current_user")
-  //     .then((res) => {
-  //       if (!res.data) {
-  //         setProfile(res.data);
-  //       }
-  //       Service.client
-  //         .get("/recipes/get_recipes")
-  //         .then((res) => console.log(res)); // get protected view
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // });
 
   return (
     <section className={classes.root}>
