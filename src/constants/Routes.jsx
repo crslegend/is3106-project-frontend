@@ -4,9 +4,7 @@ import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute";
 import LandingPage from "../customer/landing/LandingPage";
 import LoginRegisterPage from "../customer/auth/LoginRegisterPage";
-import ForgetPasswordPage from "../customer/auth/ForgetPasswordPage";
 import ProfilePage from "../customer/userProfile/ProfilePage";
-import EditProfilePage from "../customer/userProfile/EditProfilePage";
 import GroupBuyPage from "../customer/groupBuy/GroupBuyPage";
 import NewRecipePage from "../customer/newRecipe/NewRecipePage";
 import CardDetailPage from "../customer/groupBuy/CardDetailPage";
@@ -46,11 +44,6 @@ const Routes = (props) => {
             />
           )}
         />
-        <Route
-          exact
-          path="/forgetpassword"
-          render={() => <ForgetPasswordPage {...props} />}
-        />
         <Route path="/groupbuy" render={() => <GroupBuyPage {...props} />} />
         <Route path="/newrecipe" render={() => <NewRecipePage {...props} />} />
         <Route
@@ -59,13 +52,13 @@ const Routes = (props) => {
           sensitive
           render={(match) => <CardDetailPage match={match} />}
         />
-        <Route
+        <PrivateRoute
           path="/payment/:id"
           strict
           sensitive
           render={(match) => <PaymentPage match={match} />}
         />
-        <Route
+        <PrivateRoute
           exact
           path="/profile"
           render={() => (
@@ -77,23 +70,23 @@ const Routes = (props) => {
             />
           )}
         />
-        <Route
+        <PrivateRoute
           exact
           path="/profile/viewallgroupbuys"
           render={() => <ViewAllGroupbuys {...props} />}
         />
-        <Route
+        <PrivateRoute
           path="/profile/viewallgroupbuys/:id"
           strict
           sensitive
           render={(match) => <ViewGroupbuyDetailed match={match} {...props} />}
         />
-        <Route
+        <PrivateRoute
           exact
           path="/profile/viewallrecipes"
           render={() => <ViewAllRecipes {...props} />}
         />
-        <Route
+        <PrivateRoute
           path="/profile/viewallrecipes/:id"
           strict
           sensitive
