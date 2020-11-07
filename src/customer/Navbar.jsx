@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+import LockIcon from "@material-ui/icons/Lock";
 import { Avatar } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
@@ -251,9 +251,10 @@ const Navbar = ({ classes }) => {
                   aria-haspopup="true"
                   color="inherit"
                   href="/auth"
+                  size="small"
                 >
-                  <AccountCircle />
-                  SIGN IN
+                  <LockIcon />
+                  Sign In
                 </IconButton>
               </div>
             ) : (
