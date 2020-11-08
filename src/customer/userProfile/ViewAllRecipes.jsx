@@ -21,6 +21,7 @@ import withRoot from "../../constants/withRoot";
 import Service from "../../AxiosService";
 import UserRecipeCard from "./UserRecipeCard";
 import KitchenIcon from "@material-ui/icons/Kitchen";
+import image from "../../assets/login10.jpg";
 
 const styles = (theme) => ({
   formControl: {
@@ -65,14 +66,29 @@ const styles = (theme) => ({
     fontWeight: "normal",
     backgroundColor: fade(theme.palette.primary.main, 0.5),
     color: "#ffffff",
-    width: 180,
+    // width: 180,
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
       color: "#ffffff",
     },
-    marginTop: "25px",
+    // marginTop: "25px",
     textTransform: "capitalize",
     fontSize: "19px",
+  },
+  side: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundImage: `url(${image})`,
+    zIndex: -2,
+    // backgroundColor: theme.palette.common.black,
+    opacity: 0.7,
+    // height: "100%",
   },
 });
 
@@ -151,18 +167,12 @@ const ViewAllRecipes = (props) => {
     <Fragment>
       <Navbar />
       <Grid container justify="center">
-        <Grid item xs={2} style={{ marginTop: "30px" }}>
+        <Grid item xs={3} style={{ marginTop: "30px" }}>
+          <div className={classes.side} />
           <Link to="/profile">
             <ArrowBackIcon className={classes.icon} />
           </Link>
           <br />
-          <Button
-            component="a"
-            href="/profile/viewallgroupbuys"
-            className={classes.button}
-          >
-            Entered Groupbuys
-          </Button>
         </Grid>
         <Grid item xs={9} style={{ marginTop: "20px" }}>
           <div
@@ -229,19 +239,34 @@ const ViewAllRecipes = (props) => {
             )}
           </Grid>
           <br />
-          {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 && (
-            <Pagination
-              count={noOfPages}
-              page={page}
-              onChange={handleChange}
-              defaultPage={1}
-              color="primary"
-              size="medium"
-              showFirstButton
-              showLastButton
-              className={classes.pagination}
-            />
-          )}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button
+              component="a"
+              href="/profile/viewallgroupbuys"
+              className={classes.button}
+            >
+              Go To Entered Groupbuys
+            </Button>
+            {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 && (
+              <Pagination
+                count={noOfPages}
+                page={page}
+                onChange={handleChange}
+                defaultPage={1}
+                color="primary"
+                size="medium"
+                showFirstButton
+                showLastButton
+                className={classes.pagination}
+              />
+            )}
+          </div>
         </Grid>
       </Grid>
     </Fragment>
