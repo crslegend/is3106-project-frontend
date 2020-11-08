@@ -270,6 +270,7 @@ const Navbar = ({ classes }) => {
                   aria-haspopup="true"
                   color="inherit"
                   href="/auth"
+                  style={{ color: "#ffffff" }}
                 >
                   <AccountCircle />
                   SIGN IN

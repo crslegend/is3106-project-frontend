@@ -8,15 +8,18 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
   InputAdornment,
   TextField,
 } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Chef from "../../assets/placeholder.jpg";
 import processData from "./processData";
+import { Rating } from "@material-ui/lab";
 
 const styles = makeStyles((theme) => ({
   root: {
@@ -154,45 +157,65 @@ const ItemListingCard = (props) => {
   return (
     <Fragment>
       <Card className={classes.root}>
-        <CardActionArea onClick={handleClickOpen} style={{ height: "100%" }}>
-          <CardMedia
-            className={classes.mediaCard}
-            image={product && product.images ? product.images[0] : Chef}
-          />
-          <CardContent className={classes.cardContent}>
-            <Typography
-              variant="h5"
-              style={{
-                fontWeight: "bold",
-                textTransform: "capitalize",
-                fontSize: "15px",
-                textAlign: "left",
-              }}
-            >
-              {product && product.name}
-            </Typography>
-            <br />
-            <Typography variant="body1" style={{ color: "#E55434" }}>
-              $
-              {product &&
-                (
-                  parseFloat(product.storeSpecificData[0].mrp) -
-                  parseFloat(product.storeSpecificData[0].discount)
-                ).toFixed(2)}
-            </Typography>
-            {/* <Typography variant="body2">
-              {product &&
-              product.metaData["Unit Of Weight"] &&
-              product.metaData["Unit Of Weight"] !== "EA" &&
-              !product.metaData["Unit Of Weight"].endsWith("S") &&
-              !product.metaData["Unit Of Weight"].endsWith("LT") &&
-              !product.metaData["Unit Of Weight"].endsWith("OZ") &&
-              !product.metaData.DisplayUnit.endsWith("per pack)")
-                ? product.metaData["Unit Of Weight"]
-                : product.metaData.DisplayUnit}
-            </Typography> */}
-          </CardContent>
-        </CardActionArea>
+        {/* <CardActionArea onClick={handleClickOpen} style={{ height: "100%" }}> */}
+        <CardMedia
+          className={classes.mediaCard}
+          image={product && product.images ? product.images[0] : Chef}
+        />
+        <CardContent className={classes.cardContent}>
+          <Typography
+            variant="h5"
+            style={{
+              fontWeight: "bold",
+              textTransform: "capitalize",
+              fontSize: "15px",
+              textAlign: "left",
+            }}
+          >
+            {product && product.name}
+          </Typography>
+          <br />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              // justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <Typography variant="body1" style={{ color: "#E55434" }}>
+                $
+                {product &&
+                  (
+                    parseFloat(product.storeSpecificData[0].mrp) -
+                    parseFloat(product.storeSpecificData[0].discount)
+                  ).toFixed(2)}
+              </Typography>
+              <Typography variant="body2">
+                {product &&
+                product.metaData["Unit Of Weight"] &&
+                product.metaData["Unit Of Weight"] !== "EA" &&
+                !product.metaData["Unit Of Weight"].endsWith("S") &&
+                !product.metaData["Unit Of Weight"].endsWith("LT") &&
+                !product.metaData["Unit Of Weight"].endsWith("OZ") &&
+                !product.metaData.DisplayUnit.endsWith("per pack)")
+                  ? product.metaData["Unit Of Weight"]
+                  : product.metaData.DisplayUnit}
+              </Typography>
+              <Rating name="read-only" value={4} readOnly size="small" />
+            </div>
+            <div style={{ marginLeft: "2vw" }}>
+              <IconButton
+                onClick={handleClickOpen}
+                style={{ background: "#E55434", color: "#ffffff" }}
+              >
+                <AddIcon />
+              </IconButton>
+            </div>
+          </div>
+        </CardContent>
+        {/* </CardActionArea> */}
       </Card>
 
       <Dialog

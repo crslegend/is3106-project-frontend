@@ -385,6 +385,7 @@ const IngredientsTabs = (props) => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
+              <MenuItem value="Popularity">Popularity</MenuItem>
               <MenuItem value="PRICE_ASC">Price: Low to High</MenuItem>
               <MenuItem value="PRICE_DESC">Price: High to Low</MenuItem>
               <MenuItem value="A-Z">(A-Z) Alphabetically</MenuItem>
