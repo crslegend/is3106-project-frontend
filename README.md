@@ -16,6 +16,7 @@ git clone git@github.com:crslegend/is3106-project-frontend.git
 
 To run Sahshimi in the development mode
 ``` bash
+npm install
 npm start
 ```
 
