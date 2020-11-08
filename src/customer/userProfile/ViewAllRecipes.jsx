@@ -64,14 +64,14 @@ const styles = (theme) => ({
   },
   button: {
     fontWeight: "normal",
-    backgroundColor: fade(theme.palette.common.black, 0.6),
-    color: "white",
+    backgroundColor: fade(theme.palette.primary.main, 0.6),
+    color: "#5E4955",
     // width: 150,
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
-      color: "#000000",
+      color: "#5E4955",
     },
-    marginTop: "25px",
+    // marginTop: "25px",
     textTransform: "capitalize",
     fontSize: "19px",
   },
@@ -174,13 +174,6 @@ const ViewAllRecipes = (props) => {
               <ArrowBackIcon className={classes.icon} />
             </Link>
             <br />
-            <Button
-              component="a"
-              href="/profile/viewallgroupbuys"
-              className={classes.button}
-            >
-              Entered Groupbuys
-            </Button>
           </div>
         </Grid>
         <Grid item xs={9} style={{ marginTop: "20px" }}>
@@ -248,19 +241,34 @@ const ViewAllRecipes = (props) => {
             )}
           </Grid>
           <br />
-          {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 && (
-            <Pagination
-              count={noOfPages}
-              page={page}
-              onChange={handleChange}
-              defaultPage={1}
-              color="primary"
-              size="medium"
-              showFirstButton
-              showLastButton
-              className={classes.pagination}
-            />
-          )}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button
+              component="a"
+              href="/profile/viewallgroupbuys"
+              className={classes.button}
+            >
+              Go To Entered Groupbuys
+            </Button>
+            {listOfCreatedRecipes && listOfCreatedRecipes.length > 0 && (
+              <Pagination
+                count={noOfPages}
+                page={page}
+                onChange={handleChange}
+                defaultPage={1}
+                color="primary"
+                size="medium"
+                showFirstButton
+                showLastButton
+                className={classes.pagination}
+              />
+            )}
+          </div>
         </Grid>
       </Grid>
     </Fragment>
