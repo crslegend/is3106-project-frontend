@@ -135,7 +135,7 @@ const NewRecipeForm = (props) => {
   return (
     <div>
       <Dialog
-        disableBackdropClick
+        // disableBackdropClick
         disableEscapeKeyDown
         open={open}
         onClose={handleClose}
