@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
 import withRoot from "../../constants/withRoot";
 import Navbar from "../Navbar";
-import EditProfilePage from "./EditProfileBody";
+import PaymentBody from "./PaymentBody";
 
-const EditProfile = () => (
+const PaymentPage = () => (
   <Fragment>
     <Navbar />
-    <EditProfilePage />
+    <PaymentBody />
   </Fragment>
 );
 
-export default withRoot(EditProfile);
+export default withRoot(PaymentPage);

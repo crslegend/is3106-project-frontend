@@ -1,92 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { withStyles, fade } from "@material-ui/core/styles";
-import { Grid, InputBase } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import {
+  CircularProgress,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Pagination from "@material-ui/lab/Pagination";
-import GroupBuyCard from "../../components/GroupBuyCard";
+import SearchBar from "material-ui-search-bar";
+import FuzzySearch from "fuzzy-search";
+import sortArray from "sort-array";
+import GroupBuyCard from "./GroupBuyCard";
+import Service from "../../AxiosService";
+import image from "../../assets/login9.jpg";
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-  header: {
-    fontFamily: "Raleway",
-    fontSize: 35,
-    fontWeight: 550,
-    letterSpacing: 3,
-    color: "#2A2B2A",
-    padding: theme.spacing(2),
-    textAlign: "left",
-    [theme.breakpoints.down("md")]: {
-      fontSize: 28,
-      letterSpacing: 2,
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 20,
-      padding: theme.spacing(3),
-    },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: 14,
-      padding: theme.spacing(3),
-    },
-  },
-  cardSection: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    flexWrap: "wrap",
-    paddingLeft: "20px",
-    paddingRight: "20px",
-  },
-  search: {
-    position: "relative",
-    margin: 20,
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.black, 0.25),
-    },
-    width: "90%",
-    lineHeight: 3,
-    [theme.breakpoints.down("sm")]: {
-      lineHeight: 2,
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "left",
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(0, 1),
-    },
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    fontSize: 10,
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      fontSize: 20,
-      "&:focus": {
-        width: "20ch",
-      },
-    },
+    // flexGrow: 1,
+    // marginTop: "30px",
   },
   page: {
     "& > * + *": {
@@ -100,71 +36,261 @@ const styles = (theme) => ({
       size: "small",
     },
   },
+  formControl: {
+    minWidth: 150,
+    maxHeight: 50,
+    // marginTop: "20px",
+    marginLeft: "30px",
+  },
+  noResults: {
+    marginTop: "100px",
+    display: "block",
+    margin: "auto",
+  },
+  cardSection: {
+    paddingLeft: "20px",
+    paddingRight: "20px",
+  },
+  pagination: {
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+    display: "flex",
+    alignContent: "flex-end",
+    float: "right",
+    marginRight: "10vw",
+    [theme.breakpoints.down("sm")]: {
+      size: "small",
+    },
+  },
+  side: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundImage: `url(${image})`,
+    zIndex: -2,
+    // backgroundColor: theme.palette.common.black,
+    opacity: 0.7,
+    // height: "100%",
+  },
+  backdrop: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    zIndex: -1,
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.3,
+  },
 });
 
 const GroupBuyBody = (props) => {
   const { classes } = props;
-  const itemsPerPage = 4;
-  const [page, setPage] = React.useState(1);
-  const [noOfPages] = React.useState(Math.ceil(4 / itemsPerPage));
+  const [groupbuys, setGroupbuys] = useState([]);
+  const itemsPerPage = 3;
+  const [page, setPage] = useState(1);
+  const [noOfPages, setNumPages] = useState(
+    Math.ceil(groupbuys.length / itemsPerPage)
+  );
+  const [searchValue, setSearchValue] = useState("");
+  const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event, value) => {
     setPage(value);
   };
 
+  useEffect(() => {
+    // initially the groupbuys.length = 0 when getting data
+    // after data has been gathered, need to reset the num of pages
+    setNumPages(Math.ceil(groupbuys.length / itemsPerPage));
+  }, [groupbuys.length]);
+
+  useEffect(() => {
+    Service.client.get("/groupbuys").then((res) => {
+      setGroupbuys(res.data.results);
+      setLoading(false);
+      // console.log(res.data.results);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (searchValue === "") {
+      Service.client.get("/groupbuys").then((res) => {
+        setGroupbuys(res.data.results);
+        // console.log(res.data.results);
+      });
+    }
+  }, [searchValue]);
+
+  const handleSortChange = (event) => {
+    const buttonValue = event.target.value;
+    setSortMethod(buttonValue);
+    if (buttonValue === "" || buttonValue === undefined) {
+      Service.client.get("/groupbuys").then((res) => {
+        setGroupbuys(res.data.results);
+      });
+    } else if (buttonValue === "A-Z") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: "recipe_name",
+        computed: {
+          recipe_name: (row) => row.recipe.recipe_name,
+        },
+      });
+      setGroupbuys(arr);
+    } else if (buttonValue === "Z-A") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: "recipe_name",
+        computed: {
+          recipe_name: (row) => row.recipe.recipe_name,
+        },
+        order: "desc",
+      });
+      setGroupbuys(arr);
+    } else if (buttonValue === "PRICE_ASC") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: ["price"],
+        computed: {
+          price: (row) => {
+            if (row.final_price === null) {
+              return parseFloat(row.recipe.estimated_price_start);
+            }
+            return parseFloat(row.final_price);
+          },
+        },
+      });
+      setGroupbuys(arr);
+    } else if (buttonValue === "PRICE_DESC") {
+      let arr = groupbuys;
+      arr = sortArray(arr, {
+        by: ["price"],
+        order: "desc",
+        computed: {
+          price: (row) => {
+            if (row.final_price === null) {
+              return parseFloat(row.recipe.estimated_price_start);
+            }
+            return parseFloat(row.final_price);
+          },
+        },
+      });
+      // console.log(arr);
+      setGroupbuys(arr);
+    }
+  };
+
+  const getSearchResults = () => {
+    const searcher = new FuzzySearch(groupbuys, ["recipe.recipe_name"]);
+    const result = searcher.search(searchValue);
+    setGroupbuys(result);
+  };
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <Fragment>
-      <Grid container className={classes.root}>
-        <Grid item xs={1} />
-        <Grid item xs={6}>
-          <div className={classes.header}>Available Group Buys</div>
+      <Grid container className={classes.root} justify="center">
+        <Grid item xs={3}>
+          <div className={classes.side} />
         </Grid>
-        <Grid item xs={4}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
+        <Grid item xs={9} style={{ marginTop: "30px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: "30px",
+            }}
+          >
+            <SearchBar
+              style={{
+                width: "70%",
+                backgroundColor: "#e0e0e0",
+                marginLeft: "20px",
               }}
-              inputProps={{ "aria-label": "search" }}
+              placeholder="Search for Group Buys"
+              value={searchValue}
+              onChange={(newValue) => setSearchValue(newValue)}
+              onRequestSearch={getSearchResults}
+              onCancelSearch={() => setSearchValue("")}
             />
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel>Sort By</InputLabel>
+              <Select
+                label="Sort By"
+                value={sortMethod}
+                onChange={handleSortChange}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="PRICE_ASC">Price: Low to High</MenuItem>
+                <MenuItem value="PRICE_DESC">Price: High to Low</MenuItem>
+                <MenuItem value="A-Z">(A-Z) Alphabetically</MenuItem>
+                <MenuItem value="Z-A">(Z-A) Alphabetically</MenuItem>
+              </Select>
+            </FormControl>
           </div>
+          <Grid container className={classes.cardSection}>
+            {groupbuys && groupbuys.length > 0 ? (
+              groupbuys
+                .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                .map((groupbuy) => (
+                  <div
+                    style={{
+                      marginRight: "30px",
+                      marginBottom: "20px",
+                    }}
+                    key={groupbuy.gb_id}
+                  >
+                    <Grid item xs={5} md={4} xl={3}>
+                      <GroupBuyCard
+                        key={groupbuy.gb_id}
+                        groupbuyitem={groupbuy.recipe}
+                        groupbuy={groupbuy}
+                      />
+                    </Grid>
+                  </div>
+                ))
+            ) : (
+              <div className={classes.noResults}>
+                <SearchIcon style={{ fontSize: 50 }} color="disabled" />
+                <Typography variant="body1" style={{ fontSize: "18px" }}>
+                  We could not find anything that matches your search
+                </Typography>
+                <Typography variant="subtitle1">
+                  Try searching other keywords
+                </Typography>
+              </div>
+            )}
+          </Grid>
+          <Pagination
+            count={noOfPages}
+            page={page}
+            onChange={handleChange}
+            defaultPage={1}
+            color="primary"
+            size="medium"
+            showFirstButton
+            showLastButton
+            className={classes.pagination}
+          />
         </Grid>
-        <Grid item xs={1} />
-      </Grid>
-      <Grid container className={classes.root}>
-        <Grid item xs={1} />
-        <Grid xs={10} container className={classes.cardSection}>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
-          <Grid item xs={5} md={4} lg={3}>
-            <GroupBuyCard />
-          </Grid>
-        </Grid>
-        <Grid item xs={1} />
-      </Grid>
-      <Grid className={classes.page}>
-        <Pagination
-          count={noOfPages}
-          page={page}
-          onChange={handleChange}
-          defaultPage={1}
-          color="primary"
-          size="small"
-          showFirstButton
-          showLastButton
-        />
       </Grid>
     </Fragment>
   );

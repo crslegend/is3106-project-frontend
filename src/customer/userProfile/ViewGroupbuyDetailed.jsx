@@ -13,9 +13,11 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import moment from "moment";
 import Cookies from "js-cookie";
 import Service from "../../AxiosService";
-import image from "../../assets/login5.jpg";
+import withRoot from "../../constants/withRoot";
+import Navbar from "../Navbar";
+import image from "../../assets/login8.jpg";
 
-const styles = makeStyles((theme) => ({
+const styles = (theme) => ({
   root: {
     marginTop: "40px",
     flexGrow: 1,
@@ -27,14 +29,14 @@ const styles = makeStyles((theme) => ({
     background: fade("#E6BEAE", 0.5),
   },
   icon: {
-    background: fade(theme.palette.primary.main, 0.8),
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#48494B", 0.8),
+    color: fade("#ffffff", 0.8),
     "&:hover": {
-      background: theme.palette.primary.main,
+      background: fade(theme.palette.primary.main, 0.8),
       color: "#48494B",
     },
     [theme.breakpoints.down("md")]: {
@@ -188,7 +190,7 @@ const styles = makeStyles((theme) => ({
     opacity: 0.7,
     // height: "100%",
   },
-}));
+});
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -213,8 +215,8 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-const CardDetailBody = () => {
-  const classes = styles();
+const ViewGroupbuyDetailed = (props) => {
+  const { classes } = props;
   const [groupbuy, setGroupbuy] = useState("");
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -283,10 +285,11 @@ const CardDetailBody = () => {
 
   return (
     <Fragment>
+      <Navbar />
       <Grid container className={classes.root}>
         <Grid item xs={3}>
           <div className={classes.side} />
-          <Link to="/groupbuy">
+          <Link to="/profile/viewallgroupbuys">
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
@@ -361,7 +364,7 @@ const CardDetailBody = () => {
             disabled={!groupbuy.approval_status}
           >
             <ShoppingCartIcon className={classes.iconGroupBuy} />
-            Enter Group Buy
+            Enter Group Buy Again
           </Button>
         </Grid>
         <Grid item xs={1} />
@@ -370,4 +373,4 @@ const CardDetailBody = () => {
   );
 };
 
-export default withStyles(styles)(CardDetailBody);
+export default withRoot(withStyles(styles)(ViewGroupbuyDetailed));
