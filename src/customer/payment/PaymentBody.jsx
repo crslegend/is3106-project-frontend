@@ -167,7 +167,7 @@ const PaymentBody = (props) => {
   const { classes } = props;
   const [groupbuy, setGroupbuy] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [contact, setContact] = useState("+ 65");
+  const [contact, setContact] = useState("");
 
   const { id } = useParams();
   // console.log(id);
@@ -228,14 +228,14 @@ const PaymentBody = (props) => {
                 </CardContent>
                 <Divider classes={{ root: classes.divide }} />
                 <Grid container>
-                  <Grid xs={5} md={12}>
+                  <Grid item xs={5} md={12}>
                     <CardMedia
                       className={classes.media}
                       image={groupbuy && groupbuy.recipe.photo_url}
                       title={groupbuy && groupbuy.recipe.recipe_name}
                     />
                   </Grid>
-                  <Grid xs={7} md={12}>
+                  <Grid item xs={7} md={12}>
                     <CardContent>
                       <Typography
                         variant="body1"

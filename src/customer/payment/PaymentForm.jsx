@@ -11,10 +11,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Snackbar,
+  Typography,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import useForm from "./UseForm";
 import Service from "../../AxiosService";
+import { Alert } from "@material-ui/lab";
 
 const styles = (theme) => ({
   root: {
@@ -69,6 +72,29 @@ const styles = (theme) => ({
       color: "#5E4955",
     },
   },
+  mobileNum: {
+    padding: theme.spacing(1, 2),
+    margin: "0px",
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(0.5, 0.5),
+    },
+    "& label": {
+      fontSize: 20,
+      padding: "5px 10px",
+      marginLeft: "10px",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: 16,
+        padding: "5px 1px",
+        marginLeft: "5px",
+      },
+    },
+    "& label.Mui-focused": {
+      color: "#5E4955",
+    },
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+      display: "none",
+    },
+  },
   button: {
     margin: "10px 20px",
     backgroundColor: "#E6BEAE",
@@ -104,6 +130,11 @@ const PaymentForm = (props) => {
   const [address, setAddress] = useState("");
 
   const [openConfirmSubmitModal, setConfirmSubmitModal] = useState(false);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [contactAlertOpen, setContactAlertOpen] = useState(false);
+  const [addressAlertOpen, setAddressAlertOpen] = useState(false);
+  const [quantityAlertOpen, setQuantityAlertOpen] = useState(false);
 
   // to set user's contact number
   useEffect(() => {
@@ -168,24 +199,83 @@ const PaymentForm = (props) => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log(values);
-    console.log(newaddress);
+  const handleContactAlertClose = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setContactAlertOpen(false);
+  };
 
-    if (newaddress !== null || newaddress !== undefined) {
-      // console.log(newaddress);
-      Service.client
-        .post(`/users/${customer.id}/delivery-address`, newaddress)
-        .then((res) => {
-          // console.log(res.data.add_id);
-          setOrder({
-            ...order,
-            add_id: res.data.add_id,
-          });
-        });
+  const handleAddressAlertClose = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAddressAlertOpen(false);
+  };
+
+  const handleAlertClose = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertOpen(false);
+  };
+
+  const handleQuantityAlertClose = (e, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setQuantityAlertOpen(false);
+  };
+
+  const handleSubmit = () => {
+    // console.log(values);
+    // console.log(newaddress);
+
+    // form validation
+    if (quantity < 1) {
+      setQuantityAlertOpen(true);
+      return;
     }
 
-    setConfirmSubmitModal(true);
+    if (
+      address === "" &&
+      (newaddress === "" ||
+        newaddress.address_line1 === undefined ||
+        newaddress.address_line1 === "" ||
+        newaddress.postal_code === undefined ||
+        newaddress.postal_code === "") &&
+      (contact.length !== 8 || contact === "")
+    ) {
+      setAlertOpen(true);
+    } else if (contact.length !== 8 || contact === "") {
+      setContactAlertOpen(true);
+    } else if (
+      (address === "" && newaddress === "") ||
+      newaddress.address_line1 === undefined ||
+      newaddress.address_line1 === "" ||
+      newaddress.postal_code === undefined ||
+      newaddress.postal_code === ""
+    ) {
+      setAddressAlertOpen(true);
+    } else {
+      if ((newaddress !== null || newaddress !== undefined) && address === "") {
+        // console.log(newaddress);
+        Service.client
+          .post(`/users/${customer.id}/delivery-address`, newaddress)
+          .then((res) => {
+            // console.log(res.data.add_id);
+            setOrder({
+              ...order,
+              add_id: res.data.add_id,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+
+      setConfirmSubmitModal(true);
+    }
   };
 
   const submitOrder = () => {
@@ -219,6 +309,9 @@ const PaymentForm = (props) => {
               classes: { input: classes.root },
               disableUnderline: true,
             }}
+            InputLabelProps={{
+              shrink: true,
+            }}
             value={address.add_id}
             onChange={handleAddressChange}
             SelectProps={{
@@ -249,6 +342,9 @@ const PaymentForm = (props) => {
               classes: { input: classes.root },
               disableUnderline: true,
             }}
+            InputLabelProps={{
+              shrink: true,
+            }}
             value={values.addressOne}
             onChange={handleInputChange}
           />
@@ -262,6 +358,9 @@ const PaymentForm = (props) => {
             InputProps={{
               classes: { input: classes.root },
               disableUnderline: true,
+            }}
+            InputLabelProps={{
+              shrink: true,
             }}
             value={values.addressTwo}
             onChange={handleInputChange}
@@ -277,6 +376,9 @@ const PaymentForm = (props) => {
               classes: { input: classes.root },
               disableUnderline: true,
             }}
+            InputLabelProps={{
+              shrink: true,
+            }}
             value={values.postal}
             onChange={handleInputChange}
           />
@@ -291,22 +393,31 @@ const PaymentForm = (props) => {
             InputProps={{
               classes: { input: classes.root },
               disableUnderline: true,
+              inputProps: { min: 1 },
+            }}
+            InputLabelProps={{
+              shrink: true,
             }}
             value={quantity}
             onChange={handleQuantityChange}
+            type="number"
           />
           <TextField
             fullWidth="true"
             margin="dense"
             name="contact"
-            className={classes.field}
+            className={classes.mobileNum}
             label="Mobile Number"
             InputProps={{
               classes: { input: classes.root },
               disableUnderline: true,
             }}
+            InputLabelProps={{
+              shrink: true,
+            }}
             value={contact}
             onChange={handleContactChange}
+            type="number"
           />
         </Grid>
       </Grid>
@@ -331,6 +442,59 @@ const PaymentForm = (props) => {
           </DialogActions>
         </Dialog>
       </Box>
+
+      <Snackbar
+        open={contactAlertOpen}
+        autoHideDuration={4000}
+        onClose={handleContactAlertClose}
+      >
+        <Alert onClose={handleContactAlertClose} elevation={6} severity="error">
+          <Typography variant="body1">
+            Please enter a valid 8-digit contact number!
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={handleAlertClose}
+      >
+        <Alert onClose={handleAlertClose} elevation={6} severity="error">
+          <Typography variant="body1">
+            Please enter a valid 8-digit contact number and address!
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={addressAlertOpen}
+        autoHideDuration={4000}
+        onClose={handleAddressAlertClose}
+      >
+        <Alert onClose={handleAddressAlertClose} elevation={6} severity="error">
+          <Typography variant="body1">
+            Please enter all address fields or select an address from the
+            dropdown!
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={quantityAlertOpen}
+        autoHideDuration={4000}
+        onClose={handleQuantityAlertClose}
+      >
+        <Alert
+          onClose={handleQuantityAlertClose}
+          elevation={6}
+          severity="error"
+        >
+          <Typography variant="body1">
+            Please choose a valid quantity!
+          </Typography>
+        </Alert>
+      </Snackbar>
     </form>
   );
 };
