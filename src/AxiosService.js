@@ -55,13 +55,9 @@ client.interceptors.response.use(
     return new Promise((resolve, reject) => {
       const originReq = err.config;
       // console.log(originReq);
-      if (
-        err.response.status === 401 &&
-        err.config &&
-        !err.config.isRetryRequest
-      ) {
+      if (err.response.status === 401 && err.config && !err.config.isRetryRequest) {
         originReq.isRetryRequest = true;
-
+        // console.log("refresh token sent")
         const q = axios
           .post(`${BACKEND_URL}/api/token/refresh/`, {
             refresh: Cookies.get("t2"),
@@ -69,8 +65,8 @@ client.interceptors.response.use(
           .then((res) => {
             client.defaults.headers.common.Authorization = `Bearer ${res.data.access}`;
             originReq.headers.Authorization = `Bearer ${res.data.access}`;
-            Cookies.remove("t1");
-            Cookies.set("t1", res.data.access, { expires: 1, path: "" });
+            Cookies.remove("t1", { path: "/" });
+            Cookies.set("t1", res.data.access, { expires: 1, path: "/" });
             return client(originReq);
           });
 
