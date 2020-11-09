@@ -216,7 +216,7 @@ const ProfileBody = (props) => {
     }
     if (error) return;
 
-    console.log(passwordDetails);
+    // console.log(passwordDetails);
 
     Service.client
       .patch("/users/" + profile.id, passwordDetails)
@@ -451,7 +451,9 @@ const ProfileBody = (props) => {
                 {profile && profile.name}
               </Typography>
               <br />
-              <Typography variant="subtitle1">{profile.email}</Typography>
+              <Typography variant="subtitle1">
+                {profile && profile.email}
+              </Typography>
               <Typography variant="subtitle1">
                 Joined: {profile && formatDate(profile.date_joined)}
               </Typography>

@@ -266,7 +266,7 @@ const CardDetailBody = () => {
   if (groupbuy.approval_status === false) {
     orderstatus = (
       <Typography className={classes.upcoming}>
-        This order is currently under processing.
+        This order is pending approval.
       </Typography>
     );
   }

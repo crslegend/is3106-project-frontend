@@ -229,11 +229,13 @@ const PaymentBody = (props) => {
                 <Divider classes={{ root: classes.divide }} />
                 <Grid container>
                   <Grid item xs={5} md={12}>
-                    <CardMedia
-                      className={classes.media}
-                      image={groupbuy && groupbuy.recipe.photo_url}
-                      title={groupbuy && groupbuy.recipe.recipe_name}
-                    />
+                    {groupbuy && groupbuy.recipe.photo_url && (
+                      <CardMedia
+                        image={groupbuy.recipe.photo_url}
+                        className={classes.media}
+                        title={groupbuy.recipe.recipe_name}
+                      />
+                    )}
                   </Grid>
                   <Grid item xs={7} md={12}>
                     <CardContent>

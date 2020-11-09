@@ -49,7 +49,7 @@ const PrivateRoute = ({ render, path, ...rest }) => {
             </Button>
           </React.Fragment>
         );
-  return <Route render={newRender} path {...rest} />;
+  return <Route render={newRender} {...rest} />;
 };
 
 PrivateRoute.propTypes = {

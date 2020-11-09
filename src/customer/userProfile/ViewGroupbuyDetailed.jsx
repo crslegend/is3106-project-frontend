@@ -239,11 +239,11 @@ const ViewGroupbuyDetailed = (props) => {
         pathname: "/auth",
         state: { gbid: id },
       });
-      console.log("not logged in");
+      // console.log("not logged in");
     } else {
       // if user is logged in, direct to the groupbuy payment page
       history.push(`/payment/${id}`);
-      console.log("logged in");
+      // console.log("logged in");
     }
   };
 
@@ -268,7 +268,7 @@ const ViewGroupbuyDetailed = (props) => {
   if (groupbuy.approval_status === false) {
     orderstatus = (
       <Typography className={classes.upcoming}>
-        This order is currently under processing.
+        This order is pending approval.
       </Typography>
     );
   }

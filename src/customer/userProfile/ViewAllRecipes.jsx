@@ -125,7 +125,6 @@ const ViewAllRecipes = (props) => {
     setNumPages(Math.ceil(listOfCreatedRecipes.length / itemsPerPage));
   }, [listOfCreatedRecipes.length]);
 
-  console.log(listOfCreatedRecipes);
   const handleSortChange = (event) => {
     const buttonValue = event.target.value;
     setSortMethod(buttonValue);
@@ -158,7 +157,7 @@ const ViewAllRecipes = (props) => {
         by: ["estimated_price_start"],
         order: "desc",
       });
-      console.log(arr);
+      // console.log(arr);
       setListOfCreatedRecipes(arr);
     }
   };

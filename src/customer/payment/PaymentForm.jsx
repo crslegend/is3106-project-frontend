@@ -145,7 +145,10 @@ const PaymentForm = (props) => {
         .get(`/users/${userid}`)
         .then((res) => {
           setCustomer(res.data);
-          setContact(res.data.contact_number);
+          if (res.data.contact_number !== null) {
+            setContact(res.data.contact_number);
+          }
+
           setOrder({
             ...order,
             contact_number: res.data.contact_number,
@@ -244,10 +247,10 @@ const PaymentForm = (props) => {
         newaddress.address_line1 === "" ||
         newaddress.postal_code === undefined ||
         newaddress.postal_code === "") &&
-      (contact.length !== 8 || contact === "")
+      (contact === null || contact === "" || contact.length !== 8)
     ) {
       setAlertOpen(true);
-    } else if (contact.length !== 8 || contact === "") {
+    } else if (contact === null || contact === "" || contact.length !== 8) {
       setContactAlertOpen(true);
     } else if (
       (address === "" && newaddress === "") ||
@@ -301,7 +304,7 @@ const PaymentForm = (props) => {
         <Grid item xs={6}>
           <TextField
             select
-            fullWidth="true"
+            fullWidth
             margin="dense"
             className={classes.field}
             label="Delivery Address"
@@ -319,10 +322,10 @@ const PaymentForm = (props) => {
             }}
           >
             {addresses &&
-              addresses.map((option) => (
+              addresses.map((option, index) => (
                 <option
                   className={classes.root}
-                  key={option.add_id}
+                  key={index}
                   value={option.add_id}
                 >
                   {option.address_line1} {option.address_line2} S(
@@ -332,7 +335,7 @@ const PaymentForm = (props) => {
             <option aria-label="None" value="" />
           </TextField>
           <TextField
-            fullWidth="true"
+            fullWidth
             margin="dense"
             name="addressOne"
             className={classes.field}
@@ -349,7 +352,7 @@ const PaymentForm = (props) => {
             onChange={handleInputChange}
           />
           <TextField
-            fullWidth="true"
+            fullWidth
             margin="dense"
             name="addressTwo"
             className={classes.field}
@@ -366,7 +369,7 @@ const PaymentForm = (props) => {
             onChange={handleInputChange}
           />
           <TextField
-            fullWidth="true"
+            fullWidth
             margin="dense"
             name="postal"
             className={classes.field}
@@ -385,7 +388,7 @@ const PaymentForm = (props) => {
         </Grid>
         <Grid item xs={6}>
           <TextField
-            fullWidth="true"
+            fullWidth
             margin="dense"
             name="quantity"
             className={classes.field}
@@ -403,7 +406,7 @@ const PaymentForm = (props) => {
             type="number"
           />
           <TextField
-            fullWidth="true"
+            fullWidth
             margin="dense"
             name="contact"
             className={classes.mobileNum}
