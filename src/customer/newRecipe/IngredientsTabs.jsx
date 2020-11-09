@@ -51,6 +51,8 @@ const styles = (theme) => ({
     flexGrow: 1,
     width: "100%",
     margin: "auto",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;",
     // backgroundColor: theme.palette.background.paper,
   },
   card: {
@@ -66,7 +68,7 @@ const styles = (theme) => ({
     width: "100%",
     display: "block",
     margin: `${theme.spacing(1)}px auto 0`,
-    backgroundColor: "#77625C",
+    backgroundColor: "#FADDD6",
     // backgroundColor: theme.palette.secondary.main,
   },
   progress: {
@@ -87,11 +89,12 @@ const styles = (theme) => ({
     maxHeight: 50,
   },
   tabText: {
-    color: "#ffffff",
+    color: "#E55434",
+    fontWeight: "600",
   },
   appBar: {
     // backgroundColor: theme.palette.secondary.dark,
-    backgroundColor: "#77625C",
+    backgroundColor: "#FADDD6",
   },
   search: {
     position: "relative",
@@ -305,8 +308,8 @@ const IngredientsTabs = (props) => {
             handleChange(event, newValue);
             onTabChange(newValue);
           }}
-          TabIndicatorProps={{ style: { backgroundColor: "#E6BEAE" } }}
-          TabScrollButtonProps={{ style: { color: "#ffffff" } }}
+          TabIndicatorProps={{ style: { backgroundColor: "#E55434" } }}
+          TabScrollButtonProps={{ style: { color: "#E55434" } }}
           classes={{ root: classes.tabText }}
           variant="scrollable"
           scrollButtons="auto"
@@ -332,7 +335,7 @@ const IngredientsTabs = (props) => {
             index={tab}
             id={tab.toString()}
             style={{
-              maxHeight: "70vh",
+              maxHeight: "75vh",
               overflow: "auto",
               borderBottom: "2px solid #e8e8e8",
               borderLeft: "10px solid #e8e8e8",

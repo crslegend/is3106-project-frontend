@@ -57,7 +57,6 @@ const styles = makeStyles((theme) => ({
     display: "flex",
     paddingLeft: "15px",
     color: "#ED2939",
-    fontFamily: "Raleway",
     fontWeight: 500,
     fontSize: 16,
     [theme.breakpoints.down("md")]: {
@@ -71,7 +70,6 @@ const styles = makeStyles((theme) => ({
     display: "flex",
     paddingLeft: "15px",
     color: "#32CD32",
-    fontFamily: "Raleway",
     fontWeight: 500,
     fontSize: 16,
     [theme.breakpoints.down("md")]: {
@@ -85,7 +83,6 @@ const styles = makeStyles((theme) => ({
     display: "flex",
     paddingLeft: "15px",
     color: "#F2AA4CFF",
-    fontFamily: "Raleway",
     fontWeight: 500,
     fontSize: 16,
     [theme.breakpoints.down("md")]: {
@@ -103,7 +100,6 @@ const styles = makeStyles((theme) => ({
     padding: 8,
     margin: 6,
     textTransform: "none",
-    fontFamily: "Raleway",
     color: "#5E4955",
     fontSize: 18,
     [theme.breakpoints.down("md")]: {
@@ -169,7 +165,9 @@ const UserGroupBuyCard = (props) => {
         )}
 
         <Button
-          className={classes.cardButton}
+          color="primary"
+          variant="contained"
+          size="large"
           component={Link}
           to={`/profile/viewallgroupbuys/${groupbuy && groupbuy.gb_id}`}
         >

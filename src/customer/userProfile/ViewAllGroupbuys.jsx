@@ -44,16 +44,15 @@ const styles = (theme) => ({
     },
   },
   icon: {
-    background: fade(theme.palette.common.black, 0.6),
+    background: fade(theme.palette.common.white, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#ffffff", 0.8),
+    color: fade("#48494B", 0.8),
     "&:hover": {
-      background: fade(theme.palette.primary.main, 0.8),
+      background: theme.palette.cancel.main,
       color: "#48494B",
-      cursor: "pointer",
     },
     [theme.breakpoints.down("md")]: {
       fontSize: "5vw",
@@ -283,9 +282,11 @@ const ViewAllGroupbuys = (props) => {
             <Button
               component="a"
               href="/profile/viewallrecipes"
-              className={classes.button}
+              color="primary"
+              variant="contained"
+              size="large"
             >
-              go to created recipes
+              Go to Created Recipes
             </Button>
             {listOfGroupbuys && listOfGroupbuys.length > 0 && (
               <Pagination

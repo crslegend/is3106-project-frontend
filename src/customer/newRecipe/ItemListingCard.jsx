@@ -47,7 +47,7 @@ const styles = makeStyles((theme) => ({
     },
   },
   dialog: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.secondary,
     "& p": {
       textTransform: "capitalize",
     },
@@ -242,13 +242,13 @@ const ItemListingCard = (props) => {
           <DialogActions>
             <Button
               onClick={handleClose}
-              color="secondary"
+              color="cancel"
               className={classes.button}
             >
               Cancel
             </Button>
             <Button
-              color="secondary"
+              color="primary"
               onClick={handleAddToRecipe}
               className={classes.button}
               disabled={

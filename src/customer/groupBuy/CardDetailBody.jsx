@@ -27,14 +27,14 @@ const styles = makeStyles((theme) => ({
     background: fade("#E6BEAE", 0.5),
   },
   icon: {
-    background: fade(theme.palette.primary.main, 0.8),
+    background: fade(theme.palette.common.white, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
     color: fade("#48494B", 0.8),
     "&:hover": {
-      background: theme.palette.primary.main,
+      background: theme.palette.cancel.main,
       color: "#48494B",
     },
     [theme.breakpoints.down("md")]: {
@@ -60,7 +60,7 @@ const styles = makeStyles((theme) => ({
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
     textTransform: "capitalize",
-    fontWeight: 550,
+    fontWeight: 600,
     fontSize: 30,
     textAlign: "left",
     paddingLeft: "30px",
@@ -77,18 +77,17 @@ const styles = makeStyles((theme) => ({
     paddingLeft: "30px",
     paddingTop: "10px",
     color: "#ED2939",
-    fontFamily: "Raleway",
     [theme.breakpoints.down("sm")]: {
       fontSize: 16,
       paddingLeft: "0px",
     },
   },
   cardBody: {
-    fontFamily: "Raleway",
     fontWeight: 500,
-    fontSize: 22,
+    fontSize: 14,
     textAlign: "left",
     paddingLeft: "30px",
+    marginTop: "3px",
     [theme.breakpoints.down("md")]: {
       fontSize: 20,
     },
@@ -98,7 +97,6 @@ const styles = makeStyles((theme) => ({
     },
   },
   ing: {
-    fontFamily: "Raleway",
     textAlign: "left",
     paddingLeft: "40px",
     fontSize: 15,
@@ -110,7 +108,6 @@ const styles = makeStyles((theme) => ({
     },
   },
   progressHeader: {
-    fontFamily: "Raleway",
     fontWeight: 500,
     fontSize: 16,
     textAlign: "left",
@@ -141,18 +138,11 @@ const styles = makeStyles((theme) => ({
     },
   },
   buyButton: {
-    backgroundColor: fade(theme.palette.primary.main, 0.7),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.primary.main, 0.9),
-    },
     padding: 10,
     margin: 15,
-    borderRadius: 50,
     float: "right",
     textTransform: "none",
-    fontFamily: "Raleway",
-    color: "#5E4955",
-    fontSize: 20,
+    color: "secondary",
     [theme.breakpoints.down("md")]: {
       fontSize: 16,
     },
@@ -209,7 +199,7 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
   bar: {
     borderRadius: 10,
-    backgroundColor: "#E19576",
+    backgroundColor: "secondary",
   },
 }))(LinearProgress);
 
@@ -291,71 +281,72 @@ const CardDetailBody = () => {
           </Link>
         </Grid>
         <Grid item xs={8}>
-          <Card className={classes.card}>
-            <Grid container className={classes.root}>
-              <Grid item xs={12} md={5}>
-                {groupbuy && groupbuy.recipe.photo_url && (
-                  <CardMedia
-                    className={classes.media}
-                    image={groupbuy && groupbuy.recipe.photo_url}
-                    title={groupbuy && groupbuy.recipe.recipe_name}
-                  />
-                )}
-              </Grid>
-              <Grid item xs={12} md={7}>
-                <CardContent height="150" width="150">
-                  <Typography className={classes.cardHeader}>
-                    {groupbuy && groupbuy.recipe.recipe_name}
-                  </Typography>
-                  {groupbuy.final_price !== null ? (
-                    <Typography className={classes.cardBody}>
-                      ${groupbuy.final_price}
-                    </Typography>
-                  ) : (
-                    <Typography className={classes.cardBody}>
-                      ${groupbuy.recipe.estimated_price_start} - $
-                      {groupbuy.recipe.estimated_price_end}
-                    </Typography>
-                  )}
-                  <p className={classes.progressHeader}>Order Fulfillment</p>
-                  <div style={{ position: "relative" }}>
-                    <BorderLinearProgress
-                      className={classes.root}
-                      variant="determinate"
-                      color="secondary"
-                      value={fulfillment}
-                    />
-                    <span className={classes.progressLabel}>
-                      Current Orders: {groupbuy.current_order_quantity}
-                    </span>
-                    <span className={classes.progressTotalLabel}>
-                      {groupbuy.minimum_order_quantity}
-                    </span>
-                  </div>
-                  <Typography
-                    style={{ marginTop: "10px" }}
-                    className={classes.cardBody}
-                  >
-                    Ingredient List
-                  </Typography>
-                  {groupbuy &&
-                    groupbuy.recipe.ingredients.map((ingredient, index) => (
-                      <Typography key={index} className={classes.ing}>
-                        {ingredient.ing_name} , {ingredient.quantity}
-                      </Typography>
-                    ))}
-                  <Typography
-                    style={{ marginTop: "10px", fontWeight: "700" }}
-                    className={classes.progressHeader}
-                  >
-                    Fulfillment Date: {fulfillmentdate}
-                  </Typography>
-                  {orderstatus}
-                </CardContent>
-              </Grid>
+          <Grid container className={classes.root}>
+            <Grid item xs={12} md={5}>
+              {groupbuy && groupbuy.recipe.photo_url && (
+                <CardMedia
+                  className={classes.media}
+                  image={groupbuy && groupbuy.recipe.photo_url}
+                  title={groupbuy && groupbuy.recipe.recipe_name}
+                />
+              )}
             </Grid>
-          </Card>
+            <Grid item xs={12} md={7}>
+              <CardContent height="150" width="150">
+                <Typography className={classes.cardHeader}>
+                  {groupbuy && groupbuy.recipe.recipe_name}
+                </Typography>
+                {groupbuy.final_price !== null ? (
+                  <Typography className={classes.cardBody}>
+                    ${groupbuy.final_price}
+                  </Typography>
+                ) : (
+                  <Typography className={classes.cardBody}>
+                    ${groupbuy.recipe.estimated_price_start} - $
+                    {groupbuy.recipe.estimated_price_end}
+                  </Typography>
+                )}
+                <p className={classes.progressHeader}>Order Fulfillment</p>
+                <div style={{ position: "relative" }}>
+                  <BorderLinearProgress
+                    className={classes.root}
+                    variant="determinate"
+                    color="secondary"
+                    value={fulfillment}
+                  />
+                  <span className={classes.progressLabel}>
+                    Current Orders: {groupbuy.current_order_quantity}
+                  </span>
+                  <span className={classes.progressTotalLabel}>
+                    {groupbuy.minimum_order_quantity}
+                  </span>
+                </div>
+                <Typography
+                  style={{ marginTop: "10px" }}
+                  className={classes.cardBody}
+                >
+                  Ingredient List
+                </Typography>
+                {groupbuy &&
+                  groupbuy.recipe.ingredients.map((ingredient, index) => (
+                    <Typography key={index} className={classes.ing}>
+                      {ingredient.ing_name} , {ingredient.quantity}
+                    </Typography>
+                  ))}
+                <Typography
+                  style={{ marginTop: "10px", fontWeight: "700" }}
+                  className={classes.progressHeader}
+                >
+                  Fulfillment Date: {fulfillmentdate}
+                </Typography>
+                {orderstatus}
+              </CardContent>
+            </Grid>
+          </Grid>
           <Button
+            color="primary"
+            variant="contained"
+            size="large"
             className={classes.buyButton}
             onClick={handleRedirect}
             disabled={!groupbuy.approval_status}

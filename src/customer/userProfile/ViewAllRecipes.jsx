@@ -50,7 +50,7 @@ const styles = (theme) => ({
     marginLeft: "100px",
     color: fade("#ffffff", 0.8),
     "&:hover": {
-      background: fade(theme.palette.primary.main, 0.8),
+      background: fade(theme.palette.cancel.main, 0.8),
       color: "#48494B",
       cursor: "pointer",
     },
@@ -261,7 +261,9 @@ const ViewAllRecipes = (props) => {
             <Button
               component="a"
               href="/profile/viewallgroupbuys"
-              className={classes.button}
+              color="primary"
+              variant="contained"
+              size="large"
             >
               Go To Entered Groupbuys
             </Button>

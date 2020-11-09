@@ -79,7 +79,8 @@ const styles = (theme) => ({
   dropzone: {
     "@global": {
       ".MuiDropzoneArea-text.MuiTypography-h5": {
-        textTransform: "capitalize",
+        textTransform: "none",
+        fontSize: "16px",
       },
     },
   },
@@ -332,8 +333,10 @@ const ProfileBody = (props) => {
               </CardBody>
               <CardFooter>
                 <Button
-                  color="secondary"
+                  variant="contained"
+                  color="primary"
                   type="submit"
+                  size="large"
                   className={classes.button}
                 >
                   Update Profile
@@ -430,8 +433,10 @@ const ProfileBody = (props) => {
                 </CardBody>
                 <CardFooter>
                   <Button
-                    color="secondary"
+                    variant="contained"
+                    color="primary"
                     type="submit"
+                    size="large"
                     className={classes.button}
                   >
                     Save Password
@@ -458,26 +463,30 @@ const ProfileBody = (props) => {
             </CardAvatar>
 
             <CardBody profile>
-              <Typography variant="h5" style={{ textTransform: "none" }}>
+              <Typography style={{ fontSize: "20px", fontWeight: "600" }}>
                 {profile && profile.name}
               </Typography>
               <br />
-              <Typography variant="subtitle1">
-                {profile && profile.email}
-              </Typography>
-              <Typography variant="subtitle1">
+              <Typography>{profile && profile.email}</Typography>
+              <Typography>
                 Joined: {profile && formatDate(profile.date_joined)}
               </Typography>
               <br />
               <Button
-                color="secondary"
+                color="primary"
+                variant="outlined"
+                size="large"
                 href="/profile/viewallgroupbuys"
                 className={classes.button}
+                style={{ marginBottom: "5px" }}
               >
                 View Entered Groupbuys
               </Button>
+              <br />
               <Button
-                color="secondary"
+                color="primary"
+                variant="outlined"
+                size="large"
                 href="/profile/viewallrecipes"
                 className={classes.button}
               >
@@ -492,7 +501,7 @@ const ProfileBody = (props) => {
       <Dialog onClose={() => setUploadOpen(false)} open={uploadOpen}>
         <DialogTitle>
           <Typography style={{ textTransform: "capitalize", fontSize: "19px" }}>
-            Upload A Photo (Max 5MB)
+            Upload Profile Photo
           </Typography>
           <IconButton
             style={{ right: "12px", top: "8px", position: "absolute" }}
@@ -508,7 +517,7 @@ const ProfileBody = (props) => {
         <DialogContent>
           <DropzoneAreaBase
             dropzoneClass={classes.dropzone}
-            dropzoneText="Drag and drop a file or click here"
+            dropzoneText="&nbsp;Drag and drop an image or click here&nbsp;"
             acceptedFiles={["image/*"]}
             filesLimit={1}
             fileObjects={profilePhoto}
@@ -528,7 +537,7 @@ const ProfileBody = (props) => {
         <DialogActions>
           <Button
             className={classes.button}
-            color="secondary"
+            color="cancel"
             onClick={() => {
               setProfilePhoto([]);
               setUploadOpen(false);
@@ -539,7 +548,7 @@ const ProfileBody = (props) => {
 
           <Button
             className={classes.button}
-            color="secondary"
+            color="primary"
             onClick={() => {
               setUploadOpen(false);
               handleUploadProfileImage();

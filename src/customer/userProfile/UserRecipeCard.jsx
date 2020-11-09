@@ -143,7 +143,9 @@ const UserRecipeCard = (props) => {
         }
 
         <Button
-          className={classes.cardButton}
+          color="primary"
+          variant="contained"
+          size="large"
           component={Link}
           to={{
             pathname: `/profile/viewallrecipes/${recipe && recipe.recipe_id}`,

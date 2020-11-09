@@ -4,10 +4,10 @@ import { orange, green, grey, red } from "@material-ui/core/colors";
 const rawTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "#edd0c5",
+      main: "#E55434",
     },
     secondary: {
-      main: "#B2967D",
+      main: "#FADDD6",
       light: "#E6BEAE",
       dark: "#8f7054",
     },
@@ -26,15 +26,22 @@ const rawTheme = createMuiTheme({
       xLight: green[50],
       dark: green[700],
     },
+    white: {
+      main: "#ffffff",
+    },
+    cancel: {
+      main: "#828282",
+    },
   },
   typography: {
-    fontFamily: "Alegreya",
+    fontFamily: "Arial",
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
     fontWeightMedium: 300, // SeoulHangang CL
-    fontFamilySecondary: '-apple-system,system-ui,BlinkMacSystemFont,' +
-    '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+    fontFamilySecondary:
+      "-apple-system,system-ui,BlinkMacSystemFont," +
+      '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
   },
 });
 
@@ -112,6 +119,9 @@ const theme = {
       ...rawTheme.typography.body1,
       ...fontBody,
       fontSize: 14,
+    },
+    button: {
+      textTransform: "none",
     },
   },
 };
