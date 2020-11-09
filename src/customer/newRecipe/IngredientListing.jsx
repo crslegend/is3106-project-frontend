@@ -310,7 +310,7 @@ const IngredientListing = (props) => {
                 {chosenIngredients && chosenIngredients.length > 0 ? (
                   chosenIngredients.map((value, index) => {
                     return (
-                      <Fragment>
+                      <Fragment key={index}>
                         <ListItem
                           key={index}
                           style={{
