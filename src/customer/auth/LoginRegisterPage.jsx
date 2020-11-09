@@ -338,8 +338,8 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
-              <img src={sashimilogo} className={classes.sashimilogo} />
-              <Typography className={classes.font20}>SASHIMI</Typography>
+              {/* <img src={sashimilogo} className={classes.sashimilogo} /> */}
+              <Typography className={classes.font20}>Sashimi</Typography>
               <br />
               <Typography className={classes.font32}>Welcome back</Typography>
               <form
@@ -438,8 +438,8 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
-              <img src={sashimilogo} className={classes.sashimilogo} />
-              <Typography className={classes.font20}>SASHIMI</Typography>
+              {/* <img src={sashimilogo} className={classes.sashimilogo} /> */}
+              <Typography className={classes.font20}>Sashimi</Typography>
               <br />
               <Typography className={classes.font32}>Register</Typography>
               <br />

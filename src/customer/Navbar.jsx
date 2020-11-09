@@ -19,12 +19,15 @@ import jwt_decode from "jwt-decode";
 import AppBar from "../components/AppBar";
 import Toolbar, { styles as toolbarStyles } from "../components/Toolbar";
 import Service from "../AxiosService";
+import logo from "../assets/logo.svg";
+import logo2 from "../assets/SashimiLogo2.jpg";
 
 const styles = (theme) => ({
   title: {
     color: "#ffffff",
     fontSize: 24,
     textTransform: "none",
+    fontStyle: "italic",
   },
   title1: {
     color: "#ffffff",
@@ -188,6 +191,15 @@ const Navbar = ({ classes }) => {
                   className={classes.title}
                   href="/"
                 >
+                  <img
+                    src={logo}
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                      marginRight: "7px",
+                      marginBottom: "-3px",
+                    }}
+                  />
                   Sashimi
                 </Link>
               </div>
@@ -248,6 +260,15 @@ const Navbar = ({ classes }) => {
                 className={classes.title}
                 href="/"
               >
+                <img
+                  src={logo}
+                  style={{
+                    width: "28px",
+                    height: "28px",
+                    marginRight: "7px",
+                    marginBottom: "-3px",
+                  }}
+                />
                 Sashimi
               </Link>
             </Fragment>
