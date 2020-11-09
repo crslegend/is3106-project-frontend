@@ -333,7 +333,7 @@ const ProfileBody = (props) => {
               </CardBody>
               <CardFooter>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   type="submit"
                   size="large"
@@ -433,7 +433,7 @@ const ProfileBody = (props) => {
                 </CardBody>
                 <CardFooter>
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
                     type="submit"
                     size="large"

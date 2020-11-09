@@ -399,6 +399,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   fullWidth
                   variant="contained"
                   color="primary"
+                  size="large"
                   className={classes.submit}
                   onClick={handleSubmitLogin}
                 >
@@ -440,7 +441,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
               <img src={sashimilogo} className={classes.sashimilogo} />
               <Typography className={classes.font20}>SASHIMI</Typography>
               <br />
-              <Typography className={classes.font32}>Sign up</Typography>
+              <Typography className={classes.font32}>Register</Typography>
               <br />
 
               <form
@@ -524,13 +525,14 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   fullWidth
                   variant="contained"
                   color="primary"
+                  size="large"
                   className={classes.submit}
                   onClick={handleSubmitRegister}
                 >
                   {loading ? (
                     <CircularProgress size={30} color="secondary" />
                   ) : (
-                    "Register"
+                    "Sign Up"
                   )}
                 </Button>
                 <Grid container justify="flex-end">

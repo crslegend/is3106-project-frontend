@@ -260,7 +260,9 @@ const Navbar = ({ classes }) => {
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
+                  size="large"
                   href="/auth"
+                  style={{ color: "white" }}
                 >
                   <AccountCircleOutlinedIcon />
                   Account
@@ -319,7 +321,7 @@ const Navbar = ({ classes }) => {
                     <CardActions>
                       <div>
                         <Box display="flex" justifyContent="center" m={1}>
-                          <Button color="primary" href="/profile">
+                          <Button color="primary" size="large" href="/profile">
                             Manage your account
                           </Button>
                         </Box>
@@ -328,6 +330,7 @@ const Navbar = ({ classes }) => {
                           <Button
                             variant="outlined"
                             color="inherit"
+                            size="large"
                             onClick={handleLogout}
                           >
                             Sign Out
