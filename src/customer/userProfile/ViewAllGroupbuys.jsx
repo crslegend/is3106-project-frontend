@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
@@ -102,6 +103,7 @@ const ViewAllGroupbuys = (props) => {
     Math.ceil(listOfGroupbuys.length / itemsPerPage)
   );
   const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -112,6 +114,7 @@ const ViewAllGroupbuys = (props) => {
       Service.client.get(`/orders`).then((res) => {
         // console.log(res);
         setListOfGroupBuys(res.data);
+        setLoading(false);
       });
     }
   };
@@ -179,6 +182,14 @@ const ViewAllGroupbuys = (props) => {
       setListOfGroupBuys(arr);
     }
   };
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <Fragment>

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Grid, Card } from "@material-ui/core";
+import { Grid, Card, CircularProgress } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -131,18 +131,28 @@ const styles = (theme) => ({
 const ViewRecipeDetailed = (props) => {
   const { classes } = props;
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   // console.log(id);
 
   const [recipe, setRecipe] = useState("");
   useEffect(() => {
     Service.client.get(`/recipes/${id}`).then((res) => {
       setRecipe(res.data);
+      setLoading(false);
       // console.log(res.data);
     });
   }, []);
 
   // react router dom history hooks
   const history = useHistory();
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <Fragment>

@@ -25,7 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import Service from "../../AxiosService";
-import { Typography } from "@material-ui/core";
+import { CircularProgress, Typography } from "@material-ui/core";
 
 const styles = (theme) => ({
   root: {
@@ -103,6 +103,8 @@ const ProfileBody = (props) => {
   const [newPassword1Error, setNewPassword1Error] = useState(false);
   const [newPassword2Error, setNewPassword2Error] = useState(false);
 
+  const [loading, setLoading] = useState(true);
+
   const getUserData = () => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
       const userid = jwt_decode(Service.getJWT()).user_id;
@@ -111,6 +113,7 @@ const ProfileBody = (props) => {
         .get(`/users/${userid}`)
         .then((res) => {
           setProfile(res.data);
+          setLoading(false);
         })
         .catch((err) => {
           setProfile(null);
@@ -256,6 +259,14 @@ const ProfileBody = (props) => {
     }
     return "";
   };
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div style={{ marginTop: 40 }}>

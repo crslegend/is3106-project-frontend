@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Grid, Card } from "@material-ui/core";
+import { Grid, Card, CircularProgress } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -218,12 +218,14 @@ const BorderLinearProgress = withStyles((theme) => ({
 const ViewGroupbuyDetailed = (props) => {
   const { classes } = props;
   const [groupbuy, setGroupbuy] = useState("");
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   // console.log(id);
 
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
+      setLoading(false);
       // console.log(res.data);
     });
   }, []);
@@ -270,6 +272,14 @@ const ViewGroupbuyDetailed = (props) => {
       <Typography className={classes.upcoming}>
         This order is pending approval.
       </Typography>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
     );
   }
 

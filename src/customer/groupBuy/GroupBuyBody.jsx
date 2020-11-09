@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
@@ -99,6 +100,7 @@ const GroupBuyBody = (props) => {
   );
   const [searchValue, setSearchValue] = useState("");
   const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -113,6 +115,7 @@ const GroupBuyBody = (props) => {
   useEffect(() => {
     Service.client.get("/groupbuys").then((res) => {
       setGroupbuys(res.data.results);
+      setLoading(false);
       // console.log(res.data.results);
     });
   }, []);
@@ -190,6 +193,14 @@ const GroupBuyBody = (props) => {
     const result = searcher.search(searchValue);
     setGroupbuys(result);
   };
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <Fragment>

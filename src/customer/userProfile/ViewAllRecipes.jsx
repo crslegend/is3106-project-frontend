@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
@@ -101,6 +102,7 @@ const ViewAllRecipes = (props) => {
     Math.ceil(listOfCreatedRecipes.length / itemsPerPage)
   );
   const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -111,6 +113,7 @@ const ViewAllRecipes = (props) => {
       Service.client.get(`/recipes`).then((res) => {
         // console.log(res);
         setListOfCreatedRecipes(res.data);
+        setLoading(false);
       });
     }
   };
@@ -161,6 +164,14 @@ const ViewAllRecipes = (props) => {
       setListOfCreatedRecipes(arr);
     }
   };
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <Fragment>
