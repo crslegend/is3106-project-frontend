@@ -143,7 +143,7 @@ const Navbar = ({ classes }) => {
   useEffect(() => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
       let userid = jwt_decode(Service.getJWT()).user_id;
-      console.log(`profile useeffect userid = ${userid}`);
+      // console.log(`profile useeffect userid = ${userid}`);
       Service.client
         .get(`/users/${userid}`)
         .then((res) => setProfile(res.data))

@@ -157,14 +157,16 @@ const ViewRecipeDetailed = (props) => {
         <Grid item xs={8}>
           <Card className={classes.card}>
             <Grid container className={classes.root}>
-              <Grid xs={12} md={5}>
-                <CardMedia
-                  className={classes.media}
-                  image={recipe && recipe.photo_url}
-                  title={recipe && recipe.recipe_name}
-                />
+              <Grid item xs={12} md={5}>
+                {recipe && recipe.photo_url && (
+                  <CardMedia
+                    className={classes.media}
+                    image={recipe && recipe.photo_url}
+                    title={recipe && recipe.recipe_name}
+                  />
+                )}
               </Grid>
-              <Grid xs={12} md={7}>
+              <Grid item xs={12} md={7}>
                 <CardContent height="150" width="150">
                   <Typography className={classes.cardHeader}>
                     {recipe && recipe.recipe_name}
@@ -182,8 +184,8 @@ const ViewRecipeDetailed = (props) => {
                     Ingredient List
                   </Typography>
                   {recipe &&
-                    recipe.ingredients.map((ingredient) => (
-                      <Typography className={classes.ing}>
+                    recipe.ingredients.map((ingredient, index) => (
+                      <Typography className={classes.ing} key={index}>
                         {ingredient.ing_name} , {ingredient.quantity}
                       </Typography>
                     ))}

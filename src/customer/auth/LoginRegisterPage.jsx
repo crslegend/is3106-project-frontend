@@ -383,14 +383,6 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                     classes: { root: classes.helperText },
                   }}
                 />
-                <Grid container>
-                  <Grid item>
-                    {/* <FormControlLabel
-                      control={<Checkbox value="remember" color="primary" />}
-                      label="Remember me"
-                    /> */}
-                  </Grid>
-                </Grid>
 
                 <Button
                   type="submit"
@@ -407,11 +399,6 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   )}
                 </Button>
                 <Grid container>
-                  <Grid item xs>
-                    {/* <Link href="\forgetpassword" variant="body2">
-                      Forgot password?
-                    </Link> */}
-                  </Grid>
                   <Grid item>
                     <Link
                       variant="body2"

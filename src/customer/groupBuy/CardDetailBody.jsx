@@ -237,11 +237,11 @@ const CardDetailBody = () => {
         pathname: "/auth",
         state: { gbid: id },
       });
-      console.log("not logged in");
+      // console.log("not logged in");
     } else {
       // if user is logged in, direct to the groupbuy payment page
       history.push(`/payment/${id}`);
-      console.log("logged in");
+      // console.log("logged in");
     }
   };
 
@@ -283,14 +283,16 @@ const CardDetailBody = () => {
         <Grid item xs={8}>
           <Card className={classes.card}>
             <Grid container className={classes.root}>
-              <Grid xs={12} md={5}>
-                <CardMedia
-                  className={classes.media}
-                  image={groupbuy && groupbuy.recipe.photo_url}
-                  title={groupbuy && groupbuy.recipe.recipe_name}
-                />
+              <Grid item xs={12} md={5}>
+                {groupbuy && groupbuy.recipe.photo_url && (
+                  <CardMedia
+                    className={classes.media}
+                    image={groupbuy && groupbuy.recipe.photo_url}
+                    title={groupbuy && groupbuy.recipe.recipe_name}
+                  />
+                )}
               </Grid>
-              <Grid xs={12} md={7}>
+              <Grid item xs={12} md={7}>
                 <CardContent height="150" width="150">
                   <Typography className={classes.cardHeader}>
                     {groupbuy && groupbuy.recipe.recipe_name}

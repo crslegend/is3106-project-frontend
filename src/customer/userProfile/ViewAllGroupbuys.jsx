@@ -236,11 +236,12 @@ const ViewAllGroupbuys = (props) => {
             {listOfGroupbuys && listOfGroupbuys.length > 0 ? (
               listOfGroupbuys
                 .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                .map((groupbuy) => (
+                .map((groupbuy, index) => (
                   <div
                     style={{
                       marginRight: "30px",
                     }}
+                    key={index}
                   >
                     <Grid item xs>
                       <UserGroupbuyCard

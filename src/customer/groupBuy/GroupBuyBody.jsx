@@ -195,18 +195,6 @@ const GroupBuyBody = (props) => {
     <Fragment>
       <Grid container className={classes.root} justify="center">
         <Grid item xs={3}>
-          {/* <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              // justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4" style={{ textTransform: "capitalize" }}>
-              Available Group Buys
-            </Typography>
-          </div> */}
           <div className={classes.side} />
         </Grid>
         <Grid item xs={9} style={{ marginTop: "30px" }}>

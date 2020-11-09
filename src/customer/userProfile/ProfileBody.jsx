@@ -106,7 +106,7 @@ const ProfileBody = (props) => {
   const getUserData = () => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
       const userid = jwt_decode(Service.getJWT()).user_id;
-      console.log(`profile useeffect userid = ${userid}`);
+      // console.log(`profile useeffect userid = ${userid}`);
       Service.client
         .get(`/users/${userid}`)
         .then((res) => {

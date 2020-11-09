@@ -121,25 +121,6 @@ const IngredientListing = (props) => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [openConfirmSubmitModal, setConfirmSubmitModal] = useState(false);
 
-  // useEffect(() => {
-  //   Service.ntucClient
-  //     .get("", {
-  //       params: {
-  //         category: "meat-seafood",
-  //         includeTagDetails: "true",
-  //         page: 1,
-  //         url: "meat-seafood",
-  //       },
-  //     })
-  //     .then((res) => {
-  //       // console.log(res.data.data.page.layouts[1].value.collection);
-  //       setListing(res.data.data.page.layouts[1].value.collection);
-  //     });
-  // }, []);
-
-  // console.log(listing);
-  // console.log(listing.product && listing.product);
-
   const calculateTotalPrice = () => {
     let total = 0;
     let i = 0;
