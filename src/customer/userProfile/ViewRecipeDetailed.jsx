@@ -131,12 +131,19 @@ const styles = (theme) => ({
 const ViewRecipeDetailed = (props) => {
   const { classes } = props;
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
+
+  const [recipe, setRecipe] = useState("");
+  useEffect(() => {
+    Service.client.get(`/recipes/${id}`).then((res) => {
+      setRecipe(res.data);
+      // console.log(res.data);
+    });
+  }, []);
 
   // react router dom history hooks
   const history = useHistory();
-  const location = useLocation();
-  const recipe = location.query;
+
   return (
     <Fragment>
       <Navbar />

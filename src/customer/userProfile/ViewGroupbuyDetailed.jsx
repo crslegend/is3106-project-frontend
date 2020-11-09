@@ -219,12 +219,12 @@ const ViewGroupbuyDetailed = (props) => {
   const { classes } = props;
   const [groupbuy, setGroupbuy] = useState("");
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, []);
 
