@@ -240,11 +240,7 @@ const ItemListingCard = (props) => {
             />
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={handleClose}
-              color="cancel"
-              className={classes.button}
-            >
+            <Button onClick={handleClose} className={classes.button}>
               Cancel
             </Button>
             <Button
