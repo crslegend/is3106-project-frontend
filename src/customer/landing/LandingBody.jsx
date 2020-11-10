@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
-// import Service from "../../AxiosService";
 import Button from "../../components/Button";
 import Typography from "../../components/Typography";
 
@@ -18,7 +17,7 @@ import login7 from "../../assets/login7.jpg";
 import login8 from "../../assets/login8.jpg";
 import login9 from "../../assets/login9.jpg";
 import login10 from "../../assets/login10.jpg";
-import sashimilogo from "../../assets/SashimiLogo2.jpg";
+// import sashimilogo from "../../assets/SashimiLogo2.jpg";
 
 const items = [
   login1,
@@ -37,15 +36,6 @@ const backgroundImage = items[Math.floor(Math.random() * items.length)];
 const styles = (theme) => ({
   root: {
     color: theme.palette.common.white,
-    // position: "relative",
-    // display: "flex",
-    // alignItems: "center",
-
-    // [theme.breakpoints.up("sm")]: {
-    //   height: "100vh",
-    //   minHeight: 500,
-    //   maxHeight: 1300,
-    // },
   },
   outerContainer: {
     marginTop: 180,
