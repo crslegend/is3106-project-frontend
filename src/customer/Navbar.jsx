@@ -286,7 +286,7 @@ const Navbar = ({ classes }) => {
                   style={{ color: "white" }}
                 >
                   <AccountCircleOutlinedIcon />
-                  Account
+                  Login/Register
                 </Button>
               </div>
             ) : (
