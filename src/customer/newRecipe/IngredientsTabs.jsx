@@ -353,7 +353,7 @@ const IngredientsTabs = (props) => {
                   products.length > 0 ? (
                     products.map((product) => (
                       <ItemListingCard
-                        key={product.id}
+                        key={product && product.id}
                         product={product && product}
                         updateIngredients={updateIngredients}
                         chosenIngredients={chosenIngredients}
