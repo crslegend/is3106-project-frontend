@@ -19,8 +19,8 @@ const ntucClient = axios.create({
 // set JWT, add refresh token to cookie
 const storeCredentials = ({ access, refresh }) => {
   client.defaults.headers.common.Authorization = `Bearer ${access}`;
-  Cookies.set("t1", access, { expires: 1, path: "" });
-  Cookies.set("t2", refresh, { expires: 1, path: "" });
+  Cookies.set("t1", access, { expires: 1, path: "/" });
+  Cookies.set("t2", refresh, { expires: 1, path: "/" });
 };
 
 // remove refresh token cookie
