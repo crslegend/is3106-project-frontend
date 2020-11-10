@@ -442,7 +442,9 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
           >
             <div className={classes.paper}>
               {/* <img src={sashimilogo} className={classes.sashimilogo} /> */}
-              <Typography className={classes.font20}>Sashimi</Typography>
+              <Link underline="none" href="/">
+                <Typography className={classes.font20}>Sashimi</Typography>
+              </Link>
               <br />
               <Typography className={classes.font32}>Register</Typography>
               <br />
