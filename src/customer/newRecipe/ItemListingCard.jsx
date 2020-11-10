@@ -53,7 +53,7 @@ const styles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.secondary,
     "& p": {
       textTransform: "capitalize",
-      color: "#ffffff",
+      color: "#000000",
     },
   },
   button: {
