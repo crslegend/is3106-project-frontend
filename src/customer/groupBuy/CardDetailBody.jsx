@@ -199,7 +199,7 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
   bar: {
     borderRadius: 10,
-    backgroundColor: "secondary",
+    backgroundColor: "#E19576",
   },
 }))(LinearProgress);
 
@@ -281,68 +281,70 @@ const CardDetailBody = () => {
           </Link>
         </Grid>
         <Grid item xs={8}>
-          <Grid container className={classes.root}>
-            <Grid item xs={12} md={5}>
-              {groupbuy && groupbuy.recipe.photo_url && (
-                <CardMedia
-                  className={classes.media}
-                  image={groupbuy && groupbuy.recipe.photo_url}
-                  title={groupbuy && groupbuy.recipe.recipe_name}
-                />
-              )}
-            </Grid>
-            <Grid item xs={12} md={7}>
-              <CardContent height="150" width="150">
-                <Typography className={classes.cardHeader}>
-                  {groupbuy && groupbuy.recipe.recipe_name}
-                </Typography>
-                {groupbuy.final_price !== null ? (
-                  <Typography className={classes.cardBody}>
-                    ${groupbuy.final_price}
-                  </Typography>
-                ) : (
-                  <Typography className={classes.cardBody}>
-                    ${groupbuy.recipe.estimated_price_start} - $
-                    {groupbuy.recipe.estimated_price_end}
-                  </Typography>
-                )}
-                <p className={classes.progressHeader}>Order Fulfillment</p>
-                <div style={{ position: "relative" }}>
-                  <BorderLinearProgress
-                    className={classes.root}
-                    variant="determinate"
-                    color="secondary"
-                    value={fulfillment}
+          <Card className={classes.card}>
+            <Grid container className={classes.root}>
+              <Grid item xs={12} md={5}>
+                {groupbuy && groupbuy.recipe.photo_url && (
+                  <CardMedia
+                    className={classes.media}
+                    image={groupbuy && groupbuy.recipe.photo_url}
+                    title={groupbuy && groupbuy.recipe.recipe_name}
                   />
-                  <span className={classes.progressLabel}>
-                    Current Orders: {groupbuy.current_order_quantity}
-                  </span>
-                  <span className={classes.progressTotalLabel}>
-                    {groupbuy.minimum_order_quantity}
-                  </span>
-                </div>
-                <Typography
-                  style={{ marginTop: "10px" }}
-                  className={classes.cardBody}
-                >
-                  Ingredient List
-                </Typography>
-                {groupbuy &&
-                  groupbuy.recipe.ingredients.map((ingredient, index) => (
-                    <Typography key={index} className={classes.ing}>
-                      {ingredient.ing_name} , {ingredient.quantity}
+                )}
+              </Grid>
+              <Grid item xs={12} md={7}>
+                <CardContent height="150" width="150">
+                  <Typography className={classes.cardHeader}>
+                    {groupbuy && groupbuy.recipe.recipe_name}
+                  </Typography>
+                  {groupbuy.final_price !== null ? (
+                    <Typography className={classes.cardBody}>
+                      ${groupbuy.final_price}
                     </Typography>
-                  ))}
-                <Typography
-                  style={{ marginTop: "10px", fontWeight: "700" }}
-                  className={classes.progressHeader}
-                >
-                  Fulfillment Date: {fulfillmentdate}
-                </Typography>
-                {orderstatus}
-              </CardContent>
+                  ) : (
+                    <Typography className={classes.cardBody}>
+                      ${groupbuy.recipe.estimated_price_start} - $
+                      {groupbuy.recipe.estimated_price_end}
+                    </Typography>
+                  )}
+                  <p className={classes.progressHeader}>Order Fulfillment</p>
+                  <div style={{ position: "relative" }}>
+                    <BorderLinearProgress
+                      className={classes.root}
+                      variant="determinate"
+                      color="secondary"
+                      value={fulfillment}
+                    />
+                    <span className={classes.progressLabel}>
+                      Current Orders: {groupbuy.current_order_quantity}
+                    </span>
+                    <span className={classes.progressTotalLabel}>
+                      {groupbuy.minimum_order_quantity}
+                    </span>
+                  </div>
+                  <Typography
+                    style={{ marginTop: "10px" }}
+                    className={classes.cardBody}
+                  >
+                    Ingredient List
+                  </Typography>
+                  {groupbuy &&
+                    groupbuy.recipe.ingredients.map((ingredient, index) => (
+                      <Typography key={index} className={classes.ing}>
+                        {ingredient.ing_name} , {ingredient.quantity}
+                      </Typography>
+                    ))}
+                  <Typography
+                    style={{ marginTop: "10px", fontWeight: "700" }}
+                    className={classes.progressHeader}
+                  >
+                    Fulfillment Date: {fulfillmentdate}
+                  </Typography>
+                  {orderstatus}
+                </CardContent>
+              </Grid>
             </Grid>
-          </Grid>
+          </Card>
           <Button
             color="primary"
             variant="contained"

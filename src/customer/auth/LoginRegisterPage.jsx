@@ -187,7 +187,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   Service.client
                     .post("/recipes", formData)
                     .then((res) => {
-                      console.log(res);
+                      // console.log(res);
                       history.push(`/viewdetails/${res.data.gb_id}`);
                     })
                     .catch((error) => {
@@ -199,7 +199,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                 }
               } else {
                 // redirect to dashboard
-                console.log("Log in successfully");
+                // console.log("Log in successfully");
                 history.push("/");
               }
             }
@@ -339,7 +339,10 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
           >
             <div className={classes.paper}>
               {/* <img src={sashimilogo} className={classes.sashimilogo} /> */}
-              <Typography className={classes.font20}>Sashimi</Typography>
+              <Link underline="none" href="/">
+                <Typography className={classes.font20}>Sashimi</Typography>
+              </Link>
+
               <br />
               <Typography className={classes.font32}>Welcome back</Typography>
               <form
@@ -413,7 +416,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   <Typography className={classes.fontblack}>
                     Don't have an account?&nbsp;
                   </Typography>
-                  <Grid item justify="flex-end">
+                  <Grid item>
                     <Link
                       variant="body2"
                       color="inherit"

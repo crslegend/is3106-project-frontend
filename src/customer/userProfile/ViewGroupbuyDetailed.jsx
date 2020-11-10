@@ -143,18 +143,11 @@ const styles = (theme) => ({
     },
   },
   buyButton: {
-    backgroundColor: fade(theme.palette.primary.main, 0.7),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.primary.main, 0.9),
-    },
     padding: 10,
     margin: 15,
-    borderRadius: 50,
     float: "right",
     textTransform: "none",
-    fontFamily: "Raleway",
-    color: "#5E4955",
-    fontSize: 20,
+    color: "secondary",
     [theme.breakpoints.down("md")]: {
       fontSize: 16,
     },
@@ -359,6 +352,9 @@ const ViewGroupbuyDetailed = (props) => {
             </Grid>
           </Card>
           <Button
+            color="primary"
+            variant="contained"
+            size="large"
             className={classes.buyButton}
             onClick={handleRedirect}
             disabled={!groupbuy.approval_status}
