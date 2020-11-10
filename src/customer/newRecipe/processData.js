@@ -60,7 +60,9 @@ const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
     sellingAmount.endsWith("gm") ||
     sellingAmount.endsWith("pc") ||
     sellingAmount.endsWith("S") ||
-    sellingAmount.endsWith("LT")
+    sellingAmount.endsWith("LT") ||
+    sellingAmount.endsWith("ML") ||
+    sellingAmount.endsWith("ml")
   ) {
     price = parseFloat(
       (parseFloat(sellingPrice) /
