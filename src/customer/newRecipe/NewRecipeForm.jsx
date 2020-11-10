@@ -27,6 +27,14 @@ const styles = (theme) => ({
       fontSize: "18px",
     },
   },
+  popup: {
+    backgroundColor: theme.palette.primary.main,
+    "& p": {
+      textTransform: "none",
+      textAlign: "center",
+      fontSize: "16px",
+    },
+  },
   calender: {
     postion: "fixed !important",
     right: "calc(100% - 479px) !important",
@@ -51,7 +59,8 @@ const styles = (theme) => ({
     minHeight: "200px",
     "@global": {
       ".MuiDropzoneArea-text.MuiTypography-h5": {
-        textTransform: "capitalize",
+        textTransform: "none",
+        fontSize: "16px",
       },
     },
   },
@@ -146,8 +155,10 @@ const NewRecipeForm = (props) => {
           },
         }}
       >
-        <DialogTitle className={classes.root}>
-          <Typography>Give your recipe a name and a picture!</Typography>
+        <DialogTitle className={classes.popup}>
+          <Typography style={{ color: "white" }}>
+            Give your recipe a name and a picture!
+          </Typography>
         </DialogTitle>
         <form>
           <DialogContent>
@@ -186,7 +197,7 @@ const NewRecipeForm = (props) => {
               dropzoneClass={
                 validatePhoto ? classes.dropzoneInvalid : classes.dropzoneValid
               }
-              dropzoneText="Drag and drop an image or click here (Max 5mb)"
+              dropzoneText="&nbsp;Drag and drop an image or click here&nbsp;"
               acceptedFiles={["image/*"]}
               filesLimit={1}
               fileObjects={recipePhoto}
@@ -213,7 +224,7 @@ const NewRecipeForm = (props) => {
               <Button
                 className={classes.button}
                 onClick={handleSubmit}
-                color="secondary"
+                color="primary"
               >
                 Update Recipe
               </Button>
@@ -221,7 +232,7 @@ const NewRecipeForm = (props) => {
               <Button
                 className={classes.button}
                 onClick={handleSubmit}
-                color="secondary"
+                color="primary"
               >
                 Create Recipe
               </Button>
@@ -229,7 +240,7 @@ const NewRecipeForm = (props) => {
               <Button
                 className={classes.button}
                 onClick={handleClose}
-                color="secondary"
+                color="primary"
               >
                 Skip For Now
               </Button>

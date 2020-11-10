@@ -55,7 +55,7 @@ const styles = (theme) => ({
     // borderRadius: 10,
     width: "90%",
     margin: "auto",
-    backgroundColor: "#EEE2DF",
+    backgroundColor: "#F6F6F6",
   },
   recipeListHeader: {
     display: "flex",
@@ -264,7 +264,7 @@ const IngredientListing = (props) => {
                   )}
 
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     style={{
                       textTransform: "capitalize",
                       alignSelf: "center",
@@ -285,7 +285,7 @@ const IngredientListing = (props) => {
                 >
                   <DateRangeTwoTone fontSize="large" />
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     style={{
                       textTransform: "capitalize",
                       marginLeft: "10px",
@@ -382,14 +382,15 @@ const IngredientListing = (props) => {
             }}
           >
             <div className={classes.separator} />
-            <Typography variant="h5" className={classes.price}>
+            <Typography variant="h6" className={classes.price}>
               Estimated Price: ${priceRange.estimated_price_start.toFixed(2)} -
               ${priceRange.estimated_price_end.toFixed(2)}
             </Typography>
             <Button
               onClick={handleSubmit}
-              color="inherit"
-              variant="outlined"
+              color="primary"
+              variant="contained"
+              size="large"
               className={classes.submitButton}
             >
               Enter Group Buy

@@ -8,9 +8,31 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 import Button from "../../components/Button";
 import Typography from "../../components/Typography";
 
-import image from "../../assets/December9_2-1280x879.jpg";
+import login1 from "../../assets/login1.jpg";
+import login2 from "../../assets/login2.jpg";
+import login3 from "../../assets/login3.jpg";
+import login4 from "../../assets/login4.jpg";
+import login5 from "../../assets/login5.jpg";
+import login6 from "../../assets/login6.jpg";
+import login7 from "../../assets/login7.jpg";
+import login8 from "../../assets/login8.jpg";
+import login9 from "../../assets/login9.jpg";
+import login10 from "../../assets/login10.jpg";
+import sashimilogo from "../../assets/SashimiLogo2.jpg";
 
-const backgroundImage = image;
+const items = [
+  login1,
+  login2,
+  login3,
+  login4,
+  login5,
+  login6,
+  login7,
+  login8,
+  login9,
+  login10,
+];
+const backgroundImage = items[Math.floor(Math.random() * items.length)];
 
 const styles = (theme) => ({
   root: {
@@ -26,10 +48,10 @@ const styles = (theme) => ({
     // },
   },
   outerContainer: {
-    marginTop: 200,
+    marginTop: 180,
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "left",
   },
   innerContainer: {
     display: "flex",
@@ -77,8 +99,38 @@ const LandingBody = (props) => {
   return (
     <section className={classes.root}>
       <Container className={classes.outerContainer}>
-        <Typography color="inherit" align="center" variant="h2" marked="center">
-          Welcome
+        <Typography
+          color="inherit"
+          align="left"
+          variant="h3"
+          style={{
+            textTransform: "none",
+            marginLeft: "200px",
+            marginBottom: "10px",
+          }}
+        >
+          Healthy.
+          <br />
+          Fresh.
+          <br />
+          Eco-friendly.
+          <br />
+        </Typography>
+        <Typography
+          color="inherit"
+          align="left"
+          variant="h6"
+          marked="center"
+          style={{
+            textTransform: "none",
+            marginLeft: "200px",
+            marginBottom: "30px",
+          }}
+        >
+          That’s how we think preparing meals at home should be.
+          <br />
+          Join Singapore’s large community-driven grocery groupbuy platform
+          today.
         </Typography>
         <br />
         <Container className={classes.innerContainer}>
