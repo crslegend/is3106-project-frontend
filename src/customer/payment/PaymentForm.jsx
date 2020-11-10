@@ -72,7 +72,7 @@ const styles = (theme) => ({
       color: "#5E4955",
     },
   },
-  mobileNum: {
+  fieldWithoutArrowButtons: {
     padding: theme.spacing(1, 2),
     margin: "0px",
     [theme.breakpoints.down("sm")]: {
@@ -372,7 +372,7 @@ const PaymentForm = (props) => {
             fullWidth
             margin="dense"
             name="postal"
-            className={classes.field}
+            className={classes.fieldWithoutArrowButtons}
             label="Postal Code"
             disabled={address !== ""}
             InputProps={{
@@ -384,6 +384,7 @@ const PaymentForm = (props) => {
             }}
             value={values.postal}
             onChange={handleInputChange}
+            type="number"
           />
         </Grid>
         <Grid item xs={6}>
@@ -409,7 +410,7 @@ const PaymentForm = (props) => {
             fullWidth
             margin="dense"
             name="contact"
-            className={classes.mobileNum}
+            className={classes.fieldWithoutArrowButtons}
             label="Mobile Number"
             InputProps={{
               classes: { input: classes.root },
