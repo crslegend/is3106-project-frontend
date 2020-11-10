@@ -34,22 +34,14 @@ const rawTheme = createMuiTheme({
     },
   },
   typography: {
-<<<<<<< HEAD
-    fontFamily: "Sen",
-=======
     fontFamily: "Arial",
->>>>>>> 8c1b03a9862c61bf8859f3dbe7b4064993bb0447
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
     fontWeightMedium: 300, // SeoulHangang CL
-<<<<<<< HEAD
-    fontFamilySecondary: "Sen",
-=======
     fontFamilySecondary:
       "-apple-system,system-ui,BlinkMacSystemFont," +
       '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
->>>>>>> 8c1b03a9862c61bf8859f3dbe7b4064993bb0447
   },
 });
 
