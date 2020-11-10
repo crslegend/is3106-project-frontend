@@ -51,7 +51,7 @@ const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
         (parseFloat(sellingAmount.replace(/[^.,0-9]/g, "")) * 1000)) *
         parseFloat(selectedAmount)
     );
-    console.log(price);
+    // console.log(price);
   } else if (
     sellingAmount.endsWith(" G") ||
     sellingAmount.endsWith("G") ||
@@ -60,7 +60,9 @@ const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
     sellingAmount.endsWith("gm") ||
     sellingAmount.endsWith("pc") ||
     sellingAmount.endsWith("S") ||
-    sellingAmount.endsWith("LT")
+    sellingAmount.endsWith("LT") ||
+    sellingAmount.endsWith("ML") ||
+    sellingAmount.endsWith("ml")
   ) {
     price = parseFloat(
       (parseFloat(sellingPrice) /
@@ -91,7 +93,7 @@ const calculatePrice = (sellingPrice, sellingAmount, selectedAmount) => {
     );
   }
 
-  console.log(sellingPrice);
+  // console.log(sellingPrice);
   return price;
 };
 

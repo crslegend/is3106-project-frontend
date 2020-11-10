@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Grid, Card } from "@material-ui/core";
+import { Grid, Card, CircularProgress } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -29,7 +29,7 @@ const styles = (theme) => ({
     background: fade("#E6BEAE", 0.5),
   },
   icon: {
-    background: theme.palette.primary.main,
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
@@ -61,6 +61,7 @@ const styles = (theme) => ({
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
+    textTransform: "capitalize",
     fontWeight: 550,
     fontSize: 30,
     textAlign: "left",
@@ -130,12 +131,29 @@ const styles = (theme) => ({
 const ViewRecipeDetailed = (props) => {
   const { classes } = props;
   const { id } = useParams();
-  console.log(id);
+  const [loading, setLoading] = useState(true);
+  // console.log(id);
+
+  const [recipe, setRecipe] = useState("");
+  useEffect(() => {
+    Service.client.get(`/recipes/${id}`).then((res) => {
+      setRecipe(res.data);
+      setLoading(false);
+      // console.log(res.data);
+    });
+  }, []);
 
   // react router dom history hooks
   const history = useHistory();
-  const location = useLocation();
-  const recipe = location.query;
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       <Navbar />
@@ -146,17 +164,19 @@ const ViewRecipeDetailed = (props) => {
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
-        <Grid xs={8}>
+        <Grid item xs={8}>
           <Card className={classes.card}>
             <Grid container className={classes.root}>
-              <Grid xs={12} md={5}>
-                <CardMedia
-                  className={classes.media}
-                  image={recipe && recipe.photo_url}
-                  title={recipe && recipe.recipe_name}
-                />
+              <Grid item xs={12} md={5}>
+                {recipe && recipe.photo_url && (
+                  <CardMedia
+                    className={classes.media}
+                    image={recipe && recipe.photo_url}
+                    title={recipe && recipe.recipe_name}
+                  />
+                )}
               </Grid>
-              <Grid xs={12} md={7}>
+              <Grid item xs={12} md={7}>
                 <CardContent height="150" width="150">
                   <Typography className={classes.cardHeader}>
                     {recipe && recipe.recipe_name}
@@ -174,8 +194,8 @@ const ViewRecipeDetailed = (props) => {
                     Ingredient List
                   </Typography>
                   {recipe &&
-                    recipe.ingredients.map((ingredient) => (
-                      <Typography className={classes.ing}>
+                    recipe.ingredients.map((ingredient, index) => (
+                      <Typography className={classes.ing} key={index}>
                         {ingredient.ing_name} , {ingredient.quantity}
                       </Typography>
                     ))}

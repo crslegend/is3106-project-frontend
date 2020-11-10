@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
@@ -99,6 +100,7 @@ const GroupBuyBody = (props) => {
   );
   const [searchValue, setSearchValue] = useState("");
   const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -113,7 +115,8 @@ const GroupBuyBody = (props) => {
   useEffect(() => {
     Service.client.get("/groupbuys").then((res) => {
       setGroupbuys(res.data.results);
-      console.log(res.data.results);
+      setLoading(false);
+      // console.log(res.data.results);
     });
   }, []);
 
@@ -121,7 +124,7 @@ const GroupBuyBody = (props) => {
     if (searchValue === "") {
       Service.client.get("/groupbuys").then((res) => {
         setGroupbuys(res.data.results);
-        console.log(res.data.results);
+        // console.log(res.data.results);
       });
     }
   }, [searchValue]);
@@ -180,7 +183,7 @@ const GroupBuyBody = (props) => {
           },
         },
       });
-      console.log(arr);
+      // console.log(arr);
       setGroupbuys(arr);
     }
   };
@@ -191,22 +194,18 @@ const GroupBuyBody = (props) => {
     setGroupbuys(result);
   };
 
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       <Grid container className={classes.root} justify="center">
         <Grid item xs={3}>
-          {/* <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              // justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4" style={{ textTransform: "capitalize" }}>
-              Available Group Buys
-            </Typography>
-          </div> */}
           <div className={classes.side} />
         </Grid>
         <Grid item xs={9} style={{ marginTop: "30px" }}>

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
@@ -42,15 +43,15 @@ const styles = (theme) => ({
     },
   },
   icon: {
-    background: theme.palette.primary.main,
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
     color: fade("#ffffff", 0.8),
     "&:hover": {
-      background: fade(theme.palette.primary.main, 0.8),
-      color: "#ffffff",
+      background: fade(theme.palette.cancel.main, 0.8),
+      color: "#48494B",
       cursor: "pointer",
     },
     [theme.breakpoints.down("md")]: {
@@ -64,12 +65,12 @@ const styles = (theme) => ({
   },
   button: {
     fontWeight: "normal",
-    backgroundColor: fade(theme.palette.primary.main, 0.5),
-    color: "#ffffff",
-    // width: 180,
+    backgroundColor: fade(theme.palette.primary.main, 0.6),
+    color: "#5E4955",
+    // width: 150,
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
-      color: "#ffffff",
+      color: "#5E4955",
     },
     // marginTop: "25px",
     textTransform: "capitalize",
@@ -101,6 +102,7 @@ const ViewAllRecipes = (props) => {
     Math.ceil(listOfCreatedRecipes.length / itemsPerPage)
   );
   const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -111,6 +113,7 @@ const ViewAllRecipes = (props) => {
       Service.client.get(`/recipes`).then((res) => {
         // console.log(res);
         setListOfCreatedRecipes(res.data);
+        setLoading(false);
       });
     }
   };
@@ -125,7 +128,6 @@ const ViewAllRecipes = (props) => {
     setNumPages(Math.ceil(listOfCreatedRecipes.length / itemsPerPage));
   }, [listOfCreatedRecipes.length]);
 
-  console.log(listOfCreatedRecipes);
   const handleSortChange = (event) => {
     const buttonValue = event.target.value;
     setSortMethod(buttonValue);
@@ -158,21 +160,31 @@ const ViewAllRecipes = (props) => {
         by: ["estimated_price_start"],
         order: "desc",
       });
-      console.log(arr);
+      // console.log(arr);
       setListOfCreatedRecipes(arr);
     }
   };
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <Fragment>
       <Navbar />
       <Grid container justify="center">
-        <Grid item xs={3} style={{ marginTop: "30px" }}>
+        <Grid item xs={3}>
           <div className={classes.side} />
-          <Link to="/profile">
-            <ArrowBackIcon className={classes.icon} />
-          </Link>
-          <br />
+          <div style={{ marginTop: "10vh" }}>
+            <Link to="/profile">
+              <ArrowBackIcon className={classes.icon} />
+            </Link>
+            <br />
+          </div>
         </Grid>
         <Grid item xs={9} style={{ marginTop: "20px" }}>
           <div
@@ -190,7 +202,7 @@ const ViewAllRecipes = (props) => {
                 textTransform: "capitalize",
                 marginLeft: "20px",
                 fontSize: "30px",
-                color: "#E55434",
+                color: "#5E4955",
               }}
             >
               Your Created Recipes
@@ -249,7 +261,9 @@ const ViewAllRecipes = (props) => {
             <Button
               component="a"
               href="/profile/viewallgroupbuys"
-              className={classes.button}
+              color="primary"
+              variant="contained"
+              size="large"
             >
               Go To Entered Groupbuys
             </Button>

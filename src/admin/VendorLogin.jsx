@@ -83,34 +83,32 @@ const VendorLogin = ({ setSbOpen, snackbar, setSnackbar }) => {
     Service.client
       .post("/api/token/", loginDetails)
       .then((res1) => {
-        const userId = jwt_decode(res1.data.access).user_id
+        const userId = jwt_decode(res1.data.access).user_id;
 
         // check if is vendor
-        Service.baseClient
-          .get(`/users/${userId}`)
-          .then((res2) => {
-            if (!res2.data.is_vendor) {
-              setSnackbar({
-                ...snackbar,
-                message: "Invalid login",
-                severity: "error",
-              });
-              setSbOpen(true);
-              setLoading(false);
-            } else {
-              Service.storeCredentials(res1.data);
-              setSnackbar({
-                ...snackbar,
-                message: "Login Successful",
-                severity: "success",
-              });
-              setSbOpen(true);
-              setLoading(false);
+        Service.baseClient.get(`/users/${userId}`).then((res2) => {
+          if (!res2.data.is_vendor) {
+            setSnackbar({
+              ...snackbar,
+              message: "Invalid login",
+              severity: "error",
+            });
+            setSbOpen(true);
+            setLoading(false);
+          } else {
+            Service.storeCredentials(res1.data);
+            setSnackbar({
+              ...snackbar,
+              message: "Login Successful",
+              severity: "success",
+            });
+            setSbOpen(true);
+            setLoading(false);
 
-              // redirect to dashboard
-              history.push("/admin/dashboard");
-            }
-          });
+            // redirect to dashboard
+            history.push("/admin/dashboard");
+          }
+        });
       })
       .catch((err) => {
         setSnackbar({

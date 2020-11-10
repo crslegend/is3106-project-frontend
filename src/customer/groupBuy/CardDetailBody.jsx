@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Grid, Card } from "@material-ui/core";
+import { Grid, Card, CircularProgress } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -27,15 +27,15 @@ const styles = makeStyles((theme) => ({
     background: fade("#E6BEAE", 0.5),
   },
   icon: {
-    background: theme.palette.primary.main,
+    background: fade(theme.palette.common.white, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
     color: fade("#ffffff", 0.8),
     "&:hover": {
-      background: fade(theme.palette.primary.main, 0.8),
-      color: "#ffffff",
+      background: theme.palette.cancel.main,
+      color: "#48494B",
     },
     [theme.breakpoints.down("md")]: {
       fontSize: "5vw",
@@ -59,7 +59,8 @@ const styles = makeStyles((theme) => ({
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
-    fontWeight: 550,
+    textTransform: "capitalize",
+    fontWeight: 600,
     fontSize: 30,
     textAlign: "left",
     paddingLeft: "30px",
@@ -76,18 +77,17 @@ const styles = makeStyles((theme) => ({
     paddingLeft: "30px",
     paddingTop: "10px",
     color: "#ED2939",
-    fontFamily: "Raleway",
     [theme.breakpoints.down("sm")]: {
       fontSize: 16,
       paddingLeft: "0px",
     },
   },
   cardBody: {
-    fontFamily: "Raleway",
     fontWeight: 500,
-    fontSize: 22,
+    fontSize: 14,
     textAlign: "left",
     paddingLeft: "30px",
+    marginTop: "3px",
     [theme.breakpoints.down("md")]: {
       fontSize: 20,
     },
@@ -97,7 +97,6 @@ const styles = makeStyles((theme) => ({
     },
   },
   ing: {
-    fontFamily: "Raleway",
     textAlign: "left",
     paddingLeft: "40px",
     fontSize: 15,
@@ -109,7 +108,6 @@ const styles = makeStyles((theme) => ({
     },
   },
   progressHeader: {
-    fontFamily: "Raleway",
     fontWeight: 500,
     fontSize: 16,
     textAlign: "left",
@@ -140,18 +138,11 @@ const styles = makeStyles((theme) => ({
     },
   },
   buyButton: {
-    backgroundColor: fade(theme.palette.primary.main, 0.7),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.primary.main, 0.9),
-    },
     padding: 10,
     margin: 15,
-    borderRadius: 50,
     float: "right",
     textTransform: "none",
-    fontFamily: "Raleway",
-    color: "#ffffff",
-    fontSize: 20,
+    color: "secondary",
     [theme.breakpoints.down("md")]: {
       fontSize: 16,
     },
@@ -215,13 +206,15 @@ const BorderLinearProgress = withStyles((theme) => ({
 const CardDetailBody = () => {
   const classes = styles();
   const [groupbuy, setGroupbuy] = useState("");
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
-      console.log(res.data);
+      setLoading(false);
+      // console.log(res.data);
     });
   }, []);
 
@@ -236,11 +229,11 @@ const CardDetailBody = () => {
         pathname: "/auth",
         state: { gbid: id },
       });
-      console.log("not logged in");
+      // console.log("not logged in");
     } else {
       // if user is logged in, direct to the groupbuy payment page
       history.push(`/payment/${id}`);
-      console.log("logged in");
+      // console.log("logged in");
     }
   };
 
@@ -265,8 +258,16 @@ const CardDetailBody = () => {
   if (groupbuy.approval_status === false) {
     orderstatus = (
       <Typography className={classes.upcoming}>
-        This order is currently under processing.
+        This order is pending approval.
       </Typography>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
     );
   }
 
@@ -279,17 +280,19 @@ const CardDetailBody = () => {
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
-        <Grid xs={8}>
+        <Grid item xs={8}>
           <Card className={classes.card}>
             <Grid container className={classes.root}>
-              <Grid xs={12} md={5}>
-                <CardMedia
-                  className={classes.media}
-                  image={groupbuy && groupbuy.recipe.photo_url}
-                  title={groupbuy && groupbuy.recipe.recipe_name}
-                />
+              <Grid item xs={12} md={5}>
+                {groupbuy && groupbuy.recipe.photo_url && (
+                  <CardMedia
+                    className={classes.media}
+                    image={groupbuy && groupbuy.recipe.photo_url}
+                    title={groupbuy && groupbuy.recipe.recipe_name}
+                  />
+                )}
               </Grid>
-              <Grid xs={12} md={7}>
+              <Grid item xs={12} md={7}>
                 <CardContent height="150" width="150">
                   <Typography className={classes.cardHeader}>
                     {groupbuy && groupbuy.recipe.recipe_name}
@@ -313,7 +316,7 @@ const CardDetailBody = () => {
                       value={fulfillment}
                     />
                     <span className={classes.progressLabel}>
-                      current orders: {groupbuy.current_order_quantity}
+                      Current Orders: {groupbuy.current_order_quantity}
                     </span>
                     <span className={classes.progressTotalLabel}>
                       {groupbuy.minimum_order_quantity}
@@ -326,8 +329,8 @@ const CardDetailBody = () => {
                     Ingredient List
                   </Typography>
                   {groupbuy &&
-                    groupbuy.recipe.ingredients.map((ingredient) => (
-                      <Typography className={classes.ing}>
+                    groupbuy.recipe.ingredients.map((ingredient, index) => (
+                      <Typography key={index} className={classes.ing}>
                         {ingredient.ing_name} , {ingredient.quantity}
                       </Typography>
                     ))}
@@ -343,6 +346,9 @@ const CardDetailBody = () => {
             </Grid>
           </Card>
           <Button
+            color="primary"
+            variant="contained"
+            size="large"
             className={classes.buyButton}
             onClick={handleRedirect}
             disabled={!groupbuy.approval_status}

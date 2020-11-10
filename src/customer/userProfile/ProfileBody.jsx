@@ -25,7 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 import Service from "../../AxiosService";
-import { Typography } from "@material-ui/core";
+import { CircularProgress, Typography } from "@material-ui/core";
 
 const styles = (theme) => ({
   root: {
@@ -76,17 +76,15 @@ const styles = (theme) => ({
       backgroundColor: "#EEF1EF",
     },
   },
+  dropzone: {
+    "@global": {
+      ".MuiDropzoneArea-text.MuiTypography-h5": {
+        textTransform: "none",
+        fontSize: "16px",
+      },
+    },
+  },
 });
-
-const formatDate = (date) => {
-  if (date !== null) {
-    const newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-      .toISOString()
-      .split("T")[0];
-    return newDate;
-  }
-  return null;
-};
 
 const ProfileBody = (props) => {
   const { setSbOpen, snackbar, setSnackbar } = props;
@@ -106,14 +104,17 @@ const ProfileBody = (props) => {
   const [newPassword1Error, setNewPassword1Error] = useState(false);
   const [newPassword2Error, setNewPassword2Error] = useState(false);
 
+  const [loading, setLoading] = useState(true);
+
   const getUserData = () => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
       const userid = jwt_decode(Service.getJWT()).user_id;
-      console.log(`profile useeffect userid = ${userid}`);
+      // console.log(`profile useeffect userid = ${userid}`);
       Service.client
         .get(`/users/${userid}`)
         .then((res) => {
           setProfile(res.data);
+          setLoading(false);
         })
         .catch((err) => {
           setProfile(null);
@@ -219,7 +220,7 @@ const ProfileBody = (props) => {
     }
     if (error) return;
 
-    console.log(passwordDetails);
+    // console.log(passwordDetails);
 
     Service.client
       .patch("/users/" + profile.id, passwordDetails)
@@ -259,6 +260,14 @@ const ProfileBody = (props) => {
     }
     return "";
   };
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div style={{ marginTop: 40 }}>
@@ -324,8 +333,10 @@ const ProfileBody = (props) => {
               </CardBody>
               <CardFooter>
                 <Button
-                  color="secondary"
+                  variant="outlined"
+                  color="primary"
                   type="submit"
+                  size="large"
                   className={classes.button}
                 >
                   Update Profile
@@ -422,8 +433,10 @@ const ProfileBody = (props) => {
                 </CardBody>
                 <CardFooter>
                   <Button
-                    color="secondary"
+                    variant="outlined"
+                    color="primary"
                     type="submit"
+                    size="large"
                     className={classes.button}
                   >
                     Save Password
@@ -450,24 +463,30 @@ const ProfileBody = (props) => {
             </CardAvatar>
 
             <CardBody profile>
-              <Typography variant="h5" style={{ textTransform: "none" }}>
+              <Typography style={{ fontSize: "20px", fontWeight: "600" }}>
                 {profile && profile.name}
               </Typography>
               <br />
-              <Typography variant="subtitle1">{profile.email}</Typography>
-              <Typography variant="subtitle1">
+              <Typography>{profile && profile.email}</Typography>
+              <Typography>
                 Joined: {profile && formatDate(profile.date_joined)}
               </Typography>
               <br />
               <Button
-                color="secondary"
+                color="primary"
+                variant="outlined"
+                size="large"
                 href="/profile/viewallgroupbuys"
                 className={classes.button}
+                style={{ marginBottom: "5px" }}
               >
                 View Entered Groupbuys
               </Button>
+              <br />
               <Button
-                color="secondary"
+                color="primary"
+                variant="outlined"
+                size="large"
                 href="/profile/viewallrecipes"
                 className={classes.button}
               >
@@ -481,7 +500,9 @@ const ProfileBody = (props) => {
       {/* upload photo dialog here */}
       <Dialog onClose={() => setUploadOpen(false)} open={uploadOpen}>
         <DialogTitle>
-          <span>Upload Photo (Max 5MB)</span>
+          <Typography style={{ textTransform: "capitalize", fontSize: "19px" }}>
+            Upload Profile Photo
+          </Typography>
           <IconButton
             style={{ right: "12px", top: "8px", position: "absolute" }}
             onClick={() => {
@@ -496,7 +517,7 @@ const ProfileBody = (props) => {
         <DialogContent>
           <DropzoneAreaBase
             dropzoneClass={classes.dropzone}
-            dropzoneText="Drag and drop a file or click here"
+            dropzoneText="&nbsp;Drag and drop an image or click here&nbsp;"
             acceptedFiles={["image/*"]}
             filesLimit={1}
             fileObjects={profilePhoto}
@@ -516,7 +537,7 @@ const ProfileBody = (props) => {
         <DialogActions>
           <Button
             className={classes.button}
-            color="secondary"
+            color="cancel"
             onClick={() => {
               setProfilePhoto([]);
               setUploadOpen(false);
@@ -527,7 +548,7 @@ const ProfileBody = (props) => {
 
           <Button
             className={classes.button}
-            color="secondary"
+            color="primary"
             onClick={() => {
               setUploadOpen(false);
               handleUploadProfileImage();

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
@@ -43,16 +44,15 @@ const styles = (theme) => ({
     },
   },
   icon: {
-    background: theme.palette.primary.main,
+    background: fade(theme.palette.common.white, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
     color: fade("#ffffff", 0.8),
     "&:hover": {
-      background: fade(theme.palette.primary.main, 0.8),
-      color: "#ffffff",
-      cursor: "pointer",
+      background: theme.palette.cancel.main,
+      color: "#48494B",
     },
     [theme.breakpoints.down("md")]: {
       fontSize: "5vw",
@@ -65,12 +65,12 @@ const styles = (theme) => ({
   },
   button: {
     fontWeight: "normal",
-    backgroundColor: fade(theme.palette.primary.main, 0.5),
-    color: "#ffffff",
+    backgroundColor: fade(theme.palette.primary.main, 0.6),
+    color: "#5E4955",
     // width: 150,
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
-      color: "#ffffff",
+      color: "#5E4955",
     },
     // marginTop: "25px",
     textTransform: "capitalize",
@@ -102,6 +102,7 @@ const ViewAllGroupbuys = (props) => {
     Math.ceil(listOfGroupbuys.length / itemsPerPage)
   );
   const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -110,8 +111,9 @@ const ViewAllGroupbuys = (props) => {
   const getUserData = () => {
     if (Cookies.get("t1") && Cookies.get("t2")) {
       Service.client.get(`/orders`).then((res) => {
-        console.log(res);
+        // console.log(res);
         setListOfGroupBuys(res.data);
+        setLoading(false);
       });
     }
   };
@@ -180,16 +182,26 @@ const ViewAllGroupbuys = (props) => {
     }
   };
 
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       <Navbar />
       <Grid container justify="center">
-        <Grid item xs={3} style={{ marginTop: "30px" }}>
+        <Grid item xs={3}>
           <div className={classes.side} />
-          <Link to="/profile">
-            <ArrowBackIcon className={classes.icon} />
-          </Link>
-          <br />
+          <div style={{ marginTop: "10vh" }}>
+            <Link to="/profile">
+              <ArrowBackIcon className={classes.icon} />
+            </Link>
+            <br />
+          </div>
         </Grid>
         <Grid item xs={9} style={{ marginTop: "20px" }}>
           <div
@@ -207,7 +219,7 @@ const ViewAllGroupbuys = (props) => {
                 textTransform: "capitalize",
                 marginLeft: "20px",
                 fontSize: "30px",
-                color: "#E55434",
+                color: "#5E4955",
               }}
             >
               Your Entered Groupbuys
@@ -234,11 +246,12 @@ const ViewAllGroupbuys = (props) => {
             {listOfGroupbuys && listOfGroupbuys.length > 0 ? (
               listOfGroupbuys
                 .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                .map((groupbuy) => (
+                .map((groupbuy, index) => (
                   <div
                     style={{
                       marginRight: "30px",
                     }}
+                    key={index}
                   >
                     <Grid item xs>
                       <UserGroupbuyCard
@@ -269,9 +282,11 @@ const ViewAllGroupbuys = (props) => {
             <Button
               component="a"
               href="/profile/viewallrecipes"
-              className={classes.button}
+              color="primary"
+              variant="contained"
+              size="large"
             >
-              go to created recipes
+              Go to Created Recipes
             </Button>
             {listOfGroupbuys && listOfGroupbuys.length > 0 && (
               <Pagination
@@ -287,6 +302,8 @@ const ViewAllGroupbuys = (props) => {
               />
             )}
           </div>
+
+          <br />
         </Grid>
       </Grid>
     </Fragment>

@@ -7,9 +7,9 @@ const rawTheme = createMuiTheme({
       main: "#E55434",
     },
     secondary: {
-      main: "#ff9800",
-      light: "#ffb25e",
-      dark: "#fb8c00",
+      main: "#FADDD6",
+      light: "#E6BEAE",
+      dark: "#8f7054",
     },
     warning: {
       main: orange[500],
@@ -26,14 +26,30 @@ const rawTheme = createMuiTheme({
       xLight: green[50],
       dark: green[700],
     },
+    white: {
+      main: "#ffffff",
+    },
+    cancel: {
+      main: "#828282",
+    },
   },
   typography: {
+<<<<<<< HEAD
     fontFamily: "Sen",
+=======
+    fontFamily: "Arial",
+>>>>>>> 8c1b03a9862c61bf8859f3dbe7b4064993bb0447
     fontSize: 14,
     fontWeightLight: 300, // Work Sans
     fontWeightRegular: 400, // Work Sans
     fontWeightMedium: 300, // SeoulHangang CL
+<<<<<<< HEAD
     fontFamilySecondary: "Sen",
+=======
+    fontFamilySecondary:
+      "-apple-system,system-ui,BlinkMacSystemFont," +
+      '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+>>>>>>> 8c1b03a9862c61bf8859f3dbe7b4064993bb0447
   },
 });
 
@@ -111,6 +127,9 @@ const theme = {
       ...rawTheme.typography.body1,
       ...fontBody,
       fontSize: 14,
+    },
+    button: {
+      textTransform: "none",
     },
   },
 };

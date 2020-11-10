@@ -1,5 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Route, Switch, useHistory, NavLink, BrowserRouter } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -63,6 +64,24 @@ const VendorDashboard = (props) => {
     Service.removeCredentials();
     history.push("/admin");
   };
+
+  // log normal user out if not vendor
+  useEffect(() => {
+    console.log("checking if vendor");
+    const userJWT = Service.getJWT();
+    console.log(userJWT);
+    if (userJWT !== "" && userJWT !== undefined) {
+      Service.baseClient
+        .get(`/users/${jwt_decode(userJWT).user_id}`)
+        .then((res) => {
+          if (!res.data.is_vendor) {
+            Service.removeCredentials();
+            history.push("/admin")
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   const menu = (
     <div>

@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import { Avatar } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
@@ -19,43 +19,43 @@ import jwt_decode from "jwt-decode";
 import AppBar from "../components/AppBar";
 import Toolbar, { styles as toolbarStyles } from "../components/Toolbar";
 import Service from "../AxiosService";
-import logo from "../assets/logo1.png";
+import logo from "../assets/logo.svg";
+import logo2 from "../assets/SashimiLogo2.jpg";
 
 const styles = (theme) => ({
   title: {
-    color: "#FFFFFF",
+    color: "#ffffff",
     fontSize: 24,
-    textTransform: "capitalize",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    textTransform: "none",
+    fontStyle: "italic",
   },
   title1: {
-    color: "#FFFFFF",
-    fontSize: 19,
+    color: "#ffffff",
+    fontSize: 17,
     marginRight: "30px",
     "&:hover": {
-      color: "#1c1c1c",
+      color: "#8a8a8a",
     },
   },
   title1Active: {
-    color: "#FFFFFF",
-    fontSize: 19,
+    color: "#ffffff",
+    fontSize: 17,
+    fontWeight: "600",
     marginRight: "30px",
     pointerEvents: "none",
   },
   title2: {
-    color: "#FFFFFF",
-    fontSize: 19,
+    color: "#ffffff",
+    fontSize: 17,
     marginLeft: "30px",
     "&:hover": {
-      color: "#1c1c1c",
+      color: "#8a8a8a",
     },
   },
   title2Active: {
-    color: "#FFFFFF",
-    fontSize: 19,
+    color: "#ffffff",
+    fontSize: 17,
+    fontWeight: "600",
     marginLeft: "30px",
     pointerEvents: "none",
   },
@@ -114,8 +114,15 @@ const styles = (theme) => ({
   },
   span: {
     display: "inline-block",
-    borderBottom: "3px solid white",
+    borderBottom: "3px solid #ffffff",
     paddingBottom: "3px",
+  },
+  separator: {
+    height: 0.5,
+    width: "80%",
+    display: "block",
+    margin: `${theme.spacing(1)}px auto 0`,
+    backgroundColor: "#D9D9D9",
   },
 });
 
@@ -158,7 +165,7 @@ const Navbar = ({ classes }) => {
   useEffect(() => {
     if (Service.getJWT() !== null && Service.getJWT() !== undefined) {
       let userid = jwt_decode(Service.getJWT()).user_id;
-      console.log(`profile useeffect userid = ${userid}`);
+      // console.log(`profile useeffect userid = ${userid}`);
       Service.client
         .get(`/users/${userid}`)
         .then((res) => setProfile(res.data))
@@ -190,11 +197,18 @@ const Navbar = ({ classes }) => {
                 <Link
                   variant="h6"
                   underline="none"
-                  color="primary"
                   className={classes.title}
                   href="/"
                 >
-                  <img src={logo} className={classes.logo} />
+                  <img
+                    src={logo}
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                      marginRight: "7px",
+                      marginBottom: "-3px",
+                    }}
+                  />
                   PrepTogether
                 </Link>
               </div>
@@ -225,7 +239,8 @@ const Navbar = ({ classes }) => {
                   underline="none"
                   color="primary"
                   className={
-                    location.pathname === "/groupbuy"
+                    location.pathname === "/groupbuy" ||
+                    location.pathname.substring(0, 12) === "/viewdetails"
                       ? classes.title2Active
                       : classes.title2
                   }
@@ -233,7 +248,8 @@ const Navbar = ({ classes }) => {
                 >
                   <span
                     className={
-                      location.pathname === "/groupbuy"
+                      location.pathname === "/groupbuy" ||
+                      location.pathname.substring(0, 12) === "/viewdetails"
                         ? classes.span
                         : "classes.title2"
                     }
@@ -246,35 +262,41 @@ const Navbar = ({ classes }) => {
           ) : (
             <Fragment>
               <div className={classes.left} />
-              <div className={classes.center}>
-                <Link
-                  variant="h6"
-                  underline="none"
-                  color="primary"
-                  className={classes.title}
-                  href="/"
-                >
-                  <img src={logo} className={classes.logo} />
-                  PrepTogether
-                </Link>
-              </div>
+              <Link
+                variant="h6"
+                underline="none"
+                color="primary"
+                className={classes.title}
+                href="/"
+              >
+                <img
+                  src={logo}
+                  style={{
+                    width: "28px",
+                    height: "28px",
+                    marginRight: "7px",
+                    marginBottom: "-3px",
+                  }}
+                />
+                PrepTogether
+              </Link>
             </Fragment>
           )}
 
           <div className={classes.right}>
             {profile === null ? (
               <div>
-                <IconButton
+                <Button
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
-                  color="inherit"
+                  size="large"
                   href="/auth"
-                  style={{ color: "#ffffff" }}
+                  style={{ color: "white" }}
                 >
-                  <AccountCircle />
-                  SIGN IN
-                </IconButton>
+                  <AccountCircleOutlinedIcon />
+                  &nbsp;Login/Register
+                </Button>
               </div>
             ) : (
               <div>
@@ -329,18 +351,16 @@ const Navbar = ({ classes }) => {
                     <CardActions>
                       <div>
                         <Box display="flex" justifyContent="center" m={1}>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            href="/profile"
-                          >
+                          <Button color="primary" size="large" href="/profile">
                             Manage your account
                           </Button>
                         </Box>
+                        <div className={classes.separator} />
                         <Box display="flex" justifyContent="center" m={1}>
                           <Button
                             variant="outlined"
-                            size="small"
+                            color="inherit"
+                            size="large"
                             onClick={handleLogout}
                           >
                             Sign Out

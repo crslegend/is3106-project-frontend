@@ -14,6 +14,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { Link, useParams } from "react-router-dom";
 import PaymentForm from "./PaymentForm";
 import Service from "../../AxiosService";
+import image from "../../assets/login1.jpg";
 
 const styles = (theme) => ({
   root: {
@@ -21,12 +22,12 @@ const styles = (theme) => ({
     flexGrow: 1,
   },
   icon: {
-    background: fade(theme.palette.primary.main, 0.5),
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
     marginLeft: "100px",
-    color: fade("#48494B", 0.8),
+    color: fade("#ffffff", 0.8),
     "&:hover": {
       background: fade(theme.palette.primary.main, 0.8),
       color: "#48494B",
@@ -69,6 +70,7 @@ const styles = (theme) => ({
     [theme.breakpoints.down("sm")]: {
       order: 2,
     },
+    marginRight: "30px",
   },
   payForm: {
     background: fade("#E6BEAE", 0.5),
@@ -144,16 +146,31 @@ const styles = (theme) => ({
       marginLeft: "0px",
     },
   },
+  side: {
+    position: "absolute",
+    left: 0,
+    right: "78%",
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundImage: `url(${image})`,
+    zIndex: -2,
+    // backgroundColor: theme.palette.common.black,
+    opacity: 0.7,
+    // height: "100%",
+  },
 });
 
 const PaymentBody = (props) => {
   const { classes } = props;
   const [groupbuy, setGroupbuy] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [contact, setContact] = useState("+ 65");
+  const [contact, setContact] = useState("");
 
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   const [order, setOrder] = useState({
     gb_id: id,
@@ -164,7 +181,7 @@ const PaymentBody = (props) => {
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, []);
 
@@ -179,14 +196,15 @@ const PaymentBody = (props) => {
 
   return (
     <Fragment>
-      <Grid container spacing={2} className={classes.root}>
-        <Grid item xs={2}>
+      <Grid container className={classes.root}>
+        <Grid item xs={3}>
+          <div className={classes.side} />
           <Link to={`/viewdetails/${id}`}>
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
-        <Grid item xs={10}>
-          <Grid container spacing={3}>
+        <Grid item xs={9}>
+          <Grid container>
             <Grid item xs={10} md={6} className={classes.item1}>
               <Card className={classes.payForm}>
                 <CardContent className={classes.title}>
@@ -210,18 +228,21 @@ const PaymentBody = (props) => {
                 </CardContent>
                 <Divider classes={{ root: classes.divide }} />
                 <Grid container>
-                  <Grid xs={5} md={12}>
-                    <CardMedia
-                      className={classes.media}
-                      image={groupbuy && groupbuy.recipe.photo_url}
-                      title={groupbuy && groupbuy.recipe.recipe_name}
-                    />
+                  <Grid item xs={5} md={12}>
+                    {groupbuy && groupbuy.recipe.photo_url && (
+                      <CardMedia
+                        image={groupbuy.recipe.photo_url}
+                        className={classes.media}
+                        title={groupbuy.recipe.recipe_name}
+                      />
+                    )}
                   </Grid>
-                  <Grid xs={7} md={12}>
+                  <Grid item xs={7} md={12}>
                     <CardContent>
                       <Typography
                         variant="body1"
                         className={classes.summaryLeft}
+                        style={{ textTransform: "capitalize" }}
                       >
                         {groupbuy && groupbuy.recipe.recipe_name}
                       </Typography>
@@ -236,6 +257,7 @@ const PaymentBody = (props) => {
                       <Typography
                         variant="body1"
                         className={classes.summaryLeft}
+                        style={{ marginBottom: "10px" }}
                       >
                         Delivery Fee
                       </Typography>
@@ -254,6 +276,7 @@ const PaymentBody = (props) => {
                       <Typography
                         variant="body1"
                         className={classes.summaryLeft}
+                        style={{ marginBottom: "10px" }}
                       >
                         Total Amount:
                       </Typography>

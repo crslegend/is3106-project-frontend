@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import { Grid, Card } from "@material-ui/core";
+import { Grid, Card, CircularProgress } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -29,7 +29,7 @@ const styles = (theme) => ({
     background: fade("#E6BEAE", 0.5),
   },
   icon: {
-    background: theme.palette.primary.main,
+    background: fade(theme.palette.common.black, 0.6),
     borderRadius: "50px",
     padding: "2px",
     fontSize: "3vw",
@@ -61,6 +61,7 @@ const styles = (theme) => ({
   },
   cardHeader: {
     fontFamily: theme.typography.fontFamilySecondary,
+    textTransform: "capitalize",
     fontWeight: 550,
     fontSize: 30,
     textAlign: "left",
@@ -142,18 +143,11 @@ const styles = (theme) => ({
     },
   },
   buyButton: {
-    backgroundColor: fade(theme.palette.primary.main, 0.7),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.primary.main, 0.9),
-    },
     padding: 10,
     margin: 15,
-    borderRadius: 50,
     float: "right",
     textTransform: "none",
-    fontFamily: "Raleway",
-    color: "#ffffff",
-    fontSize: 20,
+    color: "secondary",
     [theme.breakpoints.down("md")]: {
       fontSize: 16,
     },
@@ -217,13 +211,15 @@ const BorderLinearProgress = withStyles((theme) => ({
 const ViewGroupbuyDetailed = (props) => {
   const { classes } = props;
   const [groupbuy, setGroupbuy] = useState("");
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   useEffect(() => {
     Service.client.get(`/groupbuys/${id}`).then((res) => {
       setGroupbuy(res.data);
-      console.log(res.data);
+      setLoading(false);
+      // console.log(res.data);
     });
   }, []);
 
@@ -238,11 +234,11 @@ const ViewGroupbuyDetailed = (props) => {
         pathname: "/auth",
         state: { gbid: id },
       });
-      console.log("not logged in");
+      // console.log("not logged in");
     } else {
       // if user is logged in, direct to the groupbuy payment page
       history.push(`/payment/${id}`);
-      console.log("logged in");
+      // console.log("logged in");
     }
   };
 
@@ -267,8 +263,16 @@ const ViewGroupbuyDetailed = (props) => {
   if (groupbuy.approval_status === false) {
     orderstatus = (
       <Typography className={classes.upcoming}>
-        This order is currently under processing.
+        This order is pending approval.
       </Typography>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div style={{ marginTop: "35vh" }}>
+        <CircularProgress />
+      </div>
     );
   }
 
@@ -282,17 +286,19 @@ const ViewGroupbuyDetailed = (props) => {
             <ArrowBackIcon className={classes.icon} />
           </Link>
         </Grid>
-        <Grid xs={8}>
+        <Grid item xs={8}>
           <Card className={classes.card}>
             <Grid container className={classes.root}>
-              <Grid xs={12} md={5}>
-                <CardMedia
-                  className={classes.media}
-                  image={groupbuy && groupbuy.recipe.photo_url}
-                  title={groupbuy && groupbuy.recipe.recipe_name}
-                />
+              <Grid item xs={12} md={5}>
+                {groupbuy && groupbuy.recipe.photo_url && (
+                  <CardMedia
+                    className={classes.media}
+                    image={groupbuy && groupbuy.recipe.photo_url}
+                    title={groupbuy && groupbuy.recipe.recipe_name}
+                  />
+                )}
               </Grid>
-              <Grid xs={12} md={7}>
+              <Grid item xs={12} md={7}>
                 <CardContent height="150" width="150">
                   <Typography className={classes.cardHeader}>
                     {groupbuy && groupbuy.recipe.recipe_name}
@@ -316,7 +322,7 @@ const ViewGroupbuyDetailed = (props) => {
                       value={fulfillment}
                     />
                     <span className={classes.progressLabel}>
-                      current orders: {groupbuy.current_order_quantity}
+                      Current Orders: {groupbuy.current_order_quantity}
                     </span>
                     <span className={classes.progressTotalLabel}>
                       {groupbuy.minimum_order_quantity}
@@ -329,8 +335,8 @@ const ViewGroupbuyDetailed = (props) => {
                     Ingredient List
                   </Typography>
                   {groupbuy &&
-                    groupbuy.recipe.ingredients.map((ingredient) => (
-                      <Typography className={classes.ing}>
+                    groupbuy.recipe.ingredients.map((ingredient, index) => (
+                      <Typography key={index} className={classes.ing}>
                         {ingredient.ing_name} , {ingredient.quantity}
                       </Typography>
                     ))}
@@ -346,6 +352,9 @@ const ViewGroupbuyDetailed = (props) => {
             </Grid>
           </Card>
           <Button
+            color="primary"
+            variant="contained"
+            size="large"
             className={classes.buyButton}
             onClick={handleRedirect}
             disabled={!groupbuy.approval_status}

@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router";
 import { useHistory } from "react-router-dom";
-import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Flippy, { FrontSide, BackSide } from "react-flippy";
@@ -28,6 +23,7 @@ import login7 from "../../assets/login7.jpg";
 import login8 from "../../assets/login8.jpg";
 import login9 from "../../assets/login9.jpg";
 import login10 from "../../assets/login10.jpg";
+import sashimilogo from "../../assets/SashimiLogo2.jpg";
 
 const items = [
   login1,
@@ -84,6 +80,26 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       cursor: "pointer",
     },
+  },
+  font32: {
+    fontWeight: "600",
+    fontSize: "32px",
+  },
+  font20: {
+    fontWeight: "600",
+    fontSize: "18px",
+  },
+  fontblack: {
+    fontWeight: "400",
+    fontSize: "14px",
+  },
+  fontblackbold: {
+    fontWeight: "600",
+    fontSize: "14px",
+  },
+  sashimilogo: {
+    width: "30px",
+    height: "30px",
   },
 }));
 
@@ -171,7 +187,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   Service.client
                     .post("/recipes", formData)
                     .then((res) => {
-                      console.log(res);
+                      // console.log(res);
                       history.push(`/viewdetails/${res.data.gb_id}`);
                     })
                     .catch((error) => {
@@ -183,7 +199,7 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                 }
               } else {
                 // redirect to dashboard
-                console.log("Log in successfully");
+                // console.log("Log in successfully");
                 history.push("/");
               }
             }
@@ -322,16 +338,13 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
-              <Link variant="h4" underline="none" color="inherit" href="/">
-                Sashimi
+              {/* <img src={sashimilogo} className={classes.sashimilogo} /> */}
+              <Link underline="none" href="/">
+                <Typography className={classes.font20}>Sashimi</Typography>
               </Link>
+
               <br />
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-              </Typography>
+              <Typography className={classes.font32}>Welcome back</Typography>
               <form
                 className={classes.form}
                 noValidate
@@ -383,20 +396,13 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                     classes: { root: classes.helperText },
                   }}
                 />
-                <Grid container>
-                  <Grid item>
-                    {/* <FormControlLabel
-                      control={<Checkbox value="remember" color="primary" />}
-                      label="Remember me"
-                    /> */}
-                  </Grid>
-                </Grid>
 
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
+                  size="large"
                   className={classes.submit}
                   onClick={handleSubmitLogin}
                 >
@@ -407,11 +413,9 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   )}
                 </Button>
                 <Grid container>
-                  <Grid item xs>
-                    {/* <Link href="\forgetpassword" variant="body2">
-                      Forgot password?
-                    </Link> */}
-                  </Grid>
+                  <Typography className={classes.fontblack}>
+                    Don't have an account?&nbsp;
+                  </Typography>
                   <Grid item>
                     <Link
                       variant="body2"
@@ -419,7 +423,9 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                       onClick={() => flippyHorizontal.toggle()}
                       className={classes.link}
                     >
-                      Don't have an account? Sign Up
+                      <Typography className={classes.fontblackbold}>
+                        Sign up
+                      </Typography>
                     </Link>
                   </Grid>
                 </Grid>
@@ -435,16 +441,14 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
             animationDuration={1000}
           >
             <div className={classes.paper}>
-              <Link variant="h4" underline="none" color="inherit" href="/">
-                Sashimi
+              {/* <img src={sashimilogo} className={classes.sashimilogo} /> */}
+              <Link underline="none" href="/">
+                <Typography className={classes.font20}>Sashimi</Typography>
               </Link>
               <br />
-              <Avatar className={classes.avatar1}>
-                <PersonAddIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign up
-              </Typography>
+              <Typography className={classes.font32}>Register</Typography>
+              <br />
+
               <form
                 className={classes.form}
                 noValidate
@@ -526,16 +530,21 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                   fullWidth
                   variant="contained"
                   color="primary"
+                  size="large"
                   className={classes.submit}
                   onClick={handleSubmitRegister}
                 >
                   {loading ? (
                     <CircularProgress size={30} color="secondary" />
                   ) : (
-                    "Register"
+                    "Sign Up"
                   )}
                 </Button>
                 <Grid container justify="flex-end">
+                  <Typography className={classes.fontblack}>
+                    Already have an account?&nbsp;
+                  </Typography>
+
                   <Grid item>
                     <Link
                       color="inherit"
@@ -543,7 +552,9 @@ const Authentication = ({ setSbOpen, snackbar, setSnackbar, location }) => {
                       variant="body2"
                       className={classes.link}
                     >
-                      Already have an account? Sign in
+                      <Typography className={classes.fontblackbold}>
+                        Sign in
+                      </Typography>
                     </Link>
                   </Grid>
                 </Grid>

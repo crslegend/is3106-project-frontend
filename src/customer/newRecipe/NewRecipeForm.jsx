@@ -28,6 +28,14 @@ const styles = (theme) => ({
       color: "#ffffff",
     },
   },
+  popup: {
+    backgroundColor: theme.palette.primary.main,
+    "& p": {
+      textTransform: "none",
+      textAlign: "center",
+      fontSize: "16px",
+    },
+  },
   calender: {
     postion: "fixed !important",
     right: "calc(100% - 479px) !important",
@@ -41,10 +49,21 @@ const styles = (theme) => ({
     padding: "0 10px",
     minHeight: "200px",
     borderColor: "red",
+    "@global": {
+      ".MuiDropzoneArea-text.MuiTypography-h5": {
+        textTransform: "capitalize",
+      },
+    },
   },
   dropzoneValid: {
     padding: "0 10px",
     minHeight: "200px",
+    "@global": {
+      ".MuiDropzoneArea-text.MuiTypography-h5": {
+        textTransform: "none",
+        fontSize: "16px",
+      },
+    },
   },
 });
 
@@ -126,7 +145,7 @@ const NewRecipeForm = (props) => {
   return (
     <div>
       <Dialog
-        disableBackdropClick
+        // disableBackdropClick
         disableEscapeKeyDown
         open={open}
         onClose={handleClose}
@@ -137,8 +156,10 @@ const NewRecipeForm = (props) => {
           },
         }}
       >
-        <DialogTitle className={classes.root}>
-          <Typography>Give your recipe a name and a picture!</Typography>
+        <DialogTitle className={classes.popup}>
+          <Typography style={{ color: "white" }}>
+            Give your recipe a name and a picture!
+          </Typography>
         </DialogTitle>
         <form>
           <DialogContent>
@@ -154,6 +175,7 @@ const NewRecipeForm = (props) => {
               helperText={
                 validateRecipeNameField ? "Recipe Name Cannot Be Empty" : ""
               }
+              fullWidth
             />
           </DialogContent>
           <DialogContent>
@@ -167,6 +189,7 @@ const NewRecipeForm = (props) => {
                 label="Choose a Fulfillment Date"
                 value={selectedDate}
                 onChange={(e) => handleDateChange(e)}
+                fullWidth
               />
             </MuiPickersUtilsProvider>
           </DialogContent>
@@ -175,7 +198,7 @@ const NewRecipeForm = (props) => {
               dropzoneClass={
                 validatePhoto ? classes.dropzoneInvalid : classes.dropzoneValid
               }
-              dropzoneText="Drag and drop an image or click here (Max 5mb)"
+              dropzoneText="&nbsp;Drag and drop an image or click here&nbsp;"
               acceptedFiles={["image/*"]}
               filesLimit={1}
               fileObjects={recipePhoto}
@@ -202,7 +225,7 @@ const NewRecipeForm = (props) => {
               <Button
                 className={classes.button}
                 onClick={handleSubmit}
-                color="secondary"
+                color="primary"
               >
                 Update Recipe
               </Button>
@@ -210,7 +233,7 @@ const NewRecipeForm = (props) => {
               <Button
                 className={classes.button}
                 onClick={handleSubmit}
-                color="secondary"
+                color="primary"
               >
                 Create Recipe
               </Button>
@@ -218,7 +241,7 @@ const NewRecipeForm = (props) => {
               <Button
                 className={classes.button}
                 onClick={handleClose}
-                color="secondary"
+                color="primary"
               >
                 Skip For Now
               </Button>
