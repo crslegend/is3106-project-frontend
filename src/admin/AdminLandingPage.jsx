@@ -6,7 +6,6 @@ import PrivateRoute from "../components/PrivateRoute";
 import VendorLogin from "./VendorLogin";
 import Toast from "../components/Toast";
 import VendorDashboard from "./VendorDashboard";
-
 const AdminLandingPage = (props) => {
   const { path } = useRouteMatch();
 
